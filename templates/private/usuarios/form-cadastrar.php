@@ -1,6 +1,6 @@
 <?php
 
-    $required = "required";
+    $required = " required ";
 
 ?>
 
@@ -35,6 +35,7 @@
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-heartbeat"></i></div>
                                         <select class="selectpicker" name="status" id="status" placeholder="Status" <?php echo $required; ?>>
+                                            <option value="">Selecione</option>
                                             <option value="A">Ativo</option>
                                             <option value="I">Inativo</option>
                                         </select>
@@ -45,7 +46,7 @@
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-intersex"></i></div>
                                         <select class="selectpicker" name="sexo" id="sexo" placeholder="Sexo" <?php echo $required; ?>>
-                                            <option value="-1">selecione</option>
+                                            <option value="">Selecione</option>
                                             <option value="M">Masculino</option>
                                             <option value="F">Feminino</option>
                                         </select>
@@ -146,6 +147,13 @@
                                         <input class="form-control" type="text" name="celular" id="celular" onkeypress="$(this).mask('(00) 00000-0000')" placeholder="*Apenas números">
                                         </div>
                                     </div>
+
+                                    <div class="form-group" style="margin-top:20px;text-align:center">
+                                        <label>
+                                            <label for="foto"><div class="fa fa-image"></div> Escolha a foto do seu perfil:</label>
+                                            <input type="file" class="form-control-file" name="foto" id="foto">
+                                        </label>
+                                    </div>
                                     
                                     
                                 </div>
@@ -213,12 +221,6 @@
                                         <input class="form-control" type="text" name="vale_transporte" id="vale_transporte" placeholder="*Ex.: 1200.00">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="observacoes">Observações</label>
-                                        <div class="input-group">
-                                        <textarea id="observacoes" name="observacoes" class="form-control" placeholder="" rows="7"></textarea>
-                                        </div>
-                                    </div>
                                     
                                     
                                 </div>
@@ -265,17 +267,18 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="fileupload">
-                                        <label>
-                                        <div class="fa fa-image"></div>
-                                        <input type="file" name="foto">
-                                        </label>
-                                    </div>
-                                    
-                                    
                                 </div>
+                                <div class="col-xs-12">
+                                    <label for="observacoes">Observações</label>
+                                    <div class="input-group">
+                                    <textarea id="observacoes" name="observacoes" class="form-control" placeholder="" rows="7"></textarea>
+                                    </div>
+                                </div>
+
                             </div>
+                            
                         </div>
+                        
                         <div class="col-md-12" style="padding:10px">
                             <button class="btn btn-success btn-block">CADASTRAR</button>
                         </div>

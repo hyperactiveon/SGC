@@ -64,7 +64,7 @@ $(document).ready(function() {
 		lengthChange: false,
 		pagingType: 'numbers',
 		ajax: "/data/users/admins.php",
-		stateSave: true,
+		stateSave: false,
 		columns: [
             { title: "Id" },
             { title: "Nome" },
@@ -97,7 +97,7 @@ $(document).ready(function() {
 		lengthChange: false,
 		pagingType: 'numbers',
 		ajax: "/data/users/funcionarios.php",
-		stateSave: true,
+		stateSave: false,
 		columns: [
             { title: "Id" },
             { title: "Nome" },
@@ -127,7 +127,7 @@ $(document).ready(function() {
 		lengthChange: false,
 		pagingType: 'numbers',
 		ajax: "/data/users/clientes.php",
-		stateSave: true,
+		stateSave: false,
 		columns: [
             { title: "Id" },
             { title: "Nome" },

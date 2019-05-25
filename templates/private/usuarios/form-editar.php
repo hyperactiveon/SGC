@@ -9,8 +9,18 @@
         echo "Usuário inexistente!";
         exit();
     }
-
     
+    $check_excluir_foto = null;
+    $foto_usuario = null;
+    $pasta_imagens = "img/usuarios/";
+    foreach (glob($pasta_imagens . $u->id."_1.*") as $foto) {
+        $foto_usuario = "<img src='".$foto."'>";
+        $check_excluir_foto =  '<br><div class="checkbox checkbox-success checkbox-inline">
+                                    <input name="excluir_foto" id="excluir_foto" value="'.$foto.'" type="checkbox">
+                                    <label for="excluir_foto">Excluir a foto atual?</label>
+                                </div>';
+    }
+
     $stt = null;
     $tp = ["I"=>"Inativo", "A"=>"Ativo"];
     foreach($tp as $key=>$value){
@@ -36,7 +46,7 @@
     $funcionario = ($u->funcionario==1) ? " checked='checked'" : null;
     $cliente = ($u->cliente==1) ? " checked='checked'" : null;
 
-    $required = "required ";
+    $required = " required ";
 
 ?>
 
@@ -121,6 +131,13 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group" style="margin-top:20px;text-align:center">
+                                        <label>
+                                            <label for="foto"><div class="fa fa-image"></div> Escolha a foto do seu perfil:</label>
+                                            <input type="file" class="form-control-file" name="foto" id="foto">
+                                        </label>
+                                    </div>
+
                                 </div>
                                 <div class="col-md-6">
 
@@ -181,7 +198,10 @@
                                         </div>
                                     </div>
                                     
-                                    
+                                    <div class="col-xs-12  foto_usuario" style="text-align:center">
+                                        <?php echo $foto_usuario . $check_excluir_foto; ?>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="row">
@@ -246,14 +266,7 @@
                                         <input class="form-control" type="text" name="vale_transporte" id="vale_transporte" value="<?php echo $u->vale_transporte; ?>">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="observacoes">Observações</label>
-                                        <div class="input-group">
-                                        <textarea id="observacoes" name="observacoes" class="form-control" placeholder="" rows="7"><?php echo $u->observacoes; ?></textarea>
-                                        </div>
-                                    </div>
-                                    
-                                    
+                                                                        
                                 </div>
                                 <div class="col-md-6">
                                     
@@ -295,14 +308,13 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="fileupload">
-                                        <label>
-                                        <div class="fa fa-image"></div>
-                                        <input type="file" name="foto">
-                                        </label>
+                                </div>
+                                
+                                <div class="col-xs-12">
+                                    <label for="observacoes">Observações</label>
+                                    <div class="input-group">
+                                    <textarea id="observacoes" name="observacoes" class="form-control" placeholder="" rows="7"><?php echo $u->observacoes; ?></textarea>
                                     </div>
-                                    
-                                    
                                 </div>
                             </div>
                         </div>

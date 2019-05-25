@@ -86,8 +86,6 @@ $app->any('/usuarios[-{form}]', function (Request $request, Response $response, 
                     $args = Usuario::Insert();
                     break;
                 case "update":
-                    //var_dump($_POST);
-                    //exit();
                     $args = Usuario::Update();
                     break;
             }

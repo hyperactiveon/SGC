@@ -12,7 +12,16 @@
     </div>
     <div class="navbar-header"><a class="navbar-brand" href="./login">
         <div class="logo text-nowrap">
-            <div class="logo__img"><i class="fa fa-chevron-right"></i></div><span class="logo__text">Right</span>
+            <div class="logo__img"><i class="fa fa-chevron-right"></i></div>
+            <span class="logo__text">
+            <?php
+                $foto_usuario = null;
+                $pasta_imagens = "img/usuarios/";
+                foreach (glob($pasta_imagens . Ajrc\Helper\Sessions::UserID() . "_1.*") as $foto) {
+                    echo "<img src='".$foto."' class='rounded-circle' style='max-height:30px'>";
+                }
+            ?>
+            </span>
         </div></a></div>
     <div class="topnavbar">
         <ul class="nav navbar-nav navbar-left">
