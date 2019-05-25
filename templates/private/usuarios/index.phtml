@@ -1,0 +1,195 @@
+    <?php
+
+      //var_dump( $data );
+
+      require_once("../templates/private/header.php");
+    ?>
+    
+    <div class="wrapper">
+
+    <?php
+      require_once("../templates/private/topo.php");
+    ?>
+
+      <div class="dashboard">
+
+    <?php
+      require_once("../templates/private/menus.php");
+    ?>      
+
+        <div class="main">
+
+          <div class="main__scroll scrollbar-macosx">
+            <div class="main__cont">
+              <?php
+                
+                if(array_key_exists("form", $data))
+                {
+
+                  if( $data["form"]=="insert" ){
+                    require_once("../templates/private/usuarios/form-cadastrar.php");
+                  } 
+                  else 
+                  {
+                    require_once("../templates/private/usuarios/form-editar.php");
+                  }
+
+                }
+
+                else
+                {
+              ?>
+              
+                    
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Usuários</h3>
+                        </div>
+                        <div class="panel-body">
+                          <p>Total de Usuários: <span id="int-total-usuarios">80</span></p>
+                          <form class="datalist-filter">
+                            <div class="input-group datalist-filter__search">
+                              <input class="form-control" type="text" placeholder="Buscar Usuário"><span class="input-group-btn">
+                                <button class="btn btn-default" type="button" role="button" data-toggle="collapse" data-target="#datalist-filter__detail" aria-controls="users__filter-detail" aria-expanded="false">
+                                  <div class="fa fa-filter"></div>
+                                </button></span>
+                            </div>
+                            <div class="collapse" id="datalist-filter__detail">
+                              <div class="container-fluid datalist-filter__detail">
+                                <div class="row">
+                                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
+                                        <input class="form-control datalist-filter__location" type="text" placeholder="Location">
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group selectize__group">
+                                        <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
+                                        <select class="datalist-filter__email" placeholder="Email"></select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 input-daterange">
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-calendar-minus-o"></i></div>
+                                        <input class="form-control datalist-filter__from" type="text" value="">
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-calendar-plus-o"></i></div>
+                                        <input class="form-control datalist-filter__to" type="text" value="">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                      <input class="slider" id="datalist-filter__salary" type="text" name="" value="">
+                                    </div>
+                                    <div class="form-group">
+                                      <div class="checkbox checkbox-danger">
+                                        <input id="datalist-filter__actives" type="checkbox">
+                                        <label for="datalist-filter__actives">Actives only</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                          <div class="datalist__result">
+                            <ul class="nav nav-tabs" role="tablist">
+                              <!--
+                              <li class="active" role="presentation"><a href="#customers" aria-controls="customers" role="tab" data-toggle="tab">Clientes&nbsp;</a></li>
+                              -->
+                              <li class='active' class="active" role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admins&nbsp;</a></li>
+                              <li role="presentation"><a href="#funcionarios" aria-controls="funcionarios" role="tab" data-toggle="tab">Funcionários&nbsp;</a></li>
+                              <li role="presentation"><a href="#clientes" aria-controls="clientes" role="tab" data-toggle="tab">Clientes&nbsp;</a></li>
+                              <li role="presentation"><a href="./usuarios-insert"  role="tab" ><i class="fa fa-plus"></i>&nbsp;Cadastrar</a></li>
+                            </ul>
+                            <div class="tab-content">
+                            
+                              <?php 
+                              if(array_key_exists("message",$data)){
+                                echo $data["message"];
+                              } 
+                              ?>
+                              
+                              <div class="tab-pane active" id="admins" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_admins" class="datalist__table table datatable display table-hover" width="100%" data-users="admins">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="funcionarios" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_funcionarios" class="datalist__table table datatable display table-hover" width="100%" data-users="funcionario">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="clientes" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_clientes" class="datalist__table table datatable display table-hover" width="100%" data-users="clientes">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php
+
+                } //fim else
+
+            ?>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    
+    
+    
+    <script src="/libs/jquery/jquery.min.js"></script>
+    <script src="/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="/libs/bootstrap-validator/validator.min.js"></script>
+    <script src="/libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
+    <script src="/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="/libs/jquery.mask/jquery.mask.min.js"></script>
+    <script src="/libs/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="/libs/inputNumber/js/inputNumber.js"></script>
+    <script src="/libs/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script src="/libs/datatables/js/jquery.dataTables.js"></script>
+    <script src="/libs/datatables/js/dataTables.select.js"></script>
+    <script src="/libs/datatables/js/dataTables.bootstrap.js"></script>
+    <script src="/libs/selectize/js/standalone/selectize.min.js"></script>
+    <script src="/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="/js/template/users.js"></script>
+    <script src="/js/main.js"></script>
+
+
+
+  </body>
+</html>
