@@ -59,6 +59,61 @@ $(document).ready(function() {
 		*/
 	}
 
+	var tb_admins = $('#tb_admins').DataTable( {
+		ordering: true,
+		lengthChange: false,
+		pagingType: 'numbers',
+		ajax: "/data/users/admins.php",
+		stateSave: true,
+		columns: [
+            { title: "Id" },
+            { title: "Nome" },
+            { title: "Login" },
+            { title: "E-mail" },
+            { title: "Data Nascto" },
+            { title: "Salário" },
+			{ title: "Status" },
+			{ title: "" }
+		],
+		columnDefs: [ {
+            targets: -1,
+            data: null,
+            defaultContent: '<i class="fa fa-fw fa-edit"></i>'
+        } ]
+	} );
+
+	$('#tb_admins tbody').on( 'click', 'i', function () {
+		
+		var data = tb_admins.row( $(this).parents('tr') ).data();
+		document.location.href= "./usuario-"+data[0];
+        //alert( data[0] +"'s salary is: "+ data[ 5 ] );
+    } );
+
+
+	function redirect(url){
+		document.location.href= url;
+	}
+
+	$('#tb_funcionarios').DataTable( {
+		ordering: true,
+		lengthChange: false,
+		pagingType: 'numbers',
+		ajax: "/data/users/funcionarios.php",
+		stateSave: true,
+		columns: [
+            { title: "Id" },
+            { title: "Nome" },
+            { title: "Login" },
+            { title: "E-mail" },
+            { title: "Data Nascto" },
+            { title: "Salário" },
+            { title: "Status" },
+            { title: "Ações" }
+        ]
+	} );
+
+
+	/*
 	var tables = $('.datatable')
 		.on('preInit.dt', function (e, settings) {
 			var api = new $.fn.dataTable.Api( settings),
@@ -243,4 +298,6 @@ $(document).ready(function() {
 	);
 
 	$('.selectpicker').selectpicker();
+
+	//*/
 });

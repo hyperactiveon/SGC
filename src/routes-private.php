@@ -91,16 +91,29 @@ $app->post('/usuarios', function (Request $request, Response $response, array $a
 
 
 //LISTAGEM DE USUÁRIO ESPECÍFICO
-$app->get('/usuario[/{id}]', function (Request $request, Response $response, array $args) {
+$app->get('/usuario[-{id}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
+        return $response->withRedirect($this->router->pathFor('login', [], []));
+    }
+
+    return $this->renderer->render($response, 'private/usuarios/index.phtml', $args);
+    //return Usuario::ListAll();
+
+})->setName('usuario');
+
+//ATUALIZAR DADOS DO USUÁRIO
+$app->post('/usuario[-{id}]', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
     if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
         return $response->withRedirect($this->router->pathFor('login', [], []));
     }
     
-    return Usuario::ListAll();
+    return Usuario::Update();
 
-})->setName('usuario');
+})->setName('usuario-atualizar');
 
 
 

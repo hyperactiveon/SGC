@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 require '../../../vendor/autoload.php';
 
 session_start();
@@ -14,6 +13,7 @@ if( ( strlen( trim( json_encode( Sessions::getData() ) ) ) < 15 ) &&
     header("location:../.././login");
 }
 
+//RETORNA O ARQUIVO COMO JSON, FORMATO UTILIZADO PELO DATATABLES
 header('Content-Type: application/json;charset=utf-8');
 
 ?>
@@ -21,7 +21,7 @@ header('Content-Type: application/json;charset=utf-8');
 { 
     "data": 
         [ 
-            <?php Usuario::ListAllAdmins("admin=1"); ?>    
+            <?php Usuario::ListAllAdmins("funcionario=1"); ?>    
            
         ]
 }

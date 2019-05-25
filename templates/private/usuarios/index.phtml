@@ -1,6 +1,7 @@
     <?php
       require_once("../templates/private/header.php");
     ?>
+    
     <div class="wrapper">
 
     <?php
@@ -19,6 +20,18 @@
 
           <div class="main__scroll scrollbar-macosx">
             <div class="main__cont">
+              <?php
+                
+                if(array_key_exists("id",$data))
+                {
+
+                  require_once("../templates/private/usuarios/form-editar.php");
+
+                }
+                else
+                {
+
+              ?>
               <!--
               <div class="main-heading">
                 <div class="main-title">
@@ -140,20 +153,22 @@
                             <ul class="nav nav-tabs" role="tablist">
                               <!--
                               <li class="active" role="presentation"><a href="#customers" aria-controls="customers" role="tab" data-toggle="tab">Clientes&nbsp;</a></li>
-                              <li role="presentation"><a href="#managers" aria-controls="managers" role="tab" data-toggle="tab">Funcionários&nbsp;</a></li>
                               -->
                               <li class="active" role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admins&nbsp;</a></li>
+                              <li role="presentation"><a href="#managers" aria-controls="managers" role="tab" data-toggle="tab">Funcionários&nbsp;</a></li>
                               <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Novo</a></li>
                             </ul>
                             <div class="tab-content">
 
                               <div class="tab-pane" id="new" role="tabpanel">
 
-                                <!-- FORMULÁRIO DE CADASTRO DE USUÁRIO -->
+                                <!-- FORMULÁRIO DE CADASTRO | EDIÇÃO DE USUÁRIO -->
                               
-                                <?php require_once("../templates/private/usuarios/form-cadastro.php"); ?>
+                                <?php 
+                                  require_once("../templates/private/usuarios/form-cadastro.php"); 
+                                ?>
 
-                                <!-- /FORMULÁRIO DE CADASTRO DE USUÁRIO -->
+                                <!-- /FORMULÁRIO DE CADASTRO | EDIÇÃO DE USUÁRIO -->
 
                               </div>
                               <!--
@@ -161,63 +176,25 @@
                                 <div class="scrollable scrollbar-macosx">
                                   <div class="container-fluid">
                                     <table class="datalist__table table datatable display table-hover" width="100%" data-users="customers">
-                                      <thead>
-                                        <tr>
-                                          <th class="users__table-id">#ID</th>
-                                          <th class="users__table-name">Nome</th>
-                                          <th class="users__table-location">Localização</th>
-                                          <th class="users__table-contact">Contato</th>
-                                          <th class="users__table-date">Data</th>
-                                          <th class="users__table-salary">Salário</th>
-                                          <th></th>
-                                          <th></th>
-                                          <th class="users__table-status">Status</th>
-                                        </tr>
-                                      </thead>
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="tab-pane" id="managers" role="tabpanel">
-                                <div class="scrollable scrollbar-macosx">
-                                  <div class="container-fluid">
-                                    <table class="datalist__table table datatable display table-hover" width="100%" data-users="managers">
-                                      <thead>
-                                        <tr>
-                                          <th class="users__table-id">#ID</th>
-                                          <th class="users__table-name">Name</th>
-                                          <th class="users__table-location">Location</th>
-                                          <th class="users__table-contact">Contact</th>
-                                          <th class="users__table-date">Date</th>
-                                          <th class="users__table-salary">Salary</th>
-                                          <th></th>
-                                          <th></th>
-                                          <th class="users__table-status">Status</th>
-                                        </tr>
-                                      </thead>
                                     </table>
                                   </div>
                                 </div>
                               </div>
                               -->
-                              <div class="tab-pane" id="admins" role="tabpanel">
+                              
+                              <div class="tab-pane active" id="admins" role="tabpanel">
                                 <div class="scrollable scrollbar-macosx">
                                   <div class="container-fluid">
-                                    <table class="datalist__table table datatable display table-hover" width="100%" data-users="admins">
-                                      <thead>
-                                        <tr>
-                                          <th class="users__table-id">#ID</th>
-                                          <th class="users__table-name">Nome</th>
-                                          <th class="users__table-location">Login</th>
-                                          <th class="users__table-contact">E-mail</th>
-                                          <th class="users__table-date">Nascto</th>
-                                          <th class="users__table-salary">Salário</th>
-                                          <th></th>
-                                          <th></th>
-                                          <th class="users__table-status">Status</th>
-                                          <th class="users__table-actions">Ações</th>
-                                        </tr>
-                                      </thead>
+                                    <table id="tb_admins" class="datalist__table table datatable display table-hover" width="100%" data-users="admins">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="managers" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_funcionarios" class="datalist__table table datatable display table-hover" width="100%" data-users="managers">
                                     </table>
                                   </div>
                                 </div>
@@ -232,29 +209,36 @@
                 </div>
               </div>
             </div>
+            <?php
+
+                } //fim else
+
+            ?>
           </div>
         </div>
+
+
       </div>
     </div>
     
-    <script src="libs/jquery/jquery.min.js"></script>
-    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
-    <script src="libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-    <script src="libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
-    <script src="libs/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="libs/jquery.mask/jquery.mask.min.js"></script>
-    <script src="libs/ionrangeslider/js/ion.rangeSlider.min.js"></script>
-    <script src="libs/inputNumber/js/inputNumber.js"></script>
-    <script src="libs/bootstrap-switch/js/bootstrap-switch.min.js"></script>
-    <script src="libs/datatables/js/jquery.dataTables.js"></script>
-    <script src="libs/datatables/js/dataTables.select.js"></script>
-    <script src="libs/datatables/js/dataTables.bootstrap.js"></script>
-    <script src="libs/selectize/js/standalone/selectize.min.js"></script>
-    <script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="libs/bootstrap-select/js/bootstrap-select.min.js"></script>
-    <script src="js/template/users.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/demo.js"></script>
+    <script src="/libs/jquery/jquery.min.js"></script>
+    <script src="/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="/libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
+    <script src="/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="/libs/jquery.mask/jquery.mask.min.js"></script>
+    <script src="/libs/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="/libs/inputNumber/js/inputNumber.js"></script>
+    <script src="/libs/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script src="/libs/datatables/js/jquery.dataTables.js"></script>
+    <script src="/libs/datatables/js/dataTables.select.js"></script>
+    <script src="/libs/datatables/js/dataTables.bootstrap.js"></script>
+    <script src="/libs/selectize/js/standalone/selectize.min.js"></script>
+    <script src="/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="/js/template/users.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/demo.js"></script>
 
   </body>
 </html>
