@@ -116,6 +116,7 @@ $(document).ready(function() {
 		});
 	}
 
+	/*
 	$('body').on('click', '#funcionario', function() {
 		var x = document.getElementById("dados-funcionario1");
 		var y = document.getElementById("dados-funcionario2");
@@ -130,4 +131,5 @@ $(document).ready(function() {
 		
 		
 	});
+	*/
 });

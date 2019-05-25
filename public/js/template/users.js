@@ -78,15 +78,13 @@ $(document).ready(function() {
 		columnDefs: [ {
             targets: -1,
             data: null,
-            defaultContent: '<i class="fa fa-fw fa-edit"></i>'
+            defaultContent: '<i class="fa fa-fw fa-edit" title="Editar"></i>'
         } ]
 	} );
 
 	$('#tb_admins tbody').on( 'click', 'i', function () {
-		
 		var data = tb_admins.row( $(this).parents('tr') ).data();
-		document.location.href= "./usuario-"+data[0];
-        //alert( data[0] +"'s salary is: "+ data[ 5 ] );
+		document.location.href= "./usuarios-"+data[0];
     } );
 
 
@@ -94,7 +92,7 @@ $(document).ready(function() {
 		document.location.href= url;
 	}
 
-	$('#tb_funcionarios').DataTable( {
+	var tb_funcionarios = $('#tb_funcionarios').DataTable( {
 		ordering: true,
 		lengthChange: false,
 		pagingType: 'numbers',
@@ -107,10 +105,50 @@ $(document).ready(function() {
             { title: "E-mail" },
             { title: "Data Nascto" },
             { title: "Salário" },
-            { title: "Status" },
-            { title: "Ações" }
-        ]
+			{ title: "Status" },
+			{ title: "" }
+		],
+		columnDefs: [ {
+            targets: -1,
+            data: null,
+            defaultContent: '<i class="fa fa-fw fa-edit" title="Editar"></i>'
+        } ]
 	} );
+	
+	$('#tb_funcionarios tbody').on( 'click', 'i', function () {
+		var data = tb_funcionarios.row( $(this).parents('tr') ).data();
+		document.location.href= "./usuarios-"+data[0];
+        //alert( data[0] +"'s salary is: "+ data[ 5 ] );
+	} );
+	
+	
+	var tb_clientes = $('#tb_clientes').DataTable( {
+		ordering: true,
+		lengthChange: false,
+		pagingType: 'numbers',
+		ajax: "/data/users/clientes.php",
+		stateSave: true,
+		columns: [
+            { title: "Id" },
+            { title: "Nome" },
+            { title: "Login" },
+            { title: "E-mail" },
+            { title: "Data Nascto" },
+            { title: "Salário" },
+			{ title: "Status" },
+			{ title: "" }
+		],
+		columnDefs: [ {
+            targets: -1,
+            data: null,
+            defaultContent: '<i class="fa fa-fw fa-edit" title="Editar"></i>'
+        } ]
+	} );
+	
+	$('#tb_clientes tbody').on( 'click', 'i', function () {
+		var data = tb_clientes.row( $(this).parents('tr') ).data();
+		document.location.href= "./usuarios-"+data[0];
+    } );
 
 
 	/*

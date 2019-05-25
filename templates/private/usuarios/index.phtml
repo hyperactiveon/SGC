@@ -1,4 +1,7 @@
     <?php
+
+      //var_dump( $data );
+
       require_once("../templates/private/header.php");
     ?>
     
@@ -22,72 +25,23 @@
             <div class="main__cont">
               <?php
                 
-                if(array_key_exists("id",$data))
+                if(array_key_exists("form", $data))
                 {
-
-                  require_once("../templates/private/usuarios/form-editar.php");
+                  //var_dump($data);
+                  if( $data["form"]=="insert" ){
+                    require_once("../templates/private/usuarios/form-cadastrar.php");
+                  } 
+                  else 
+                  {
+                    require_once("../templates/private/usuarios/form-editar.php");
+                  }
 
                 }
+
                 else
                 {
-
               ?>
-              <!--
-              <div class="main-heading">
-                <div class="main-title">
-                  <ol class="breadcrumb">
-                    <li><a href="./">Dashboard</a></li>
-                    <li class="active">Usuários</li>
-                  </ol>
-                </div>
-                <div class="main-filter">
-                  <form class="main-filter__search">
-                    <div class="input-group">
-                      <input class="form-control" type="text" placeholder="Busca...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><div class="fa fa-search"></div></button>
-                        </span>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div class="container-fluid half-padding">
-                <div class="datalist page page_users users float-right">
-                  <div class="row">
-                  <!--
-                    <div class="col-sm-12 col-xs-12">
-                      <div class="users-preview datalist-preview">
-                        <div class="users-preview__cont">
-                          <div class="users-preview__name" title="Name">Name</div>
-                          <div class="users-preview__data">
-                            <div class="users-preview__photo">
-                              <div></div>
-                            </div>
-                            <div class="users-preview__info">
-                              <div class="users-preview__position">Position</div>
-                              <div class="users-preview__stat sparkline"></div>
-                              <div class="users-preview__edit">
-                                <div class="btn-group btn-group-sm">
-                                  <button class="btn btn-danger" type="button">Editar</button>
-                                  <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-                                  <ul class="dropdown-menu">
-                                    <li><a href="#">Detalhes</a></li>
-                                    <li><a href="#">Inativar</a></li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="users-preview__props">
-                            <div class="users-preview__prop" title="Location"><i class="fa fa-map-marker"></i><span class="users-preview__location">Location</span></div>
-                            <div class="users-preview__prop" title="Contact"><i class="fa fa-envelope"></i><span class="users-preview__contact">Contact</span></div>
-                            <div class="users-preview__prop"><i class="fa fa-calendar"></i><span class="users-preview__date">Date</span></div>
-                            <div class="users-preview__prop"><i class="fa fa-heartbeat"></i><span class="users-preview__status">Status</span></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- -->
+              
                     
                     <div class="col-sm-12 col-xs-12">
                       <div class="panel panel-info">
@@ -154,33 +108,18 @@
                               <!--
                               <li class="active" role="presentation"><a href="#customers" aria-controls="customers" role="tab" data-toggle="tab">Clientes&nbsp;</a></li>
                               -->
-                              <li class="active" role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admins&nbsp;</a></li>
-                              <li role="presentation"><a href="#managers" aria-controls="managers" role="tab" data-toggle="tab">Funcionários&nbsp;</a></li>
-                              <li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;Novo</a></li>
+                              <li class='active' class="active" role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admins&nbsp;</a></li>
+                              <li role="presentation"><a href="#funcionarios" aria-controls="funcionarios" role="tab" data-toggle="tab">Funcionários&nbsp;</a></li>
+                              <li role="presentation"><a href="#clientes" aria-controls="clientes" role="tab" data-toggle="tab">Clientes&nbsp;</a></li>
+                              <li role="presentation"><a href="./usuarios-insert"  role="tab" ><i class="fa fa-plus"></i>&nbsp;Cadastrar</a></li>
                             </ul>
                             <div class="tab-content">
-
-                              <div class="tab-pane" id="new" role="tabpanel">
-
-                                <!-- FORMULÁRIO DE CADASTRO | EDIÇÃO DE USUÁRIO -->
-                              
-                                <?php 
-                                  require_once("../templates/private/usuarios/form-cadastro.php"); 
-                                ?>
-
-                                <!-- /FORMULÁRIO DE CADASTRO | EDIÇÃO DE USUÁRIO -->
-
-                              </div>
-                              <!--
-                              <div class="tab-pane active" id="customers" role="tabpanel">
-                                <div class="scrollable scrollbar-macosx">
-                                  <div class="container-fluid">
-                                    <table class="datalist__table table datatable display table-hover" width="100%" data-users="customers">
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-                              -->
+                            
+                              <?php 
+                              if(array_key_exists("message",$data)){
+                                echo $data["message"];
+                              } 
+                              ?>
                               
                               <div class="tab-pane active" id="admins" role="tabpanel">
                                 <div class="scrollable scrollbar-macosx">
@@ -191,10 +130,19 @@
                                 </div>
                               </div>
 
-                              <div class="tab-pane" id="managers" role="tabpanel">
+                              <div class="tab-pane" id="funcionarios" role="tabpanel">
                                 <div class="scrollable scrollbar-macosx">
                                   <div class="container-fluid">
-                                    <table id="tb_funcionarios" class="datalist__table table datatable display table-hover" width="100%" data-users="managers">
+                                    <table id="tb_funcionarios" class="datalist__table table datatable display table-hover" width="100%" data-users="funcionario">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="clientes" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_clientes" class="datalist__table table datatable display table-hover" width="100%" data-users="clientes">
                                     </table>
                                   </div>
                                 </div>
@@ -220,10 +168,14 @@
 
       </div>
     </div>
+
+    
+    
     
     <script src="/libs/jquery/jquery.min.js"></script>
     <script src="/libs/bootstrap/js/bootstrap.min.js"></script>
     <script src="/libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="/libs/bootstrap-validator/validator.min.js"></script>
     <script src="/libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
     <script src="/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
     <script src="/libs/jquery.mask/jquery.mask.min.js"></script>
@@ -238,7 +190,8 @@
     <script src="/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="/js/template/users.js"></script>
     <script src="/js/main.js"></script>
-    <script src="/js/demo.js"></script>
+
+
 
   </body>
 </html>
