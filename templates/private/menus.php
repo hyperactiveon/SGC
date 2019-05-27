@@ -4,16 +4,19 @@
     $url = [];
 
     if(strrpos($_SERVER['REQUEST_URI'], "dashboard")>0) {
-        $url = ["active","","",""];
+        $url = ["active","","","",""];
     }
     else if(strrpos($_SERVER['REQUEST_URI'], "produto")>0) {
-        $url = ["","active","",""];
+        $url = ["","active","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "pedido")>0) {
-        $url = ["","","active",""];
+        $url = ["","","active","",""];
+    } 
+    else if(strrpos($_SERVER['REQUEST_URI'], "fornecedores")>0) {
+        $url = ["","","","active",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "usuarios")>0) {
-        $url = ["","","","active"];
+        $url = ["","","","","active"];
     }
     
 ?>
@@ -45,7 +48,11 @@
                         <div class="nav-menu__text"><span>Pedidos</span></div>
                         <div class="nav-menu__right"><i class="badge badge-default">2</i></div></a>
                     </li>
-                    <li class="<?php echo $url[3]; ?>"><a href="./usuarios">
+                    <li class="<?php echo $url[3]; ?>"><a href="./fornecedores">
+                        <div class="nav-menu__ico"><i class="fa fa-fw fa-user"></i></div>
+                        <div class="nav-menu__text"><span>Fornecedores</span></div></a>
+                    </li>
+                    <li class="<?php echo $url[4]; ?>"><a href="./usuarios">
                         <div class="nav-menu__ico"><i class="fa fa-fw fa-user"></i></div>
                         <div class="nav-menu__text"><span>Usuários</span></div></a>
                     </li>

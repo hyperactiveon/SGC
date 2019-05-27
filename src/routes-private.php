@@ -2,16 +2,16 @@
 
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Ajrc\Model\Usuario;
 use Ajrc\Helper\Login;
 use Ajrc\Helper\Sessions;
+use Ajrc\Model\Usuario;
+use Ajrc\Model\Fornecedor;
 
 if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
     header("location: ./login");
 }
 
 // Routes
-
 //========================| LOGIN / LOGOUT |=========================================================
 //FORMULÁRIO DE LOGIN
 $app->get('/login', function (Request $request, Response $response, array $args) {
@@ -73,12 +73,11 @@ $app->get('/dashboard', function (Request $request, Response $response, array $a
 
 //========================| USUÁRIO |=========================================================
 
-
 $app->any('/usuarios[-{form}]', function (Request $request, Response $response, array $args) {
 
     if($request->getMethod()=="POST") 
     {
-
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
         if( array_key_exists("operacao",$_POST) ) { 
             
             switch($_POST["operacao"]) {
@@ -94,62 +93,39 @@ $app->any('/usuarios[-{form}]', function (Request $request, Response $response, 
         
     }
 
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
     return $this->renderer->render($response, 'private/usuarios/index.phtml', $args);
 
 });
 
-/*
-//LISTAGEM DE USUÁRIOS
-$app->get('/usuarios', function (Request $request, Response $response, array $args) {
+//========================| FIM : USUÁRIO |=========================================================
 
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
-    if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
-        return $response->withRedirect($this->router->pathFor('login', [], []));
+
+//========================| FORNECEDOR |=========================================================
+
+$app->any('/fornecedores[-{form}]', function (Request $request, Response $response, array $args) {
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "insert":
+                    $args = Fornecedor::Insert();
+                    break;
+                case "update":
+                    $args = Fornecedor::Update();
+                    break;
+            }
+
+        }
+        
     }
-    
-    return $this->renderer->render($response, 'private/usuarios/index.phtml', $args);
 
-})->setName('usuarios');
-
-//OPERAÇÃO NO BANCO DE DADOS DE INSERIR NOVO USUÁRIO
-$app->post('/usuarios', function (Request $request, Response $response, array $args) {
-
-    if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
-        return $response->withRedirect($this->router->pathFor('login', [], []));
-    }
-    
-    $resultado = Usuario::Insert();
-    var_dump($resultado);
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/fornecedores/index.phtml', $args);
 
 });
 
-
-//FORMULÁRIO DE EDIÇÃO DE DADOS DE USUÁRIO ESPECÍFICO
-$app->get('/usuario[-{id}]', function (Request $request, Response $response, array $args) {
-
-    if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
-        return $response->withRedirect($this->router->pathFor('login', [], []));
-    }
-
-    return $this->renderer->render($response, 'private/usuarios/index.phtml', $args);
-
-})->setName('usuario-editar');
-
-//ATUALIZAR DADOS DO USUÁRIO
-$app->post('/usuario', function (Request $request, Response $response, array $args) {
-
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
-    if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
-        return $response->withRedirect($this->router->pathFor('login', [], []));
-    }
-    
-    $resultado = Usuario::Update();
-    if($resultado["status"]){ echo "<br><br>Blz<br><br>"; }
-    var_dump($resultado);
-
-});
-
-*/
-
-//========================| FIM: USUÁRIO |=========================================================
-
+//========================| FIM : FORNECEDOR |=========================================================
