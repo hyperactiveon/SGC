@@ -6,17 +6,20 @@
     if(strrpos($_SERVER['REQUEST_URI'], "dashboard")>0) {
         $url = ["active","","","",""];
     }
-    else if(strrpos($_SERVER['REQUEST_URI'], "produto")>0) {
-        $url = ["","active","","",""];
+    else if(strrpos($_SERVER['REQUEST_URI'], "destaques")>0) {
+        $url = ["","active","","","",""];
+    } 
+    else if(strrpos($_SERVER['REQUEST_URI'], "produtos")>0) {
+        $url = ["","","active","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "pedido")>0) {
-        $url = ["","","active","",""];
+        $url = ["","","","active","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "fornecedores")>0) {
-        $url = ["","","","active",""];
+        $url = ["","","","","active",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "usuarios")>0) {
-        $url = ["","","","","active"];
+        $url = ["","","","","","active"];
     }
     
 ?>
@@ -39,20 +42,29 @@
                         <div class="nav-menu__ico"><i class="fa fa-fw fa-star"></i></div>
                         <div class="nav-menu__text"><span>Dashboard</span></div></a>
                     </li>
-                    <li class="<?php echo $url[1]; ?>"><a href="./produtos">
-                        <div class="nav-menu__ico"><i class="fa fa-fw fa-cube"></i></div>
-                        <div class="nav-menu__text"><span>Produtos</span></div></a>
+                    <li class="<?php echo $url[1]; ?>"><a href="./destaques">
+                        <div class="nav-menu__ico"><i class="fa fa-fw fa-star"></i></div>
+                        <div class="nav-menu__text"><span>Destaques</span></div></a>
                     </li>
-                    <li class="<?php echo $url[2]; ?>"><a href=".pedidos">
+                    <li class="<?php echo $url[2]; ?>"><a href="#">
+                        <div class="nav-menu__ico"><i class="fa fa-fw fa-cube"></i></div>
+                        <div class="nav-menu__text"><span>Produtos</span></div>
+                        <div class="nav-menu__right"><i class="fa fa-fw fa-angle-right arrow"></i></div></a>
+                        <ul class="nav nav-menu__second collapse" aria-expanded="false" style="height: 0px;">
+                            <li><a href="./categorias">Categorias</a></li>
+                            <li><a href="./produtos">Produtos</a></li>
+                        </ul>
+                    </li>
+                    <li class="<?php echo $url[3]; ?>"><a href=".pedidos">
                         <div class="nav-menu__ico"><i class="fa fa-fw fa-truck"></i></div>
                         <div class="nav-menu__text"><span>Pedidos</span></div>
                         <div class="nav-menu__right"><i class="badge badge-default">2</i></div></a>
                     </li>
-                    <li class="<?php echo $url[3]; ?>"><a href="./fornecedores">
+                    <li class="<?php echo $url[4]; ?>"><a href="./fornecedores">
                         <div class="nav-menu__ico"><i class="fa fa-fw fa-user"></i></div>
                         <div class="nav-menu__text"><span>Fornecedores</span></div></a>
                     </li>
-                    <li class="<?php echo $url[4]; ?>"><a href="./usuarios">
+                    <li class="<?php echo $url[5]; ?>"><a href="./usuarios">
                         <div class="nav-menu__ico"><i class="fa fa-fw fa-user"></i></div>
                         <div class="nav-menu__text"><span>Usuários</span></div></a>
                     </li>

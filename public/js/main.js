@@ -133,7 +133,14 @@ $(document).ready(function() {
 		for(var i=0;i<totItens;i++) {
 			$("#"+campos[i]).prop('required',checkado);
 		}
+	})
 
+	$("input[type='checkbox']#principal").click(function() {
+		$("div#container_img_principal").toggle();
+	})
+
+	$("input[type='checkbox']#secundario").click(function() {
+		$("div#container_img_secundario").toggle();
 	})
 	
 });

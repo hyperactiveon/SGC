@@ -6,6 +6,8 @@ use Ajrc\Helper\Login;
 use Ajrc\Helper\Sessions;
 use Ajrc\Model\Usuario;
 use Ajrc\Model\Fornecedor;
+use Ajrc\Model\Categoria;
+use Ajrc\Model\Destaque;
 
 if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
     header("location: ./login");
@@ -129,3 +131,61 @@ $app->any('/fornecedores[-{form}]', function (Request $request, Response $respon
 });
 
 //========================| FIM : FORNECEDOR |=========================================================
+
+//========================| CATEGORIA |=========================================================
+
+$app->any('/categorias[-{form}]', function (Request $request, Response $response, array $args) {
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "insert":
+                    $args = Categoria::Insert();
+                    break;
+                case "update":
+                    $args = Categoria::Update();
+                    break;
+            }
+
+        }
+        
+    }
+
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/categorias/index.phtml', $args);
+
+});
+
+//========================| FIM : CATEGORIA |=========================================================
+
+//========================| DESTAQUE PRINCIPAL |=========================================================
+
+$app->any('/destaques[-{form}]', function (Request $request, Response $response, array $args) {
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "insert":
+                    $args = Destaque::Insert();
+                    break;
+                case "update":
+                    $args = Destaque::Update();
+                    break;
+            }
+
+        }
+        
+    }
+
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/destaques/index.phtml', $args);
+
+});
+
+//========================| FIM : DESTAQUE PRINCIPAL |=========================================================
