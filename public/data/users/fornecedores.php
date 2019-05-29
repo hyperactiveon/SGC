@@ -20,6 +20,6 @@ header('Content-Type: application/json;charset=utf-8');
 { 
     "data": 
         [ 
-            <?php Fornecedor::ListAll(); ?>    
+            <?php Fornecedor::ListAllAdmins(); ?>    
         ]
 }

@@ -8,10 +8,9 @@ use Ajrc\Model\Usuario;
 use Ajrc\Model\Fornecedor;
 use Ajrc\Model\Categoria;
 use Ajrc\Model\Destaque;
+use Ajrc\Model\Produto;
 
-if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
-    header("location: ./login");
-}
+
 
 // Routes
 //========================| LOGIN / LOGOUT |=========================================================
@@ -57,10 +56,10 @@ $app->get('/logout', function (Request $request, Response $response, array $args
 //========================| DASHBOARD |=========================================================
 //DASHBOARD
 $app->get('/dashboard', function (Request $request, Response $response, array $args) {
+
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
-    if(strlen( trim( json_encode( Sessions::getData() ) ) ) < 15){
-        return $response->withRedirect($this->router->pathFor('login', [], []));
-    }
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    //----
 
     if( !in_array(base64_decode('admin') ,Sessions::Permissions()) ) {
         echo "O kra não poderá ver esta página";
@@ -76,6 +75,10 @@ $app->get('/dashboard', function (Request $request, Response $response, array $a
 //========================| USUÁRIO |=========================================================
 
 $app->any('/usuarios[-{form}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    //----
 
     if($request->getMethod()=="POST") 
     {
@@ -107,6 +110,10 @@ $app->any('/usuarios[-{form}]', function (Request $request, Response $response, 
 
 $app->any('/fornecedores[-{form}]', function (Request $request, Response $response, array $args) {
 
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    //----
+
     if($request->getMethod()=="POST") 
     {
         //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
@@ -135,6 +142,10 @@ $app->any('/fornecedores[-{form}]', function (Request $request, Response $respon
 //========================| CATEGORIA |=========================================================
 
 $app->any('/categorias[-{form}]', function (Request $request, Response $response, array $args) {
+    
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    //----
 
     if($request->getMethod()=="POST") 
     {
@@ -165,6 +176,10 @@ $app->any('/categorias[-{form}]', function (Request $request, Response $response
 
 $app->any('/destaques[-{form}]', function (Request $request, Response $response, array $args) {
 
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    //----
+
     if($request->getMethod()=="POST") 
     {
         //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
@@ -189,3 +204,36 @@ $app->any('/destaques[-{form}]', function (Request $request, Response $response,
 });
 
 //========================| FIM : DESTAQUE PRINCIPAL |=========================================================
+
+//========================| PRODUTO |=========================================================
+
+$app->any('/produtos[-{form}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    //----
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "insert":
+                    $args = Produto::Insert();
+                    break;
+                case "update":
+                    $args = Produto::Update();
+                    break;
+            }
+
+        }
+        
+    }
+
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/produtos/index.phtml', $args);
+
+});
+
+//========================| FIM : PRODUTO |=========================================================
