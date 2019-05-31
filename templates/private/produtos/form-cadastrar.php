@@ -10,7 +10,7 @@
     $selFornecedores = '<select class="selectpicker" name="tb_fornecedores_id" id="tb_fornecedores_id" data-error="Campo de preenchimento obrigatório!" '.$required.'>';
     $selFornecedores.= '<option value="">Selecione</option>';
     foreach(Fornecedor::ListAll() as $f){
-        $selFornecedores.= '<option value='.$f->id.'>'.$f->nome_fantasia.'</option>';
+        $selFornecedores.= '<option value="'.$f->id.'">'.$f->nome_fantasia.'</option>';
     }
     $selFornecedores.= '</select>';
     
@@ -18,7 +18,7 @@
     $selCategorias = '<select class="selectpicker" name="tb_categorias_id" id="tb_categorias_id" data-error="Campo de preenchimento obrigatório!" '.$required.'>';
     $selCategorias.= '<option value="">Selecione</option>';
     foreach(Categoria::ListAll() as $f){
-        $selCategorias.= '<option value='.$f->id.'>'.$f->titulo.'</option>';
+        $selCategorias.= '<option value="'.$f->id.'">'.$f->titulo.'</option>';
     }
     $selCategorias.= '</select>';
     
