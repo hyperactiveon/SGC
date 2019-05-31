@@ -1,7 +1,7 @@
     <?php
 
       //var_dump( $data );
-
+      $dominio = "categorias";
       require_once("../templates/private/header.php");
     ?>
     
@@ -29,17 +29,17 @@
                   if( $data["form"]=="insert" )
                   {
                     //EXIBE O FORMULÁRIO DE CADASTRO
-                    require_once("../templates/private/usuarios/form-cadastrar.php");
+                    require_once("../templates/private/".$dominio."/form-cadastrar.php");
                   } 
                   else 
                   {
                     //EXIBE O FORMULÁRIO DE ALTERAÇÃO
-                    require_once("../templates/private/usuarios/form-editar.php");
+                    require_once("../templates/private/".$dominio."/form-editar.php");
                   }
 
                 }
 
-                else //EXIBE A LISTAGEM DOS USUÁRIO (Admins, Funcionários e Clientes)
+                else //EXIBE A LISTAGEM DOS FORNECEDORES
                 {
 
               ?>
@@ -47,19 +47,14 @@
                     <div class="col-sm-12 col-xs-12">
                       <div class="panel panel-info">
                         <div class="panel-heading">
-                          <h3 class="panel-title">Usuários</h3>
+                          <h3 class="panel-title"><?php echo ucfirst($dominio); ?></h3>
                         </div>
                         <div class="panel-body">
-                          
+                        
                           <div class="datalist__result">
                             <ul class="nav nav-tabs" role="tablist">
-                              <!--
-                              <li class="active" role="presentation"><a href="#customers" aria-controls="customers" role="tab" data-toggle="tab">Clientes&nbsp;</a></li>
-                              -->
-                              <li class='active' class="active" role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admins&nbsp;</a></li>
-                              <li role="presentation"><a href="#funcionarios" aria-controls="funcionarios" role="tab" data-toggle="tab">Funcionários&nbsp;</a></li>
-                              <li role="presentation"><a href="#clientes" aria-controls="clientes" role="tab" data-toggle="tab">Clientes&nbsp;</a></li>
-                              <li role="presentation"><a href="./usuarios-insert"  role="tab" ><i class="fa fa-plus"></i>&nbsp;Cadastrar</a></li>
+                              <li class='active' class="active" role="presentation"><a href="#<?php echo $dominio; ?>" aria-controls="<?php echo $dominio; ?>" role="tab" data-toggle="tab"><?php echo ucfirst($dominio); ?>&nbsp;</a></li>
+                              <li role="presentation"><a href="./<?php echo $dominio; ?>-insert"  role="tab" ><i class="fa fa-plus"></i>&nbsp;Cadastrar</a></li>
                             </ul>
                             <div class="tab-content">
                             
@@ -69,28 +64,10 @@
                               } 
                               ?>
                               
-                              <div class="tab-pane active" id="admins" role="tabpanel">
+                              <div class="tab-pane active" id="categorias" role="tabpanel">
                                 <div class="scrollable scrollbar-macosx">
                                   <div class="container-fluid">
-                                    <table id="tb_admins" class="datalist__table table datatable display table-hover" width="100%" data-users="admins">
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="tab-pane" id="funcionarios" role="tabpanel">
-                                <div class="scrollable scrollbar-macosx">
-                                  <div class="container-fluid">
-                                    <table id="tb_funcionarios" class="datalist__table table datatable display table-hover" width="100%" data-users="funcionario">
-                                    </table>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="tab-pane" id="clientes" role="tabpanel">
-                                <div class="scrollable scrollbar-macosx">
-                                  <div class="container-fluid">
-                                    <table id="tb_clientes" class="datalist__table table datatable display table-hover" width="100%" data-users="clientes">
+                                    <table id="tb_<?php echo $dominio; ?>" class="datalist__table table datatable display table-hover" width="100%" data-users="<?php echo $dominio; ?>">
                                     </table>
                                   </div>
                                 </div>
@@ -136,10 +113,8 @@
     <script src="/libs/selectize/js/standalone/selectize.min.js"></script>
     <script src="/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
-    <script src="/js/template/users.js"></script>
+    <script src="/js/template/<?php echo $dominio; ?>.js"></script>
     <script src="/js/main.js"></script>
-
-
 
   </body>
 </html>

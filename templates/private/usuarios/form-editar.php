@@ -29,21 +29,26 @@
     }
     
     $sexo = null;
-    $sexos = ["-1"=>"Selecione", "M"=>"Masculino", "F"=>"Feminino"];
+    $sexos = [""=>"Selecione", "M"=>"Masculino", "F"=>"Feminino"];
     foreach($sexos as $key=>$value){
         $sel = ($u->sexo==$key)?" selected='selected'":null;
         $sexo.= "<option value='".$key."'".$sel.">".$value."</option>";
     }
 
     $fps = null;
-    $fp = ["-1"=>"Selecione", "CHEQUE"=>"CHEQUE", "DEPOSITO"=>"DEPOSITO", "ESPECIE"=>"ESPECIE"];
+    $fp = [""=>"Selecione", "CHEQUE"=>"CHEQUE", "DEPOSITO"=>"DEPOSITO", "ESPECIE"=>"ESPECIE"];
     foreach($fp as $key=>$value){
         $sel = ($u->tipo_pagto==$key)?" selected='selected'":null;
         $fps.= "<option value='".$key."'".$sel.">".$value."</option>";
     }
 
     $admin = ($u->admin==1) ? " checked='checked'" : null;
-    $funcionario = ($u->funcionario==1) ? " checked='checked'" : null;
+    $funcionario = null;
+    $eh_funcionario =" style=\"display:none\"";
+    if($u->funcionario==1){
+        $eh_funcionario =" style=\"display:block\"";
+        $funcionario = " checked='checked'";
+    }
     $cliente = ($u->cliente==1) ? " checked='checked'" : null;
 
     $required = " required ";
@@ -67,21 +72,21 @@
                                         <label for="nome">Nome</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                        <input class="form-control" type="text" name="nome" id="nome" value="<?php echo $u->nome; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="nome" id="nome" value="<?php echo $u->nome; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="login">Login</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                        <input class="form-control" type="text" name="login" id="login" value="<?php echo $u->login; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="login" id="login" value="<?php echo $u->login; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-heartbeat"></i></div>
-                                        <select class="selectpicker" name="status" id="status" <?php echo $required; ?>>
+                                        <select data-error="Campo de preenchimento obrigatório!" class="selectpicker" name="status" id="status" <?php echo $required; ?>>
                                             <?php echo $stt;?>
                                         </select>
                                         </div>
@@ -90,7 +95,7 @@
                                         <label for="sexo">Sexo</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-intersex"></i></div>
-                                        <select class="selectpicker" name="sexo" id="sexo" <?php echo $required; ?>>
+                                        <select data-error="Campo de preenchimento obrigatório!" class="selectpicker" name="sexo" id="sexo" <?php echo $required; ?>>
                                             <?php echo $sexo;?>
                                         </select>
                                         </div>
@@ -99,28 +104,28 @@
                                         <label for="cep">CEP</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
-                                        <input class="form-control" type="text" name="cep" id="cep" value="<?php echo $u->cep; ?>" onkeypress="$(this).mask('00.000-000')" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="cep" id="cep" value="<?php echo $u->cep; ?>" onkeypress="$(this).mask('00.000-000')" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cidade">Cidade</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
-                                        <input class="form-control" type="text" name="cidade" id="cidade" value="<?php echo $u->cidade; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="cidade" id="cidade" value="<?php echo $u->cidade; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="endereco">Endereço</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
-                                        <input class="form-control" type="text" name="endereco" id="endereco" value="<?php echo $u->endereco; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="endereco" id="endereco" value="<?php echo $u->endereco; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="numero">Número</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
-                                        <input class="form-control" type="text" name="numero" id="numero" value="<?php echo $u->numero; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="numero" id="numero" value="<?php echo $u->numero; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -145,7 +150,7 @@
                                         <label for="email">E-mail</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                        <input class="form-control" type="email" name="email" id="email" value="<?php echo $u->email; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="email" name="email" id="email" value="<?php echo $u->email; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -159,28 +164,28 @@
                                         <label for="data_nascto">Data de Nascimento</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                        <input class="form-control" name="data_nascto" id="data_nascto" type="date" value="<?php echo $u->data_nascto; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" name="data_nascto" id="data_nascto" type="date" value="<?php echo $u->data_nascto; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="cpf">CPF</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                        <input class="form-control" type="text" name="cpf" id="cpf" value="<?php echo $u->cpf; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="cpf" id="cpf" value="<?php echo $u->cpf; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="estado">Estado/UF</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
-                                        <input class="form-control" type="text" name="estado" id="estado" value="<?php echo $u->estado; ?>" maxlength="2" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="estado" id="estado" value="<?php echo $u->estado; ?>" maxlength="2" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="bairro">Bairro</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
-                                        <input class="form-control" type="text" name="bairro" id="bairro" value="<?php echo $u->bairro; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="bairro" id="bairro" value="<?php echo $u->bairro; ?>" <?php echo $required; ?>>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -224,10 +229,9 @@
                                     <button class="btn btn-success btn-block">SALVAR</button>
                                 </div>
                             </div>
-                            <div class="row" id="dados-funcionario1">
+                            <div id="dados-funcionario" <?php echo $eh_funcionario; ?>>
+
                                 <div class="col-md-12 "><h3>Dados do Funcionário</h3></div>
-                            </div>
-                            <div id="dados-funcionario2">
 
                                 <div class="col-md-6">
                                     
@@ -235,36 +239,41 @@
                                         <label for="data_admissao">Data de Admissão</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                        <input class="form-control" name="data_admissao" id="data_admissao" type="date" value="<?php echo $u->data_admissao; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" name="data_admissao" id="data_admissao" type="date" value="<?php echo $u->data_admissao; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inicio_ferias">Início de Férias</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                        <input class="form-control" name="inicio_ferias" id="inicio_ferias" type="date" value="<?php echo $u->inicio_ferias; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" name="inicio_ferias" id="inicio_ferias" type="date" value="<?php echo $u->inicio_ferias; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="termino_ferias">Término de Férias</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                                        <input class="form-control" name="termino_ferias" id="termino_ferias" type="date" value="<?php echo $u->termino_ferias; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" name="termino_ferias" id="termino_ferias" type="date" value="<?php echo $u->termino_ferias; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="impostos">Impostos</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                        <input class="form-control" type="text" name="impostos" id="impostos" value="<?php echo $u->impostos; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="impostos" id="impostos" value="<?php echo $u->impostos; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="vale_transporte">Vale Transporte</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                        <input class="form-control" type="text" name="vale_transporte" id="vale_transporte" value="<?php echo $u->vale_transporte; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="vale_transporte" id="vale_transporte" value="<?php echo $u->vale_transporte; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                                                         
                                 </div>
@@ -274,38 +283,43 @@
                                         <label for="salario">Salário</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-money"></i></div>
-                                        <input class="form-control" type="text" name="salario" id="salario" value="<?php echo $u->salario; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="salario" id="salario" value="<?php echo $u->salario; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="banco">Banco</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-bank"></i></div>
-                                        <input class="form-control" type="text" name="banco" id="banco" value="<?php echo $u->banco; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="banco" id="banco" value="<?php echo $u->banco; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="agencia_bancaria">Agência Bancária</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-bank"></i></div>
-                                        <input class="form-control" type="text" name="agencia_bancaria" id="agencia_bancaria" value="<?php echo $u->agencia_bancaria; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="agencia_bancaria" id="agencia_bancaria" value="<?php echo $u->agencia_bancaria; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="num_conta_bancaria">Número da Conta</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-bank"></i></div>
-                                        <input class="form-control" type="text" name="num_conta_bancaria" id="num_conta_bancaria" value="<?php echo $u->num_conta_bancaria; ?>">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="num_conta_bancaria" id="num_conta_bancaria" value="<?php echo $u->num_conta_bancaria; ?>">
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="tipo_pagto">Modalidade de Pagamento</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-bank"></i></div>
-                                        <select class="selectpicker" name="tipo_pagto" id="tipo_pagto">
+                                        <select data-error="Campo de preenchimento obrigatório!" class="selectpicker" name="tipo_pagto" id="tipo_pagto">
                                             <?php echo $fps;?>
                                         </select>
                                         </div>
+                                        <div class="help-block with-errors"></div>
                                     </div>
                                     
                                 </div>
@@ -316,10 +330,11 @@
                                     <textarea id="observacoes" name="observacoes" class="form-control" placeholder="" rows="7"><?php echo $u->observacoes; ?></textarea>
                                     </div>
                                 </div>
+                                
+                                <div class="col-md-12" style="padding:20px">
+                                    <button class="btn btn-success btn-block">SALVAR</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12" style="padding:10px">
-                            <button class="btn btn-success btn-block">SALVAR</button>
                         </div>
                     </div>
                 </div>

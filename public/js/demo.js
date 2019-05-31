@@ -6,6 +6,8 @@
  *
  */
 
+
+
 $(document).ready(function() {
 	$('body').on('click', '.demo__ico', function() {
 		$('.demo').toggleClass('demo_open');
@@ -22,4 +24,5 @@ $(document).ready(function() {
 			$('.demo__css.old').remove();
 		}, 200);
 	})
+	
 });

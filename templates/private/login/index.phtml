@@ -27,19 +27,13 @@
             <div id="capslock" class="checkbox login__remember">
             </div>
             <div class="login__submit">
-              <button class="btn btn-default" type="submit">Sign in</button>
+              <button class="btn btn-default" type="reset">Limpar</button>
+              <button class="btn btn-success" type="submit">Entrar</button>
             </div>
           </div>
         </form>
       </div>
     </div>
-    <script>
-      document.addEventListener('keydown', function( event ) {
-        var flag = event.getModifierState && event.getModifierState('CapsLock');
-        document.getElementById('capslock').innerHTML = '';
-        if( flag ){ document.getElementById('capslock').innerHTML = 'CAPS LOCK ativado!'; }
-      });
-    </script>
     <script src="libs/jquery/jquery.min.js"></script>
     <script src="libs/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/demo.js"></script>
