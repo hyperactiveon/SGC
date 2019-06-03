@@ -1,136 +1,17 @@
 
-
     <?php
       
       require_once("../templates/public/header.php");
       require_once("../templates/public/topo.php");
 
-      $msg = null;
-      if(array_key_exists("msg",$_GET)){
-        $msg = "<h2 style='text-align:center'>" . trim($_GET["msg"]) . "</h2>";
-      }
-
     ?>
-
     <!-- Main Content -->
-    <div class="container my-3 my-sm-5">
+    <div class="container my-4 text-center">
 
-      <!-- Login & Register Row -->
-      <div class="row justify-content-center" id="row-login">
-        <div class="col-sm-10 col-md-11 col-lg-9 col-xl-8">
-          <div class="card card-login">
-            <div class="card-body">
-              <div class="row">
-
-                <!-- Login Form -->
-                <div class="col-md-6 col-login">
-                  <form class="form-style-1">
-                    <div class="form-group text-center mb-2">
-                      <h2 class="bold mb-0">Login</h2>
-                      <em>em sua conta</em>
-                    </div>
-                    <div class="form-group">
-                      <span class="input-icon">
-                        <i data-feather="mail"></i>
-                        <input type="email" class="form-control" placeholder="Digite seu E-MAIL">
-                      </span>
-                    </div>
-                    <div class="form-group">
-                      <span class="input-icon">
-                        <i data-feather="lock"></i>
-                        <input type="password" class="form-control" placeholder="Digite sua SENHA">
-                      </span>
-                    </div>
-                    <div class="form-group d-flex justify-content-between">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="loginRemember">
-                        <label class="custom-control-label" for="loginRemember">Permanecer logado</label>
-                      </div>
-                      <u><a href="#" class="text-primary small reset">Esqueceu sua senha ?</a></u>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-block">LOGIN</button>
-                  </form>
-                </div>
-                <!-- /Login Form -->
-
-                <span class="or-divider">OU</span>
-
-                <!-- Register Form -->
-                <div class="col-md-6 col-register">
-                  <form class="form-style-2">
-                    <div class="form-group text-center">
-                      <h2 class="bold">Registro</h2>
-                    </div>
-                    <div class="form-group">
-                      <span class="input-icon">
-                        <i data-feather="mail"></i>
-                        <input type="email" class="form-control" placeholder="E-mail">
-                      </span>
-                    </div>
-                    <div class="form-group">
-                      <span class="input-icon">
-                        <i data-feather="lock"></i>
-                        <input type="password" class="form-control" placeholder="Senha">
-                      </span>
-                    </div>
-                    <div class="form-group">
-                      <span class="input-icon">
-                        <i data-feather="lock"></i>
-                        <input type="password" class="form-control" placeholder="Confirme a Senha">
-                      </span>
-                    </div>
-                    <button type="button" class="btn btn-outline-primary btn-block">REGISTRAR-SE</button>
-                  </form>
-                </div>
-                <!-- /Register Form -->
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /Login & Register Row -->
-
-      <!-- Reset Password -->
-      <div class="row justify-content-center" id="row-reset" hidden>
-        <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4">
-          <div class="card">
-            <div class="card-body">
-              <form class="form-style-1">
-                <div class="form-group text-center">
-                  <h2 class="bold">Reset Password</h2>
-                  <em>enter your email and to receive instructions</em>
-                </div>
-                <div class="form-group">
-                  <span class="input-icon">
-                    <i data-feather="mail"></i>
-                    <input type="email" class="form-control" placeholder="Email address">
-                  </span>
-                </div>
-                <button type="button" class="btn btn-danger btn-block reset-done">RESET</button>
-              </form>
-              <hr>
-              <button class="btn btn-light btn-sm login"><i data-feather="arrow-left"></i> Back to login</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /Reset Password -->
-
-      <!-- Reset Password Done Message -->
-      <div class="row justify-content-center" id="row-reset-done" hidden>
-        <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4">
-          <div class="card">
-            <div class="card-body text-center">
-              <i data-feather="mail" class="text-primary mb-2" width="50" height="50"></i>
-              <h3 class="bold">CHECK YOUR EMAIL</h3>
-              <p class="text-secondary">We just sent you a letter with instructions to reset your password</p>
-              <button class="btn btn-primary btn-block rounded login">LOGIN</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /Reset Password Done Message -->
+        <img src="../img/404.jpg" alt="404" width="250" class="img-fluid rounded-circle mb-3 img-thumbnail border-info">
+        <h1><span class="text-danger">Oops!</span> Error 404 page not found</h1>
+        <p>The page you were looking for doesn't exist.</p>
+        <a href="javascript:history.back()" class="btn btn-danger rounded-pill"><i data-feather="arrow-left"></i> Go back</a>
 
     </div>
     <!-- /Main Content -->

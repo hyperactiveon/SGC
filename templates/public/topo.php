@@ -1,17 +1,4 @@
-
-    <?php
-      
-      require_once("../templates/public/header.php");
-      require_once("../templates/public/topo.php");
-
-      $msg = null;
-      if(array_key_exists("msg",$_GET)){
-        $msg = "<h2 style='text-align:center'>" . trim($_GET["msg"]) . "</h2>";
-      }
-
-    ?>
-
-    <!-- Top bar -->
+<!-- Top bar -->
     <div class="topbar">
       <div class="container d-flex">
 
@@ -28,34 +15,26 @@
           <a class="nav-link px-2" href="javascript:void(0)"><i data-feather="instagram"></i></a>
         </nav>
 
-        <!-- language 
-        <nav class="nav nav-lang ml-auto">
-          <a class="nav-link active" href="javascript:void(0)">EN</a>
-          <a class="nav-link pipe">|</a>
-          <a class="nav-link" href="javascript:void(0)">RU</a>
-        </nav>
-        -->
-
         <!-- User dropdown -->
-        <ul class="nav nav-lang ml-auto">
+        <ul class="nav ml-auto">
           <li class="nav-item dropdown dropdown-hover">
             <a class="nav-link dropdown-toggle pr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              <i data-feather="user"></i> Olá, Adair! <i data-feather="chevron-down"></i>
+              <i data-feather="user"></i> Hi, John <i data-feather="chevron-down"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <div class="media p-2 align-items-center mb-2">
-                <div class="mr-2 size50x50"><img src="/img/usuarios/2_1.jpg" alt="user" class="img-thumbnail rounded-circle mr-2 size50x50"></div>
+                <div class="mr-2 size50x50"><img src="/img/user/user.svg" alt="user" class="img-thumbnail rounded-circle mr-2 size50x50"></div>
                 <div class="media-body">
-                  <strong>Adair José Rossatto Commodo</strong>
-                  <div class="small">faleconosco@ajrc.com.br</div>
+                  <strong>John Thor</strong>
+                  <div class="small">john.thor@example.com</div>
                   <div class="small counter">1113 points</div>
                 </div>
               </div>
-              <a href="account-orders.html" class="dropdown-item has-icon"><i data-feather="shopping-cart"></i>Carrinho</a>
-              <a href="account-wishlist.html" class="dropdown-item has-icon has-badge"><i data-feather="heart"></i>Lista de Desejos <span class="badge rounded badge-primary">2</span></a>
-              <a href="./account-1" class="dropdown-item has-icon"><i data-feather="settings"></i>Configurações</a>
+              <a href="account-orders.html" class="dropdown-item has-icon"><i data-feather="shopping-cart"></i>My Orders</a>
+              <a href="account-wishlist.html" class="dropdown-item has-icon has-badge"><i data-feather="heart"></i>Wishlist <span class="badge rounded badge-primary">2</span></a>
+              <a href="account-profile.html" class="dropdown-item has-icon"><i data-feather="settings"></i>Account Setting</a>
               <div class="dropdown-divider"></div>
-              <a href="./account-logout" class="dropdown-item has-icon text-danger"><i data-feather="log-out"></i>Logout</a>
+              <a href="account-login.html" class="dropdown-item has-icon text-danger"><i data-feather="log-out"></i>Logout</a>
             </div>
           </li>
         </ul>
@@ -64,7 +43,6 @@
       </div><!-- /.container -->
     </div>
     <!-- /Top bar -->
-
 
     <!--Header -->
     <header>
@@ -276,257 +254,3 @@
       </div><!-- /.container -->
     </header>
     <!-- /Header -->
-
-
-    <!-- Main Content -->
-    <div class="container my-3">
-      <div class="row">
-
-        <div class="col-md-4 col-lg-3">
-          <div class="card">
-            <div class="card-body text-center">
-              <img src="/img/usuarios/2_1.jpg" width="80" height="80" alt="Foto de Adair" class="rounded-circle mb-3">
-              <h5 class="bold mb-0">Adair José Rossatto Commodo</h5>
-              <small class="counter">Cliente desde 31/12/2019</small>
-              <hr>
-              <div class="roboto-condensed bold" data-toggle="tooltip" title="You currently have 1,113 Points to spend.">
-                <i data-feather="award" class="text-warning"></i> Pontos: 1113</div>
-            </div>
-            <div class="list-group list-group-flush">
-              <a href="account-profile.html" class="list-group-item list-group-item-action active"><i data-feather="user" class="mr-3"></i> Profile</a>
-              <a href="account-orders.html" class="list-group-item list-group-item-action"><i data-feather="shopping-bag" class="mr-3"></i> Pedidos</a>
-              <a href="account-wishlist.html" class="list-group-item has-badge list-group-item-action"><i data-feather="heart" class="mr-3"></i> Lista de Desejos <span class="badge rounded badge-primary">2</span></a>
-              <a href="account-address.html" class="list-group-item list-group-item-action"><i data-feather="map" class="mr-3"></i> Endereço?</a>
-              <a href="account-login.html" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Logout</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col mt-3 mt-md-0">
-          <div class="card">
-            <div class="card-body">
-              <h3>My Profile</h3><hr>
-              <form class="form-style-1">
-                <div class="form-row">
-                  <div class="form-group col-sm-6">
-                    <label for="profileFirstName">First Name</label>
-                    <input type="text" class="form-control" id="profileFirstName" value="John">
-                  </div>
-                  <div class="form-group col-sm-6">
-                    <label for="profileLastName">Last Name</label>
-                    <input type="text" class="form-control" id="profileLastName" value="Thor">
-                  </div>
-                  <div class="form-group col-sm-6">
-                    <label for="profileEmail">Email address</label>
-                    <input type="email" class="form-control" id="profileEmail" value="john.thor@example.com">
-                  </div>
-                  <div class="form-group col-sm-6">
-                    <label for="profilePhone">Phone Number</label>
-                    <input type="text" class="form-control" id="profilePhone" value="1-787-376-1552">
-                  </div>
-                  <div class="form-group col-sm-6">
-                    <label for="profileNewPassword">New Password</label>
-                    <input type="password" class="form-control" id="profileNewPassword">
-                  </div>
-                  <div class="form-group col-sm-6">
-                    <label for="profileConfirmPassword">Confirm Password</label>
-                    <input type="password" class="form-control" id="profileConfirmPassword">
-                  </div>
-                  <div class="form-group col-12">
-                    <button type="button" class="btn btn-primary">UPDATE PROFILE</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <!-- /Main Content -->
-
-
-    <!-- Footer -->
-    <div class="footer">
-      <div class="container">
-        <div class="row no-gutters">
-          <div class="col-sm-6 col-lg-3 text-center px-3">
-            <h5 class="bold">SUBSCRIBE</h5>
-            <p>and get <strong class="text-primary">10% discount</strong></p>
-            <form>
-              <div class="form-group">
-                <input type="email" class="form-control rounded-pill text-center" placeholder="Enter your email">
-              </div>
-              <button type="button" class="btn btn-primary btn-block rounded-pill">SUBSCRIBE</button>
-            </form>
-          </div>
-          <div class="col-6 col-lg-3">
-            <h6 class="bold">Customer Service</h6>
-            <div class="list-group list-group-flush list-group-no-border list-group-sm">
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Help Center</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">How to buy</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Delivery</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">How to return</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Payment Method</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Shipping Method</a>
-            </div>
-          </div>
-          <div class="col-6 col-lg-3">
-            <h6 class="bold">Mimity</h6>
-            <div class="list-group list-group-flush list-group-no-border list-group-sm">
-              <a href="about.html" class="list-group-item list-group-item-action">About Us</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Terms and Conditions</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Privacy Policy</a>
-              <a href="faq.html" class="list-group-item list-group-item-action">FAQs</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Our Story</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Services</a>
-            </div>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <h6 class="bold">Download The App</h6>
-            <a href="javascript:void(0)" class="download-app">
-              <div class="media">
-                <img src="/img/app/google-play.svg" alt="Google Play Logo" height="30">
-                <div class="media-body">
-                  <small>Get it on</small>
-                  <h5>Google Play</h5>
-                </div>
-              </div>
-            </a>
-            <a href="javascript:void(0)" class="download-app">
-              <div class="media">
-                <img src="/img/app/apple.svg" alt="Apple Logo" height="30">
-                <div class="media-body">
-                  <small>Download on the</small>
-                  <h5>App Store</h5>
-                </div>
-              </div>
-            </a>
-            <a href="javascript:void(0)" class="download-app">
-              <div class="media">
-                <img src="/img/app/windows.svg" alt="Windows Logo" height="30">
-                <div class="media-body">
-                  <small>Get it from</small>
-                  <h5>Microsoft Store</h5>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="copyright">Copyright © 2019 Mimity All right reserved</div>
-    <!-- /Footer -->
-
-
-    <!--Menu Modal -->
-    <div class="modal modal-left modal-menu" id="menuModal" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header shadow">
-            <a class="h5 mb-0 d-flex align-items-center" href="index.html">
-              <img src="/img/logo.svg" alt="Mimity" class="mr-3">
-              <strong>Mimity</strong>
-            </a>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body shadow">
-            <ul class="menu" id="menu">
-              <li class="no-sub"><a href="index.html"><i data-feather="home"></i> Home</a></li>
-              <li>
-                <a href="#" class="has-arrow"><i data-feather="shopping-bag"></i> Shop</a>
-                <ul>
-                  <li><a href="shop-categories.html">Shop Categories</a></li>
-                  <li><a href="shop-grid.html">Shop Grid</a></li>
-                  <li><a href="shop-list.html">Shop List</a></li>
-                  <li><a href="shop-single.html">Single Product</a></li>
-                  <li><a href="shop-single2.html">Single Product v2</a></li>
-                  <li><a href="cart.html">Cart</a></li>
-                  <li><a href="shipping.html">Checkout</a></li>
-                  <li>
-                    <a href="#">Submenu</a>
-                    <ul>
-                      <li><a href="javascript:void(0)">item #1</a></li>
-                      <li><a href="javascript:void(0)">item #2</a></li>
-                      <li><a href="javascript:void(0)">item #3</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" class="has-arrow"><i data-feather="rss"></i> Blog</a>
-                <ul>
-                  <li><a href="blog-grid.html">Post Grid</a></li>
-                  <li><a href="blog-list.html">Post List</a></li>
-                  <li><a href="blog-single.html">Single Post</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" class="has-arrow"><i data-feather="user"></i> Account</a>
-                <ul>
-                  <li class="mm-active"><a href="account-login.html">Login / Register</a></li>
-                  <li><a href="account-profile.html">Profile Page</a></li>
-                  <li><a href="account-orders.html">Orders List</a></li>
-                  <li><a href="account-order-detail.html">Order Detail</a></li>
-                  <li><a href="account-wishlist.html" class="has-badge">Wishlist <span class="badge rounded badge-primary">2</span></a></li>
-                  <li><a href="account-address.html">Address</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="#" class="has-arrow"><i data-feather="file"></i> Pages</a>
-                <ul>
-                  <li><a href="about.html">About Us</a></li>
-                  <li><a href="contact.html">Contact Us</a></li>
-                  <li><a href="compare.html">Compare</a></li>
-                  <li><a href="faq.html">Help / FAQ</a></li>
-                  <li><a href="404.html">404 Not Found</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- /Menu Modal -->
-
-
-    <!-- REQUIRED JS  -->
-    <script src="/plugins/jquery/jquery.min.js"></script>
-    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/plugins/feather-icons/feather.min.js"></script>
-    <script src="/plugins/metismenu/metisMenu.min.js"></script>
-    <script src="/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-    <!-- Mimity JS  -->
-    <script src="/dist/js/script.min.js"></script>
-
-    <script>
-    $(function () {
-
-      // Show reset password form
-      $('.reset').click(function (event) {
-        $('#row-login').attr('hidden', true)
-        $('#row-reset').attr('hidden', false)
-        event.preventDefault()
-      })
-
-      // Show login form
-      $('.login').click(function (event) {
-        $('#row-login').attr('hidden', false)
-        $('#row-reset').attr('hidden', true)
-        $('#row-reset-done').attr('hidden', true)
-      })
-
-      // Show reset password done message (demo purpose only)
-      $('.reset-done').click(function (event) {
-        $('#row-reset-done').attr('hidden', false)
-        $('#row-reset').attr('hidden', true)
-      })
-
-    })
-    </script>
-
-  </body>
-</html>
