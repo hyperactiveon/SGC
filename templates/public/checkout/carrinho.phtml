@@ -27,6 +27,7 @@ require_once("../templates/public/header.php");
 require_once("../templates/public/topo.php");
 
 $id_carrinho = null;
+$id_carrinho = \Ajrc\Model\Pedido::VerifyCart( session_id() );
 
 if( array_key_exists("produto_id",$_POST) && 
     array_key_exists("preco_unit_item",$_POST) &&
@@ -105,7 +106,7 @@ require_once("../templates/public/footer.php");
 <?php
     if(array_key_exists("produto_id",$_POST) && array_key_exists("titulo",$_POST) ) {
         $qtde = (array_key_exists("qtde",$_POST)) ? (integer) trim($_POST["qtde"]) : 1;
-        echo "<script>ClientCart.Add('".$sessao_id."', ".$_POST["produto_id"].", '".trim($_POST["titulo"])."', ".$qtde.")</script>";
+        echo "<script>ClientCart.Add('".$sessao_id."', ".$_POST["produto_id"].", '".trim($_POST["titulo"])."', ".$qtde.",".trim($_POST["preco_unit_item"]).")</script>";
     }
 ?>
 

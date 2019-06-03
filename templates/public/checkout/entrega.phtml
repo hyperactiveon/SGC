@@ -87,6 +87,8 @@ require_once("../templates/public/topo.php");
                     <input type="hidden" name="idsessao" value="<?php echo session_id(); ?>">
                     <input type="hidden" name="valor_total_pedido" id="valor_total_pedido" value="0.00">
                     <input type="hidden" name="valor_total_pedido_sem_frete" id="valor_total_pedido_sem_frete" value="<?php echo $valor_total_pedido_sem_frete; ?>">
+                    <input type="hidden" name="prazo_entrega" id="prazo_entrega" value="">
+                    <input type="hidden" name="tipo_entrega" id="tipo_entrega" value="">
                     <h2 class="roboto-condensed text-center">Dados para Entrega</h2>
                     <h6 class="text-muted mb-4 text-center">Insira seus dados para entrega!</h6>
                     <hr>
@@ -210,52 +212,71 @@ require_once("../templates/public/footer.php");
                 { 
                     var respFrete = JSON.parse(rs);
                     $("img#preloadingGif").toggle();
-                    var kra1 = `
-                                <div class="custom-control custom-radio custom-control-inline">
+                    var kra1 = `<div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="nCdServico0" name="nCdServico" class="custom-control-input" value="0.00">
-                                    <label class="custom-control-label text-left" for="nCdServico0">
+                                    <input type="hidden" id="prazoEntrega0" value="0">
+                                    <input type="hidden" id="tipoEntrega0" value="LOCAL">
+                                    <label class="custom-control-label text-center" for="nCdServico0">
                                     RETIRAR NA LOJA <span class="counter">( Grátis! )</span>
                                     <small class="counter d-block">Já Disponível!</small>
                                     </label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="nCdServico" name="nCdServico" class="custom-control-input" value="${respFrete.SEDEX_VALOR}">
-                                    <label class="custom-control-label text-left" for="nCdServico">
+                                    <input type="hidden" id="prazoEntrega" value="${respFrete.SEDEX_DIAS}">
+                                    <input type="hidden" id="tipoEntrega"  value="SEDEX">
+                                    <label class="custom-control-label text-center" for="nCdServico">
                                     SEDEX <span class="counter">( + R\$ ${respFrete.SEDEX_VALOR} )</span>
                                     <small class="counter d-block">${respFrete.SEDEX_DIAS} Dias</small>
+                                    <img src="img/sedex.jpg" style="margin-top:0px;max-width:60px">
                                     </label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="nCdServico2" name="nCdServico" class="custom-control-input" value="${respFrete.PAC_VALOR}">
-                                    <label class="custom-control-label text-left" for="nCdServico2">
+                                    <input type="hidden" id="prazoEntrega2" value="${respFrete.PAC_DIAS}">
+                                    <input type="hidden" id="tipoEntrega2" value="PAC">
+                                    <label class="custom-control-label text-center" for="nCdServico2">
                                     PAC <span class="counter">( + R\$ ${respFrete.PAC_VALOR} )</span>
                                     <small class="counter d-block">${respFrete.PAC_DIAS} Dias</small>
+                                    <img src="img/pac.jpg" style="margin-top:0px;max-width:60px">
                                     </label>
                                 </div>`;
                     $("div#valorFreteRadios").html(kra1)
 
                     $("input#nCdServico0").change(function(){
                         var valorFrete = parseFloat( $("input#nCdServico0").val() )
+                        var prazo_entrega = parseInt( $("input#prazoEntrega0").val() )
+                        var tipo_entrega =  $("input#tipoEntrega0").val()
                         var total = parseFloat(valor_total_pedido) + parseFloat(valorFrete)
                         $("h3#h3ValorFrete").html("R$ "+valorFrete.toFixed(2).replace(".",","))
                         $("#h3TotalPedido").html( "R$ "+total.toFixed(2).replace(".",",") )
                         $("input#valor_total_pedido").val( total.toFixed(2) )
+                        $("input#prazo_entrega").val( prazo_entrega )
+                        $("input#tipo_entrega").val( tipo_entrega )
                     });
 
                     $("input#nCdServico").change(function(){
                         var valorFrete = parseFloat( $("input#nCdServico").val() )
+                        var prazo_entrega = parseInt( $("input#prazoEntrega").val() )
+                        var tipo_entrega = $("input#tipoEntrega").val() 
                         var total = parseFloat(valor_total_pedido) + parseFloat(valorFrete)
                         $("h3#h3ValorFrete").html("R$ "+valorFrete.toFixed(2).replace(".",","))
                         $("#h3TotalPedido").html( "R$ "+total.toFixed(2).replace(".",",") )
                         $("input#valor_total_pedido").val( total.toFixed(2) )
+                        $("input#prazo_entrega").val( prazo_entrega )
+                        $("input#tipo_entrega").val( tipo_entrega )
                     });
 
                     $("input#nCdServico2").change(function(){
                         var valorFrete = parseFloat( $("input#nCdServico2").val() )
+                        var prazo_entrega = parseInt( $("input#prazoEntrega2").val() )
+                        var tipo_entrega = $("input#tipoEntrega2").val()
                         var total = parseFloat(valor_total_pedido) + parseFloat(valorFrete)
                         $("h3#h3ValorFrete").html("R$ "+valorFrete.toFixed(2).replace(".",","))
                         $("#h3TotalPedido").html( "R$ "+total.toFixed(2).replace(".",",") )
                         $("input#valor_total_pedido").val( total.toFixed(2) )
+                        $("input#prazo_entrega").val( prazo_entrega )
+                        $("input#tipo_entrega").val( tipo_entrega )
                     });
                 },
                 error: function(rs, status, err) { 

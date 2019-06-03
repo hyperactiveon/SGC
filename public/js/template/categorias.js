@@ -28,7 +28,7 @@ $(document).ready(function() {
 		ordering: true,
 		lengthChange: false,
 		pagingType: 'numbers',
-		ajax: "/data/users/categorias.php",
+		ajax: "data/users/categorias.php",
 		stateSave: false,
 		columns: [
             { title: "Id" },

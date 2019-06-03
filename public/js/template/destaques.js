@@ -31,7 +31,7 @@ $(document).ready(function() {
 		ordering: true,
 		lengthChange: false,
 		pagingType: 'numbers',
-		ajax: "/data/users/destaques.php",
+		ajax: "data/users/destaques.php",
 		stateSave: false,
 		columns: [
             { title: "Id" },

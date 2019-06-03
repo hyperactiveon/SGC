@@ -4,22 +4,25 @@
     $url = [];
 
     if(strrpos($_SERVER['REQUEST_URI'], "dashboard")>0) {
-        $url = ["active","","","","",""];
+        $url = ["active","","","","","",""];
     }
     else if(strrpos($_SERVER['REQUEST_URI'], "destaques")>0) {
-        $url = ["","active","","","",""];
+        $url = ["","active","","","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "produtos")>0) {
-        $url = ["","","active","","",""];
+        $url = ["","","active","","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "pedido")>0) {
-        $url = ["","","","active","",""];
+        $url = ["","","","active","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "fornecedores")>0) {
-        $url = ["","","","","active",""];
+        $url = ["","","","","active","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "usuarios")>0) {
-        $url = ["","","","","","active"];
+        $url = ["","","","","","active",""];
+    } 
+    else if(strrpos($_SERVER['REQUEST_URI'], "categorias")>0) {
+        $url = ["","","","","","","active"];
     }
     
 ?>
@@ -51,7 +54,7 @@
                             <li><a href="./destaques">Listar</a></li>
                         </ul>
                     </li>
-                    <li class="<?php echo $url[2]; ?>"><a href="#">
+                    <li class="<?php echo $url[2]. $url[6]; ?>"><a href="#">
                         <div class="nav-menu__ico"><i class="fa fa-fw fa-cube"></i></div>
                         <div class="nav-menu__text"><span>Produtos</span></div>
                         <div class="nav-menu__right"><i class="fa fa-fw fa-angle-right arrow"></i></div></a>

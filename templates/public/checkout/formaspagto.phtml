@@ -23,6 +23,10 @@ $endereco = trim($_POST['endereco']);
 $numero = trim($_POST['numero']);
 $complemento = trim($_POST['complemento']);
 
+$nCdServico = trim($_POST['nCdServico']);
+$prazo_entrega = trim($_POST["prazo_entrega"]);
+$modalidade_frete = trim($_POST["tipo_entrega"]);
+
 $total_produtos = COUNT($_POST["produtos_id"]);
 $inputs_hidden_produtos_id = null;
 $inputs_hidden_qtde_produtos = null;
@@ -31,19 +35,22 @@ for($i=0;$i<$total_produtos;$i++) {
     $inputs_hidden_qtde_produtos.= "<input type='hidden' name='qtde[]' value='".trim($_POST["qtde"][$i])."'>";
 }
 
-$tipo_frete = 3;
-$nCdServico = 0.00; //CLIENTE RETIRARÁ NA LOJA
-
-if(array_key_exists('nCdServico',$_POST)) { //SEDEX
-    $nCdServico = trim($_POST['nCdServico']);
-    $tipo_frete = 2;
+//----| CÁLCULO DAS PARCELAS PARA O CARTÃO |----
+$numParcelas = 12;
+$acrescimoApartir = 2;
+$porcentAcrescimo = 1.00;
+$optsParcelas = null;
+$optValorTotalPedido = $valor_total_pedido;
+$optValorParcela = $valor_total_pedido;
+$optStrComJuros = null;
+$optsParcelas = '<option value="" selected>Selecione o número de parcelas</option>';
+for($i=1;$i<=$numParcelas;$i++) {
+    if($i>$acrescimoApartir){ $porcentAcrescimo = 1.0379+($i*0.0001); $optStrComJuros = ' <small style="font-size:10px">- com juros</small>'; }
+    $optValorTotalPedido = number_format(round(($valor_total_pedido*$porcentAcrescimo),2),2,'.',',');
+    $optValorParcela = number_format(round(($optValorTotalPedido/$i),2),2,'.',',');
+    $optsParcelas.= '<option value="'.$i.'-'.number_format($optValorParcela,2,'.',',').'">'.$i.' x R$ '.number_format($optValorParcela,2,',','.').' ( R$ '.number_format($optValorParcela*$i,2,',','.').' ) '.$optStrComJuros.'</option>';
 }
-
-if(array_key_exists('nCdServico2',$_POST)) { //PAC
-    $nCdServico = trim($_POST['nCdServico2']);
-    $tipo_frete = 1;
-}
-
+//----
 
 // SEO : SEARCH ENGINE OPTIMIZATE ----
 $title = "Chokoart :: Formas de Pagamento!";
@@ -74,27 +81,30 @@ require_once("../templates/public/topo.php");
             
             <div class="card-body pt-5 flex-center flex-column">
 
-                <form class="form-style-1" id="form-payment">
+                <form class="form-style-1" id="form-payment" method="POST" action="./cart">
                     <?php echo $inputs_hidden_produtos_id . $inputs_hidden_qtde_produtos; ?> 
-                    <input type="hidden" name="uid" id="uid" value="<?php echo $usuario_id; ?>">
-                    <input type="hidden" name="id_sessao" id="id_sessao" value="<?php echo $id_sessao; ?>">
-                    <input type="hidden" name="amount" id="amount" value="<?php echo $valor_total_pedido; ?>">
-                    <input type="hidden" name="nome" id="nome" value="<?php echo $nome; ?>">
-                    <input type="hidden" name="email" id="email" value="<?php echo $email; ?>">
-                    <input type="hidden" name="cpfcnpj" id="cpfcnpj" value="<?php echo $cpfcnpj; ?>">
-                    <input type="hidden" name="cep" id="cep" value="<?php echo $cep; ?>">
-                    <input type="hidden" name="estado" id="estado" value="<?php echo $estado; ?>">
-                    <input type="hidden" name="cidade" id="cidade" value="<?php echo $cidade; ?>">
-                    <input type="hidden" name="bairro" id="bairro" value="<?php echo $bairro; ?>">
-                    <input type="hidden" name="endereco" id="endereco" value="<?php echo $endereco; ?>">
-                    <input type="hidden" name="numero" id="numero" value="<?php echo $numero; ?>">
-                    <input type="hidden" name="complemento" id="complemento" value="<?php echo $complemento; ?>">
-                    <input type="hidden" name="tipo_frete" id="tipo_frete" value="<?php echo $tipo_frete; ?>">
-                    <input type="hidden" name="valor_frete" id="valor_frete" value="<?php echo $nCdServico; ?>">
-                    <input type="hidden" name="installments" id="installments" value="">
-                    <input type="hidden" name="totalAmount" id="totalAmount" value="">
-                    <input type="hidden" name="creditCardHash" id="creditCardHash" value="">
-                    <input type="hidden" name="passo" id="passo" value="3">
+                    <input type="hidden" name="cid"                 id="cid"                value="<?php echo $id_carrinho; ?>">
+                    <input type="hidden" name="uid"                 id="uid"                value="<?php echo $usuario_id; ?>">
+                    <input type="hidden" name="id_sessao"           id="id_sessao"          value="<?php echo $id_sessao; ?>">
+                    <input type="hidden" name="amount"              id="amount"             value="<?php echo $valor_total_pedido; ?>">
+                    <input type="hidden" name="nome"                id="nome"               value="<?php echo $nome; ?>">
+                    <input type="hidden" name="email"               id="email"              value="<?php echo $email; ?>">
+                    <input type="hidden" name="cpfcnpj"             id="cpfcnpj"            value="<?php echo $cpfcnpj; ?>">
+                    <input type="hidden" name="cep"                 id="cep"                value="<?php echo $cep; ?>">
+                    <input type="hidden" name="estado"              id="estado"             value="<?php echo $estado; ?>">
+                    <input type="hidden" name="cidade"              id="cidade"             value="<?php echo $cidade; ?>">
+                    <input type="hidden" name="bairro"              id="bairro"             value="<?php echo $bairro; ?>">
+                    <input type="hidden" name="endereco"            id="endereco"           value="<?php echo $endereco; ?>">
+                    <input type="hidden" name="numero"              id="numero"             value="<?php echo $numero; ?>">
+                    <input type="hidden" name="complemento"         id="complemento"        value="<?php echo $complemento; ?>">
+                    <input type="hidden" name="modalidade_frete"                            value="<?php echo $modalidade_frete; ?>">
+                    <input type="hidden" name="prazo_entrega"                               value="<?php echo $prazo_entrega; ?>">
+                    <input type="hidden" name="valor_frete"                                 value="<?php echo $nCdServico; ?>">
+                    <input type="hidden" name="installments"        id="installments"       value="">
+                    <input type="hidden" name="totalAmount"         id="totalAmount"        value="">
+                    <input type="hidden" name="creditCardHash"      id="creditCardHash"     value="">
+                    <input type="hidden" name="forma_pagto"                                 value="creditCard">
+                    <input type="hidden" name="passo"               id="passo"              value="4">
                     <h2 class="roboto-condensed text-center">CARTÃO DE CRÉDITO</h2>
                     <h6 class="text-muted mb-4 text-center">tenha em mãos o seu Cartão de Crédito!</h6>
                     <div class='card-wrapper mb-3'></div>
@@ -132,25 +142,27 @@ require_once("../templates/public/topo.php");
                 <div id="containerBoleto" style="text-center center">
                     <form class="form-style-1" id="form-payment-boleto" method="POST" action="./cart">
                         <?php echo $inputs_hidden_produtos_id . $inputs_hidden_qtde_produtos; ?> 
-                        <input type="hidden" name="uid" value="<?php echo $usuario_id; ?>">
-                        <input type="hidden" name="id_sessao" id="id_sessao" value="<?php echo $id_sessao; ?>">
-                        <input type="hidden" name="amount" id="amount" value="<?php echo $valor_total_pedido; ?>">
-                        <input type="hidden" name="nome" id="nome" value="<?php echo $nome; ?>">
-                        <input type="hidden" name="email" id="email" value="<?php echo $email; ?>">
-                        <input type="hidden" name="cpfcnpj" id="cpfcnpj" value="<?php echo $cpfcnpj; ?>">
-                        <input type="hidden" name="cep" id="cep" value="<?php echo $cep; ?>">
-                        <input type="hidden" name="estado" id="estado" value="<?php echo $estado; ?>">
-                        <input type="hidden" name="cidade" id="cidade" value="<?php echo $cidade; ?>">
-                        <input type="hidden" name="bairro" id="bairro" value="<?php echo $bairro; ?>">
-                        <input type="hidden" name="endereco" id="endereco" value="<?php echo $endereco; ?>">
-                        <input type="hidden" name="numero" id="numero" value="<?php echo $numero; ?>">
-                        <input type="hidden" name="complemento" id="complemento" value="<?php echo $complemento; ?>">
-                        <input type="hidden" name="tipo_frete" id="tipo_frete" value="<?php echo $tipo_frete; ?>">
-                        <input type="hidden" name="valor_frete" id="valor_frete" value="<?php echo $nCdServico; ?>">
-                        <input type="hidden" name="installments" id="installments" value="1">
-                        <input type="hidden" name="totalAmount" id="totalAmount" value="<?php echo $valor_total_pedido; ?>">
-                        <input type="hidden" name="forma_pagto" id="forma_pagto" value="boleto">
-                        <input type="hidden" name="passo" id="passo" value="3">
+                        <input type="hidden" name="cid"                 value="<?php echo $id_carrinho; ?>">
+                        <input type="hidden" name="uid"                 value="<?php echo $usuario_id; ?>">
+                        <input type="hidden" name="id_sessao"           value="<?php echo $id_sessao; ?>">
+                        <input type="hidden" name="amount"              value="<?php echo $valor_total_pedido; ?>">
+                        <input type="hidden" name="nome"                value="<?php echo $nome; ?>">
+                        <input type="hidden" name="email"               value="<?php echo $email; ?>">
+                        <input type="hidden" name="cpfcnpj"             value="<?php echo $cpfcnpj; ?>">
+                        <input type="hidden" name="cep"                 value="<?php echo $cep; ?>">
+                        <input type="hidden" name="estado"              value="<?php echo $estado; ?>">
+                        <input type="hidden" name="cidade"              value="<?php echo $cidade; ?>">
+                        <input type="hidden" name="bairro"              value="<?php echo $bairro; ?>">
+                        <input type="hidden" name="endereco"            value="<?php echo $endereco; ?>">
+                        <input type="hidden" name="numero"              value="<?php echo $numero; ?>">
+                        <input type="hidden" name="complemento"         value="<?php echo $complemento; ?>">
+                        <input type="hidden" name="modalidade_frete"    value="<?php echo $modalidade_frete; ?>">
+                        <input type="hidden" name="prazo_entrega"       value="<?php echo $prazo_entrega; ?>">
+                        <input type="hidden" name="valor_frete"         value="<?php echo $nCdServico; ?>">
+                        <input type="hidden" name="installments"        value="1">
+                        <input type="hidden" name="totalAmount"         value="<?php echo $valor_total_pedido; ?>">
+                        <input type="hidden" name="forma_pagto"         value="boleto">
+                        <input type="hidden" name="passo"               value="3">
                         <button id="btnFinalizarPedidoBoleto" type="submit" class="btn btn-default"><?php echo '<strong>FINALIZAR PEDIDO COM<BR>BOLETO BANCÁRIO<br><small>(será acrescentado o valor de R$ 1,00 ao boleto)<small></strong><br><object type="image/svg+xml" data="img/logo_boleto_facil.svg" width="60" height="60"></object>'; ?></button>
                         </form>
                 </div>
@@ -192,21 +204,6 @@ require_once("../templates/public/footer.php");
         ?>
             /* Em sandbox utilizar o construtor new DirectCheckout('SEU TOKEN PUBLICO', false); */
             var checkout = new DirectCheckout('<?php echo BoletoFacil::getMyPublicCreditCardToken(); ?>',false);
-            var id_sessao = '<?php echo session_id(); ?>';
-            var amount = <?php echo $valor_total_pedido; ?>;
-            var valor_total_pedido_sem_frete = <?php echo $valor_total_pedido_sem_frete; ?>;
-            var nome = '<?php echo $nome; ?>';
-            var cpfcnpj = '<?php echo '29349381826'; ?>';
-            var email = '<?php echo $email; ?>';
-            var cep = '<?php echo $cep; ?>';
-            var estado = '<?php echo $estado; ?>';
-            var cidade = '<?php echo $cidade; ?>';
-            var bairro = '<?php echo $bairro; ?>';
-            var endereco = '<?php echo $endereco; ?>';
-            var numero = '<?php echo $numero; ?>';
-            var complemento = '<?php echo $complemento; ?>';
-            var tipo_frete =  <?php echo $tipo_frete; ?>;
-            var valor_frete = <?php echo $nCdServico; ?>;
             var naok = 0;
             const AjrcBoletoFacilAux = { installments:0, totalAmount:0.00, amount:0.00 }
             const AjrcBoletoFacil = {bandeira:'',cardNumber:'',holderName:'',securityCode:'',expirationMonth:'',expirationYear:''};
@@ -237,16 +234,21 @@ require_once("../templates/public/footer.php");
                     AjrcBoletoFacilAux.totalAmount = vals[1];
                     AjrcBoletoFacilAux.amount = parseFloat(AjrcBoletoFacilAux.totalAmount*AjrcBoletoFacilAux.installments).toFixed(2);
                     $("h3#h3TotalPedido").html('R$ '+parseFloat(AjrcBoletoFacilAux.amount).toFixed(2).replace(".",","))
-                    //console.log("naook: ", naok, " | cardHash: ", AjrcBoletoFacil.cardHash, AjrcBoletoFacil.cardNumber, AjrcBoletoFacil.bandeira, AjrcBoletoFacil.expirationMonth, AjrcBoletoFacil.expirationYear, AjrcBoletoFacil.securityCode);
+                    $("input#installments").val(AjrcBoletoFacilAux.installments)
+                    $("input#totalAmount").val(AjrcBoletoFacilAux.totalAmount)
+                    $("input#amount").val(AjrcBoletoFacilAux.amount)
+                    $("input#creditCardHash").val(AjrcBoletoFacil.cardHash)
+                    console.log("naook: ", naok, " | cardHash: ", AjrcBoletoFacil.cardHash, AjrcBoletoFacil.cardNumber, AjrcBoletoFacil.bandeira, AjrcBoletoFacil.expirationMonth, AjrcBoletoFacil.expirationYear, AjrcBoletoFacil.securityCode);
                 }
             })
-
-            $("button#btnFinalizarPedido").click(function(){
+            /*
+            $("button#btnFinalizarPedido").click(function(ev){
+                    ev.preventDefault();
                     
                     $.ajax({
                         type: "POST", url: './cart', data: 
                         { 
-                            passo : 3
+                            passo : 4
                             , id_sessao : id_sessao
                             , amount : AjrcBoletoFacilAux.amount
                             , installments : AjrcBoletoFacilAux.installments
@@ -277,6 +279,7 @@ require_once("../templates/public/footer.php");
                         }
                     });
             })
+            */
 
         <?php 
         }

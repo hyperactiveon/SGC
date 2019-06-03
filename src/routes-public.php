@@ -215,11 +215,9 @@ $app->any('/cart[-{id:[0-9]+}[-{titulo}]]',function(Request $request, Response $
                     break;
                 case 3: //ENVIA OS DADOS DO PAGAMENTO PARA O PAGSEGURO - BOLETO
                     return $this->renderer->render($response, 'public/checkout/finalizacao-boleto.phtml', $args);
-                    //exit();
                     break;
                 case 4: //ENVIA OS DADOS DO PAGAMENTO PARA O PAGSEGURO - CARTÃO DE CRÉDITO
-                    Ajrc\Config\ConfigBoletoFacil::getPaymentCreditCard();
-                    exit();
+                    return $this->renderer->render($response, 'public/checkout/finalizacao-cartaocredito.phtml', $args);
                     break;
                 default:
                     return $this->renderer->render($response, 'public/checkout/carrinho.phtml', $args);
@@ -272,13 +270,6 @@ $app->post('/buscador',function(Request $request, Response $response, array $arg
 
 })->setName("buscador");
 //----
-
-//----| BOLETO FÁCIL ::: EMISSÃO DE BOLETO |----
-$app->get('/boleto',function(Request $request, Response $response, array $args){
-
-    \Ajrc\Config\ConfigBoletoFacil::getPaymentBoleto();
-
-})->setName("categoria");
 
 //----| 404: PAGE NOT FOUND |----
 $app->get('/{params:.*}', function ($request, $response, $args) {

@@ -35,7 +35,7 @@ $(document).ready(function() {
 		ordering: true,
 		lengthChange: false,
 		pagingType: 'numbers',
-		ajax: "/data/users/fornecedores.php",
+		ajax: "data/users/fornecedores.php",
 		stateSave: false,
 		columns: [
             { title: "Id" },

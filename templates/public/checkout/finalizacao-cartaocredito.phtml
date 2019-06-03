@@ -4,11 +4,10 @@ use Ajrc\Helper\Sessions;
 use Ajrc\Model\Carrinho;
 
 $id_carrinho = trim($_POST["cid"]);
-$rs = Ajrc\Config\ConfigBoletoFacil::getPaymentBoleto();
-
+$rs = Ajrc\Config\ConfigBoletoFacil::getPaymentCreditCard();
 
 // SEO : SEARCH ENGINE OPTIMIZATE ----
-$title = "Chokoart :: Formas de Pagamento!";
+$title = "Chokoart :: Pedido realizado com sucesso!";
 $description = $title." - BoletoFacil!";
 $url_redirect = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 //----
@@ -33,10 +32,11 @@ require_once("../templates/public/topo.php");
                     <li class="nav-item"><a class="nav-link active" href="#">FINALIZAÇÃO</a></li>
                 </ul>
             </div>
-            
-           <div class="card">
+
+            <!-- Main Content -->
+            <div class="card">
                 <div class="card-body">
-                <div class="text-center py-3">
+                    <div class="text-center py-3">
                     <i data-feather="check-circle" class="text-success" width="48" height="48"></i>
                     <h1>Obrigado por comprar na Chokoart!</h1>
                     <p>Seu pedido foi realizado com sucesso e está em processo de análise.<br>E o mais breve possível o enviaremos.</p>
@@ -88,6 +88,7 @@ require_once("../templates/public/topo.php");
                     </div>
                 </div>
             </div>
+            <!-- /Main Content -->
 
         </div>
 
