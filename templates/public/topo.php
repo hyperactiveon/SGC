@@ -22,14 +22,6 @@
           <a class="nav-link px-2" href="javascript:void(0)"><i data-feather="instagram"></i></a>
         </nav>
 
-        <!-- language 
-        <nav class="nav nav-lang ml-auto">
-          <a class="nav-link active" href="javascript:void(0)">EN</a>
-          <a class="nav-link pipe">|</a>
-          <a class="nav-link" href="javascript:void(0)">RU</a>
-        </nav>
-        -->
-
         <!-- User dropdown -->
 
         <?php Pages::getFormLoginTopHeader(); ?>
@@ -49,11 +41,11 @@
         <a class="nav-link nav-icon ml-ni nav-toggler mr-3 d-flex d-lg-none" href="#" data-toggle="modal" data-target="#menuModal"><i data-feather="menu"></i></a>
 
         <!-- Logo -->
-        <a class="nav-link nav-logo" href="#"><!--img src="/img/logo.svg" alt="Chokoart"--> <strong>Chokoart</strong></a>
+        <a class="nav-link nav-logo" href="./"><!--img src="/img/logo.svg" alt="Chokoart"--> <strong>Chokoart</strong></a>
 
         <!-- Main navigation -->
         <ul class="nav nav-main ml-auto d-none d-lg-flex"> <!-- hidden on md -->
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="./">Home</a></li>
           <li class="nav-item dropdown dropdown-hover">
             <a class="nav-link dropdown-toggle forwardable" data-toggle="dropdown" href="shop-categories.html" role="button" aria-haspopup="true" aria-expanded="false">
               Shop <i data-feather="chevron-down"></i>
@@ -196,7 +188,7 @@
             <div class="dropdown-menu dropdown-menu-right">
               
               <div class="media">
-                <a href="shop-single.html"><img src="/img/products/1_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
+                <a href="shop-single.html"><img src="img/produtos/1_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
                 <div class="media-body">
                   <a href="shop-single.html" title="Hanes Hooded Sweatshirt">Hanes Hooded Sweatshirt</a>
                   <span class="qty">1</span> x <span class="price">$18.56</span>
@@ -205,7 +197,7 @@
               </div>
               
               <div class="media">
-                <a href="shop-single.html"><img src="/img/products/2_small.jpg" width="50" height="50" alt="The Flash Logo T-Shirt"></a>
+                <a href="shop-single.html"><img src="img/produtos/2_small.jpg" width="50" height="50" alt="The Flash Logo T-Shirt"></a>
                 <div class="media-body">
                   <a href="shop-single.html" title="The Flash Logo T-Shirt">The Flash Logo T-Shirt</a>
                   <span class="qty">1</span> x <span class="price">$16.64</span>
@@ -214,7 +206,7 @@
               </div>
               
               <div class="media">
-                <a href="shop-single.html"><img src="/img/products/3_small.jpg" width="50" height="50" alt="Open Front Cropped Cardigans"></a>
+                <a href="shop-single.html"><img src="img/produtos/3_small.jpg" width="50" height="50" alt="Open Front Cropped Cardigans"></a>
                 <div class="media-body">
                   <a href="shop-single.html" title="Open Front Cropped Cardigans">Open Front Cropped Cardigans</a>
                   <span class="qty">1</span> x <span class="price">$15.20</span>
@@ -223,7 +215,7 @@
               </div>
               
               <div class="media">
-                <a href="shop-single.html"><img src="/img/products/4_small.jpg" width="50" height="50" alt="Cotton Fleece Long Hoodie"></a>
+                <a href="shop-single.html"><img src="img/produtos/4_small.jpg" width="50" height="50" alt="Cotton Fleece Long Hoodie"></a>
                 <div class="media-body">
                   <a href="shop-single.html" title="Cotton Fleece Long Hoodie">Cotton Fleece Long Hoodie</a>
                   <span class="qty">1</span> x <span class="price">$85.00</span>

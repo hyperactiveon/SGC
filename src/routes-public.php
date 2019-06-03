@@ -10,8 +10,9 @@ use Ajrc\Model\Usuario;
 
 $app->get('/', function (Request $request, Response $response, array $args) {
     
-    return $this->renderer->render($response, 'index.phtml', $args);
-});
+    return $this->renderer->render($response, 'public/home/index.phtml', $args);
+    
+})->setName('home-page');
 
 
 //========================| LOGIN / LOGOUT |=========================================================
@@ -32,6 +33,7 @@ $app->get('/account-login', function (Request $request, Response $response, arra
 
 //RECEBE OS DADOS ENVIADOS DO FORMULÁRIO DE LOGIN DA ÁREA ADMINISTRATIVA
 $app->post('/account-login', function (Request $request, Response $response, array $args) {
+
     if( Login::validar() ) {
 
         if(Sessions::isAdmin() || Sessions::isFuncionario()) //se admin ou funcionario, dashboard
@@ -46,11 +48,10 @@ $app->post('/account-login', function (Request $request, Response $response, arr
     } 
     else 
     {
-        return $response->withRedirect($this->router->pathFor('account-login', [], ['msg'=>'Usuário Inexistente']));
+        return $response->withRedirect($this->router->pathFor('account-login', [], ['msg'=>base64_encode('Usuário Inexistente')]));
     }
 
 });
-
 
 //LOGOUT
 $app->get('/account-logout', function (Request $request, Response $response, array $args) {
@@ -65,6 +66,34 @@ $app->get('/account-logout', function (Request $request, Response $response, arr
 //========================| FIM: LOGIN / LOGOUT |=========================================================
 
 
+//RECEBE OS DADOS ENVIADOS DO FORM DE INSERÇÃO NA ÁREA PÚBLICA - PROFILE DO USUÁRIO
+$app->post('/account-insert', function (Request $request, Response $response, array $args) {
+
+    Usuario::Insert();
+
+    return $response->withRedirect($this->router->pathFor('account-login', [], ["msg"=>base64_encode("Cadastro realizado com sucessso!<br>Realize login, por favor!")]));
+
+});
+//----
+
+//RECEBE OS DADOS ENVIADOS DO FORMULÁRIO DE REGISTRA-SE NA ÁREA PÚBLICA E EXIBE O FORM DE INSERÇÃO
+$app->post('/account-register', function (Request $request, Response $response, array $args) {
+    
+    //VERIFICA SE JÁ EXISTE REGISTRO DO E-MAIL NO BANCO DE DADOS
+    $ja_cadastrado = Usuario::CheckExistsEmail( trim($_POST["email"]) );
+    //----
+
+    if(is_object($ja_cadastrado)) { //SE JÁ EXISTIR
+
+        return $response->withRedirect($this->router->pathFor('account-login', [], ["msg"=>base64_encode("<strong>E-mail já cadastrado em nosso sistema!</strong><br>Recupere sua senha clicando no link \"Esqueceu sua senha?\"")]));
+   
+    } else {
+
+        return $this->renderer->render($response, 'public/account/register.phtml', $args);
+    }
+
+});
+//----
 
 $app->get('/account-profile', function (Request $request, Response $response, array $args) {
 
@@ -73,5 +102,7 @@ $app->get('/account-profile', function (Request $request, Response $response, ar
     //----
     
     return $this->renderer->render($response, 'public/account/profile.phtml', $args);
+
 })->setName('account-profile');
+
 
