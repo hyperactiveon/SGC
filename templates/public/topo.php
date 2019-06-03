@@ -1,8 +1,15 @@
 <?php
 
     use Ajrc\Helper\Sessions;
-    use Ajrc\Helper\Pages;
-  
+    use Ajrc\Helper\FrmLoginTopo;
+
+    //----| TODAS AS CATEGORIAS COM PRODUTOS NO DROPDOWN |----
+    $CATEGORIASMENU = null;
+    $categorias = Ajrc\Model\Categoria::ListAll("*, (SELECT total FROM vw_total_produtos_por_categoria WHERE tb_categorias_id=tbc.id) as total_produtos ","WHERE (SELECT total FROM vw_total_produtos_por_categoria WHERE tb_categorias_id=tbc.id)>0 ORDER BY titulo ASC" );
+    foreach($categorias as $c){
+      $CATEGORIASMENU.='<a class="dropdown-item" href="./categoria-'.$c->id.'--'.str_replace(" ","-",$c->titulo).'">'.$c->titulo.' <small class="counter">('.$c->total_produtos.')</small></a>';
+    }
+    //----
 ?>
 
 <!-- Top bar -->
@@ -18,14 +25,13 @@
         <!-- social media -->
         <nav class="nav">
           <a class="nav-link pr-2 pl-0" href="javascript:void(0)"><i data-feather="facebook"></i></a>
-          <a class="nav-link px-2" href="javascript:void(0)"><i data-feather="twitter"></i></a>
           <a class="nav-link px-2" href="javascript:void(0)"><i data-feather="instagram"></i></a>
         </nav>
 
         <!-- User dropdown -->
-
-        <?php Pages::getFormLoginTopHeader(); ?>
-
+        <ul id="containerFrmLoginTopo" class="nav nav-lang ml-auto">
+          <?php FrmLoginTopo::Get(); ?>
+        </ul>
         <!-- /User dropdown -->
 
       </div><!-- /.container -->
@@ -45,179 +51,59 @@
 
         <!-- Main navigation -->
         <ul class="nav nav-main d-none d-lg-flex"> <!-- hidden on md -->
-          <li class="nav-item active"><a class="nav-link" href="./">Home</a></li>
           <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle forwardable" data-toggle="dropdown" href="shop-categories.html" role="button" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle forwardable" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
               Categorias <i data-feather="chevron-down"></i>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="shop-categories.html">Shop Categories</a>
-              <a class="dropdown-item" href="shop-grid.html">Shop Grid</a>
-              <a class="dropdown-item" href="shop-list.html">Shop List</a>
-              <a class="dropdown-item" href="shop-single.html">Single Product</a>
-              <a class="dropdown-item" href="shop-single2.html">Single Product v2</a>
-              <a class="dropdown-item" href="cart.html">Cart</a>
-              <a class="dropdown-item" href="shipping.html">Checkout</a>
-              <div class="dropdown-submenu">
-                <a class="dropdown-item" href="#">Submenu</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0)">item #1</a>
-                  <a class="dropdown-item" href="javascript:void(0)">item #2</a>
-                  <a class="dropdown-item" href="javascript:void(0)">item #3</a>
-                </div>
-              </div>
+              <?php
+                //----| LISTA AS CATEGORIAS NA LATERAL |----
+                echo $CATEGORIASMENU;
+                //----
+              ?>
             </div>
           </li>
-          <li class="nav-item dropdown dropdown-hover dropdown-mega">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Mega Menu <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <div class="row">
-                <div class="col-lg-3">
-                  <div class="list-group list-group-flush list-group-no-border list-group-sm">
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action"><strong>CLOTHING</strong></a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Polos &amp; Tees</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Casual Shirts</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Jeans</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Casual Trousers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Formal Shirts</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Formal Trousers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Suits &amp; Blazers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Shorts &amp; 3/4ths</a>
-                  </div>
-                </div>
-                <div class="col-lg-3 border-left">
-                  <div class="list-group list-group-flush list-group-no-border list-group-sm">
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action"><strong>FOOTWEAR</strong></a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Sports Shoes</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Sneakers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Casual Shoes</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Loafers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Formal Shoes</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Boots</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Outdoor &amp; Hiking</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Floaters</a>
-                  </div>
-                </div>
-                <div class="col-lg-3 border-left roboto-condensed">
-                  <div class="card text-white zoom-hover">
-                    <div data-cover="/img/categories/1.jpeg" data-height="260px"></div>
-                    <div class="card-img-overlay card-img-overlay-transparent d-flex justify-content-center align-items-center flex-column">
-                      <h2 class="card-title text-center">New Men's Fashion</h2>
-                      <h5>See what's new</h5>
-                      <a href="shop-grid.html" class="btn btn-primary rounded-pill">Shop Now</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 border-left roboto-condensed">
-                  <div class="card text-white zoom-hover">
-                    <div data-cover="/img/categories/6.jpeg" data-height="260px"></div>
-                    <div class="card-img-overlay card-img-overlay-transparent d-flex justify-content-center align-items-center flex-column">
-                      <h2 class="card-title text-center">New Women's Fashion</h2>
-                      <h5>See what's new</h5>
-                      <a href="shop-grid.html" class="btn btn-danger rounded-pill">Shop Now</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Pages <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="about.html">About Us</a>
-              <a class="dropdown-item" href="contact.html">Contact Us</a>
-              <a class="dropdown-item" href="compare.html">Compare</a>
-              <a class="dropdown-item" href="faq.html">Help / FAQ</a>
-              <a class="dropdown-item" href="404.html">404 Not Found</a>
-            </div>
-          </li>
+          <li class="nav-item"><a class="nav-link" href="./materia-prima">Materia Prima</a></li>
+          <li class="nav-item"><a class="nav-link" href="./manutenção">Manutenção</a></li>
+          <li class="nav-item"><a class="nav-link" href="./contate-nos">Contato</a></li>
         </ul>
         <!-- /Main navigation -->
 
-        
-
         <ul class="nav ml-auto ml-sm-3">
-          <!-- Search form toggler -->
-          <li class="nav-item d-block d-sm-none ml-2 ml-lg-0"><a class="nav-link nav-icon search-toggle" href="#"><i data-feather="search"></i></a></li>
+         
 
-          <!-- Cart dropdown -->
-          <li class="nav-item dropdown dropdown-hover dropdown-cart ml-auto">
-            <a class="nav-link nav-icon mr-nis dropdown-toggle forwardable ml-2" data-toggle="dropdown" href="cart.html" role="button" aria-haspopup="true" aria-expanded="false">
+          <!-- Cart -->
+          <li class="nav-item d-inline-flex ml-2 ml-lg-0 float-right">
+            <a class="nav-link nav-icon mr-nis dropdown-toggle forwardable ml-2" href="./cart" role="button" aria-haspopup="true" aria-expanded="false">
               <i data-feather="shopping-cart"></i>
               <span id="badge-tot-cart-list1" class="badge badge-primary">0</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="img/produtos/2_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="Hanes Hooded Sweatshirt">Hanes Hooded Sweatshirt</a>
-                  <span class="qty">1</span> x <span class="price">$18.56</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="d-flex justify-content-between pb-3 pt-2">
-                <span>Total</span>
-                <strong>$135.40</strong>
-              </div>
-              <div class="d-flex justify-content-between pb-2">
-                <div class="w-100 mr-1">
-                  <a href="cart.html" class="btn btn-block rounded-pill btn-secondary">View Cart</a>
-                </div>
-                <div class="w-100 ml-1">
-                  <a href="shipping.html" class="btn btn-block rounded-pill btn-primary">Checkout</a>
-                </div>
-              </div>
-            </div>
+            
           </li>
-          <!-- /Cart dropdown -->
+          <!-- /Cart -->
 
-          <!-- Wish List dropdown -->
-          <li class="nav-item dropdown dropdown-hover dropdown-cart ml-auto">
-            <a class="nav-link nav-icon mr-nis dropdown-toggle forwardable ml-2" data-toggle="dropdown" href="./whish-list" role="button" aria-haspopup="true" aria-expanded="false">
+          <!-- Wish List -->
+          <li class="nav-item d-inline-flex ml-2 ml-lg-0 float-right">
+            <a class="nav-link nav-icon mr-nis forwardable ml-2" href="./account-whishlist" role="button" aria-haspopup="true" aria-expanded="false">
               <i data-feather="heart"></i>
               <span id="badge-tot-whish-list1" class="badge badge-primary">0</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="img/produtos/2_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="Hanes Hooded Sweatshirt">Hanes Hooded Sweatshirt</a>
-                  <span class="qty">1</span> x <span class="price">$18.56</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="d-flex justify-content-between pb-3 pt-2">
-                <span>Total</span>
-                <strong>$135.40</strong>
-              </div>
-              <div class="d-flex justify-content-between pb-2">
-                <div class="w-100 mr-1">
-                  <a href="cart.html" class="btn btn-block rounded-pill btn-secondary">View Cart</a>
-                </div>
-                <div class="w-100 ml-1">
-                  <a href="shipping.html" class="btn btn-block rounded-pill btn-primary">Checkout</a>
-                </div>
-              </div>
-            </div>
           </li>
-          <!-- /Wish List  dropdown -->
+          <!-- /Wish List -->
         </ul>
 
+        <!-- Search form toggler -->
+        <li class="nav-item d-block d-sm-none ml-2 ml-lg-0">
+          <a class="nav-link nav-icon search-toggle" href="#"><i data-feather="search"></i></a>
+        </li>
+
         <!-- Search form -->
-        <form class="form-inline form-search ml-auto mr-0 mr-sm-1 d-none d-sm-flex">
+        <form class="form-inline form-search ml-auto mr-0 mr-sm-1 d-none d-sm-flex" method="POST" action="./buscador">
           <div class="input-group input-group-search">
             <div class="input-group-prepend">
               <button class="btn btn-light d-flex d-sm-none search-toggle" type="button"><i data-feather="chevron-left"></i></button>
             </div>
-            <input type="text" class="form-control border-0 bg-light input-search" placeholder="Encontre...">
+            <input type="text" name="termo_buscado" id="termo_buscado" class="form-control border-0 bg-light input-search" placeholder="Encontre..." required>
             <div class="input-group-append">
               <button class="btn btn-light" type="submit"><i data-feather="search"></i></button>
             </div>

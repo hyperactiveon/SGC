@@ -28,8 +28,5 @@ require __DIR__ . '/../src/routes-private.php'; //Rotas do sistema administrativ
 
 require __DIR__ . '/../src/routes-public.php'; //Rotas da área pública
 
-
-
-
 // Run app
 $app->run();

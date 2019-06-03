@@ -1,6 +1,13 @@
     <?php
 
+      use Ajrc\Helper\Sessions;
       use Ajrc\Helper\AlertBootstrap4 as Alert;
+      
+      // SEO : SEARCH ENGINE OPTIMIZATE ----
+      $title = "Chokoart :: Acesse sua Conta ou Registr-se!";
+      $description = $title;
+      $url_redirect = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      //----
       
       require_once("../templates/public/header.php");
       require_once("../templates/public/topo.php");
@@ -25,6 +32,8 @@
                 <!-- Login Form -->
                 <div class="col-md-6 col-login">
                   <form class="form-style-1" method="POST">
+                    <input type="hidden" name="pagina_atual" value="<?php echo @$_SERVER["REQUEST_URI"]; ?>'"> 
+                    <input type="hidden" name="pagina_origem" value="<?php echo @$_SERVER['HTTP_REFERER']; ?>'">
                     <div class="form-group text-center mb-2">
                       <h2 class="bold mb-0">Login</h2>
                       <em>em sua conta</em>
@@ -131,14 +140,13 @@
     <!-- /Footer -->
 
     <!-- REQUIRED JS  -->
-    <script src="/plugins/jquery/jquery.min.js"></script>
-    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/plugins/feather-icons/feather.min.js"></script>
-    <script src="/plugins/metismenu/metisMenu.min.js"></script>
-    <script src="/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-    <!-- Mimity JS  -->
-    <script src="/dist/js/script.min.js"></script>
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./plugins/feather-icons/feather.min.js"></script>
+    <script src="./plugins/metismenu/metisMenu.min.js"></script>
+    <script src="./plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="./plugins/swiper/swiper.min.js"></script>
+    <script src="./dist/js/script.min.js"></script>
 
     <script>
     $(function () {
@@ -171,6 +179,15 @@
         $('#row-reset-done').attr('hidden', false)
         $('#row-reset').attr('hidden', true)
       })
+
+      App.atwDemo() // Add to Wishlist Demo
+      App.homeSlider('#home-slider')
+      App.colorOption() //Change Product Colors
+      <?php
+        if(Sessions::UserID()!="") { 
+          echo "WishList.Persistence('./add-whislist');"; 
+        }
+      ?>
 
     })
     </script>
