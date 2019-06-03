@@ -5,6 +5,7 @@ use Slim\Http\Response;
 use Ajrc\Helper\Login;
 use Ajrc\Helper\Sessions;
 use Ajrc\Model\Usuario;
+use Ajrc\Model\ListaDesejo;
 
 // Routes
 //========================| PÁGINA PRINCIPAL |=========================================================
@@ -84,7 +85,7 @@ $app->post('/account-register', function (Request $request, Response $response, 
     $ja_cadastrado = Usuario::CheckExistsEmail( trim($_POST["email"]) );
     //----
 
-    if(is_object($ja_cadastrado)) { //SE JÁ EXISTIR
+    if(is_object($ja_cadastrado) && $ja_cadastrado->total>0) { //SE JÁ EXISTIR
 
         return $response->withRedirect($this->router->pathFor('account-login', [], ["msg"=>base64_encode("<strong>E-mail já cadastrado em nosso sistema!</strong><br>Recupere sua senha clicando no link \"Esqueceu sua senha?\"")]));
    
@@ -105,5 +106,17 @@ $app->get('/account-profile', function (Request $request, Response $response, ar
     return $this->renderer->render($response, 'public/account/profile.phtml', $args);
 
 })->setName('account-profile');
+
+
+//RECEBE OS DADOS ENVIADOS DO FORMULÁRIO DE REGISTRA-SE NA ÁREA PÚBLICA E EXIBE O FORM DE INSERÇÃO
+$app->post('/add-whislist', function (Request $request, Response $response, array $args) {
+    
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return "{'status':'0','message':'Vc nnão tem permissão'}"; exit(); }
+    //----
+    
+    ListaDesejo::Insert();
+
+})->setName('add-whislist');
 
 

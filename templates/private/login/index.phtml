@@ -4,7 +4,7 @@
 
       $msg = null;
       if(array_key_exists("msg",$_GET)){
-        $msg = "<h2 style='text-align:center'>" . trim($_GET["msg"]) . "</h2>";
+        $msg = "<h2 style='text-align:center'>" . base64_decode(trim($_GET["msg"])) . "</h2>";
       }
 
     ?>

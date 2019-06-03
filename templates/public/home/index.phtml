@@ -3,6 +3,7 @@
       use Ajrc\Helper\Sessions;
       use Ajrc\Helper\AlertBootstrap4 as Alert;
       use Ajrc\Model\Destaque;
+      use Ajrc\Model\Produto;
       
       require_once("../templates/public/header.php");
       require_once("../templates/public/topo.php");
@@ -100,50 +101,20 @@
 
       <h4 class="bold text-center mt-gutter">Nossos Produtos</h4>
 
-      <!-- Featured Products -->
-      <div class="grid grid-gap-3 grid-col-md-4 my-3">
-
-            <div class="card card-product">
-              <div class="card-body">
-                <button class="wishlist atw-demo" title="Add to wishlist" id="<?php echo Sessions::UserID(); ?>-1"><i data-feather="heart"></i></button>
-                <a href="shop-single.html"><img class="card-img-top" src="./img/produtos/1_0.jpg" alt="Card image cap"></a>
-                <a href="shop-single.html" class="card-title">Hanes Hooded Sweatshirt</a>
-                <span class="badge badge-success">Lançamento!</span>
-                <span class="badge badge-danger">20% OFF</span>
-                <div class="price">
-                  <span class="h5 del">R$ 19,00</span>
-                  <span class="h5">R$ 15,00</span>
-                </div>
-                <div class="color-options">
-                  <label class="custom-control custom-radio custom-radio-color custom-control-inline">
-                    <input type="radio" name="color-option2" class="custom-control-input" value="./img/produtos/1_0.jpg" checked>
-                    <span class="custom-control-label" style="background-color: transparent"><i data-feather="image"></i></span>
-                  </label>
-                  <label class="custom-control custom-radio custom-radio-color custom-control-inline">
-                    <input type="radio" name="color-option2" class="custom-control-input" value="./img/produtos/1_1.jpg">
-                    <span class="custom-control-label" style="background-color: transparent"><i data-feather="image"></i></span>
-                  </label>
-                  <label class="custom-control custom-radio custom-radio-color custom-control-inline">
-                    <input type="radio" name="color-option2" class="custom-control-input" value="./img/produtos/1_2.jpg">
-                    <span class="custom-control-label" style="background-color: transparent"><i data-feather="image"></i></span>
-                  </label>
-                </div>
-              </div>
-              <div class="card-footer">
-                <button class="btn btn-sm rounded-pill btn-outline-primary btn-block atc-demo">Adicionar ao <i data-feather="shopping-cart"></i></button>
-              </div>
-            </div>
-
-        
-      </div>
-      <!-- /Featured Products -->
-
       <div class="text-center mt-3">
         <a href="./todos-produtos" class="btn btn-light border rounded-pill bold text-muted">VEJA TODOS NOSSOS PRODUTOS</a>
       </div>
 
+      <!-- Featured Products -->
+      <div class="grid grid-gap-3 grid-col-md-4 my-3">
+
+        <?php Produto::GetPublicAll(); ?>
+        
+      
+      <!-- /Featured Products -->
     </div>
     <!-- /Main Content -->
+    
 
     <!-- Footer -->
     <?php 
@@ -157,22 +128,26 @@
     <script src="plugins/feather-icons/feather.min.js"></script>
     <script src="./plugins/metismenu/metisMenu.min.js"></script>
     <script src="./plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <!-- PLUGINS FOR CURRENT PAGE -->
     <script src="./plugins/swiper/swiper.min.js"></script>
     <script src="./plugins/noty/noty.min.js"></script>
     <script src="./plugins/jquery-countdown/jquery.countdown.min.js"></script>
-
-    <!-- Mimity JS  -->
     <script src="./dist/js/script.min.js"></script>
     <script>
+ 
     $(function () {
 
       App.atcDemo() // Add to Cart Demo
       App.atwDemo() // Add to Wishlist Demo
       App.homeSlider('#home-slider')
       App.colorOption() //Change Product Colors
-
+      <?php
+        if(Sessions::UserID()!="") { 
+          echo "WishList.Persistence('./add-whislist');"; 
+        }
+      ?>
+      
     })
+
     </script>
 
   </body>

@@ -44,11 +44,11 @@
         <a class="nav-link nav-logo" href="./"><!--img src="/img/logo.svg" alt="Chokoart"--> <strong>Chokoart</strong></a>
 
         <!-- Main navigation -->
-        <ul class="nav nav-main ml-auto d-none d-lg-flex"> <!-- hidden on md -->
-          <li class="nav-item"><a class="nav-link" href="./">Home</a></li>
+        <ul class="nav nav-main d-none d-lg-flex"> <!-- hidden on md -->
+          <li class="nav-item active"><a class="nav-link" href="./">Home</a></li>
           <li class="nav-item dropdown dropdown-hover">
             <a class="nav-link dropdown-toggle forwardable" data-toggle="dropdown" href="shop-categories.html" role="button" aria-haspopup="true" aria-expanded="false">
-              Shop <i data-feather="chevron-down"></i>
+              Categorias <i data-feather="chevron-down"></i>
             </a>
             <div class="dropdown-menu">
               <a class="dropdown-item" href="shop-categories.html">Shop Categories</a>
@@ -124,29 +124,6 @@
             </div>
           </li>
           <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle forwardable active" data-toggle="dropdown" href="account-profile.html" role="button" aria-haspopup="true" aria-expanded="false">
-              Account <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item active" href="account-login.html">Login / Register</a>
-              <a class="dropdown-item" href="account-profile.html">Profile Page</a>
-              <a class="dropdown-item" href="account-orders.html">Orders List</a>
-              <a class="dropdown-item" href="account-order-detail.html">Order Detail</a>
-              <a class="dropdown-item" href="account-wishlist.html">Wishlist</a>
-              <a class="dropdown-item" href="account-address.html">Address</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle forwardable" data-toggle="dropdown" href="blog-grid.html" role="button" aria-haspopup="true" aria-expanded="false">
-              Blog <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="blog-grid.html">Post Grid</a>
-              <a class="dropdown-item" href="blog-list.html">Post List</a>
-              <a class="dropdown-item" href="blog-single.html">Single Post</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown dropdown-hover">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
               Pages <i data-feather="chevron-down"></i>
             </a>
@@ -161,64 +138,25 @@
         </ul>
         <!-- /Main navigation -->
 
-        <!-- Search form -->
-        <form class="form-inline form-search ml-auto mr-0 mr-sm-1 d-none d-sm-flex">
-          <div class="input-group input-group-search">
-            <div class="input-group-prepend">
-              <button class="btn btn-light d-flex d-sm-none search-toggle" type="button"><i data-feather="chevron-left"></i></button>
-            </div>
-            <input type="text" class="form-control border-0 bg-light input-search" placeholder="Search...">
-            <div class="input-group-append">
-              <button class="btn btn-light" type="submit"><i data-feather="search"></i></button>
-            </div>
-          </div>
-        </form>
-        <!-- /Search form -->
+        
 
-        <ul class="nav ml-auto ml-sm-0">
+        <ul class="nav ml-auto ml-sm-3">
           <!-- Search form toggler -->
           <li class="nav-item d-block d-sm-none ml-2 ml-lg-0"><a class="nav-link nav-icon search-toggle" href="#"><i data-feather="search"></i></a></li>
 
           <!-- Cart dropdown -->
-          <li class="nav-item dropdown dropdown-hover dropdown-cart">
+          <li class="nav-item dropdown dropdown-hover dropdown-cart ml-auto">
             <a class="nav-link nav-icon mr-nis dropdown-toggle forwardable ml-2" data-toggle="dropdown" href="cart.html" role="button" aria-haspopup="true" aria-expanded="false">
               <i data-feather="shopping-cart"></i>
-              <span class="badge badge-primary">4</span>
+              <span id="badge-tot-cart-list1" class="badge badge-primary">0</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               
               <div class="media">
-                <a href="shop-single.html"><img src="img/produtos/1_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
+                <a href="shop-single.html"><img src="img/produtos/2_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
                 <div class="media-body">
                   <a href="shop-single.html" title="Hanes Hooded Sweatshirt">Hanes Hooded Sweatshirt</a>
                   <span class="qty">1</span> x <span class="price">$18.56</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="img/produtos/2_small.jpg" width="50" height="50" alt="The Flash Logo T-Shirt"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="The Flash Logo T-Shirt">The Flash Logo T-Shirt</a>
-                  <span class="qty">1</span> x <span class="price">$16.64</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="img/produtos/3_small.jpg" width="50" height="50" alt="Open Front Cropped Cardigans"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="Open Front Cropped Cardigans">Open Front Cropped Cardigans</a>
-                  <span class="qty">1</span> x <span class="price">$15.20</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="img/produtos/4_small.jpg" width="50" height="50" alt="Cotton Fleece Long Hoodie"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="Cotton Fleece Long Hoodie">Cotton Fleece Long Hoodie</a>
-                  <span class="qty">1</span> x <span class="price">$85.00</span>
                   <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
                 </div>
               </div>
@@ -238,7 +176,54 @@
             </div>
           </li>
           <!-- /Cart dropdown -->
+
+          <!-- Wish List dropdown -->
+          <li class="nav-item dropdown dropdown-hover dropdown-cart ml-auto">
+            <a class="nav-link nav-icon mr-nis dropdown-toggle forwardable ml-2" data-toggle="dropdown" href="./whish-list" role="button" aria-haspopup="true" aria-expanded="false">
+              <i data-feather="heart"></i>
+              <span id="badge-tot-whish-list1" class="badge badge-primary">0</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              
+              <div class="media">
+                <a href="shop-single.html"><img src="img/produtos/2_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
+                <div class="media-body">
+                  <a href="shop-single.html" title="Hanes Hooded Sweatshirt">Hanes Hooded Sweatshirt</a>
+                  <span class="qty">1</span> x <span class="price">$18.56</span>
+                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
+                </div>
+              </div>
+              
+              <div class="d-flex justify-content-between pb-3 pt-2">
+                <span>Total</span>
+                <strong>$135.40</strong>
+              </div>
+              <div class="d-flex justify-content-between pb-2">
+                <div class="w-100 mr-1">
+                  <a href="cart.html" class="btn btn-block rounded-pill btn-secondary">View Cart</a>
+                </div>
+                <div class="w-100 ml-1">
+                  <a href="shipping.html" class="btn btn-block rounded-pill btn-primary">Checkout</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- /Wish List  dropdown -->
         </ul>
+
+        <!-- Search form -->
+        <form class="form-inline form-search ml-auto mr-0 mr-sm-1 d-none d-sm-flex">
+          <div class="input-group input-group-search">
+            <div class="input-group-prepend">
+              <button class="btn btn-light d-flex d-sm-none search-toggle" type="button"><i data-feather="chevron-left"></i></button>
+            </div>
+            <input type="text" class="form-control border-0 bg-light input-search" placeholder="Encontre...">
+            <div class="input-group-append">
+              <button class="btn btn-light" type="submit"><i data-feather="search"></i></button>
+            </div>
+          </div>
+        </form>
+        <!-- /Search form -->
 
       </div><!-- /.container -->
     </header>
