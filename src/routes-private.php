@@ -16,10 +16,20 @@ use Ajrc\Model\Produto;
 //FORMULÁRIO DE LOGIN
 $app->get('/login', function (Request $request, Response $response, array $args) {
     
-    //USUÁRIO JÁ LOGADO VAI DIRETO PARA O DASHBOARD
+    //USUÁRIO JÁ LOGADO VAI DIRETO PARA O DASHBOARD OU ACCOUNT-PROFILE
     if(strlen( trim( json_encode( Sessions::getData() ) ) ) > 15){
-        return $response->withRedirect($this->router->pathFor('dashboard', [], []));
+        
+        if(Sessions::isAdmin() || Sessions::isFuncionario()) //se admin ou funcionario, dashboard
+        {
+            return $response->withRedirect($this->router->pathFor('dashboard', [], []));
+        }
+        else //cliente é direcionado para a página HOME PAGE / PÁGINA PRINCIPAL
+        {
+            return $response->withRedirect($this->router->pathFor('account-profile', [], []));
+        }
+    
     }
+    //----
 
     //DESTROI A SESSAO EXISTENTE FORÇANDO NOVO LOGIN
     Sessions::unregister( "USER_DATA_ID" );

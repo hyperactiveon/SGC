@@ -7,12 +7,13 @@ use Ajrc\Helper\Sessions;
 use Ajrc\Model\Usuario;
 
 // Routes
-
+//========================| PÁGINA PRINCIPAL |=========================================================
 $app->get('/', function (Request $request, Response $response, array $args) {
     
     return $this->renderer->render($response, 'public/home/index.phtml', $args);
     
 })->setName('home-page');
+//========================| FIM : PÁGINA PRINCIPAL |=========================================================
 
 
 //========================| LOGIN / LOGOUT |=========================================================
@@ -40,9 +41,9 @@ $app->post('/account-login', function (Request $request, Response $response, arr
         {
             return $response->withRedirect($this->router->pathFor('dashboard', [], []));
         }
-        else //cliente é direcionado para a página da sua conta
+        else //cliente é direcionado para a página HOME PAGE / PÁGINA PRINCIPAL
         {
-            return $response->withRedirect($this->router->pathFor('account-profile', [], []));
+            return $response->withRedirect($this->router->pathFor('home-page', [], []));
         }
     
     } 
@@ -56,16 +57,16 @@ $app->post('/account-login', function (Request $request, Response $response, arr
 //LOGOUT
 $app->get('/account-logout', function (Request $request, Response $response, array $args) {
 
-    //DESTROI A SESSÃO E REDIRECIONA PARA O FORMULÁRIO DE LOGIN
+    //DESTROI A SESSÃO E REDIRECIONA PARA PÁGINA PRINCIPAL DO SITE
     Sessions::unregister( "USER_DATA_ID" );
 
-    return $response->withRedirect($this->router->pathFor('account-login', [], []));
+    return $response->withRedirect($this->router->pathFor('home-page', [], []));
 
 })->setName('account-logout');
 
 //========================| FIM: LOGIN / LOGOUT |=========================================================
 
-
+//========================| REGISTRE-SE |=========================================================
 //RECEBE OS DADOS ENVIADOS DO FORM DE INSERÇÃO NA ÁREA PÚBLICA - PROFILE DO USUÁRIO
 $app->post('/account-insert', function (Request $request, Response $response, array $args) {
 

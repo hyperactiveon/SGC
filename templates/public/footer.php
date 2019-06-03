@@ -50,7 +50,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header shadow">
-            <a class="h5 mb-0 d-flex align-items-center" href="index.html">
+            <a class="h5 mb-0 d-flex align-items-center" href="./">
               <img src="/img/logo.svg" alt="Mimity" class="mr-3">
               <strong>CHOKOART</strong>
             </a>
@@ -60,7 +60,7 @@
           </div>
           <div class="modal-body shadow">
             <ul class="menu" id="menu">
-              <li class="no-sub"><a href="index.html"><i data-feather="home"></i> Home</a></li>
+              <li class="no-sub mm-active"><a href="./"><i data-feather="home"></i> Home</a></li>
               <li>
                 <a href="#" class="has-arrow"><i data-feather="shopping-bag"></i> Shop</a>
                 <ul>
@@ -92,7 +92,7 @@
               <li>
                 <a href="#" class="has-arrow"><i data-feather="user"></i> Account</a>
                 <ul>
-                  <li class="mm-active"><a href="account-login.html">Login / Register</a></li>
+                  <li><a href="account-login.html">Login / Register</a></li>
                   <li><a href="account-profile.html">Profile Page</a></li>
                   <li><a href="account-orders.html">Orders List</a></li>
                   <li><a href="account-order-detail.html">Order Detail</a></li>
