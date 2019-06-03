@@ -1,0 +1,171 @@
+    <?php
+
+      //var_dump( $data );
+
+      require_once("../templates/private/header.php");
+    ?>
+    
+    <div class="wrapper">
+
+    <?php
+      require_once("../templates/private/topo.php");
+    ?>
+
+      <div class="dashboard">
+
+    <?php
+      require_once("../templates/private/menus.php");
+    ?>      
+
+        <div class="main">
+
+          <div class="main__scroll scrollbar-macosx">
+            <div class="main__cont">
+              <?php
+                
+                if(array_key_exists("form", $data))
+                {
+
+                  if( $data["form"]=="insert" )
+                  {
+                    //EXIBE O FORMULÁRIO DE CADASTRO
+                    require_once("../templates/private/pedidos/form-cadastrar.php");
+                  } 
+                  else 
+                  {
+                    //EXIBE O FORMULÁRIO DE ALTERAÇÃO
+                    require_once("../templates/private/pedidos/form-editar.php");
+                  }
+
+                }
+
+                else //EXIBE A LISTAGEM DOS USUÁRIO (Admins, Funcionários e Clientes)
+                {
+
+              ?>
+                    
+                    <div class="col-sm-12 col-xs-12">
+                      <div class="panel panel-info">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Pedidos</h3>
+                        </div>
+                        <div class="panel-body">
+                          
+                          <div class="datalist__result">
+                            <ul class="nav nav-tabs" role="tablist">
+                              <li class='active' role="presentation" class="active" ><a href="#abertos" aria-controls="abertos" role="tab" data-toggle="tab">AGUARDANDO PAGAMENTO&nbsp;</a></li>
+                              <li role="presentation"><a href="#entregar" aria-controls="entregar" role="tab" data-toggle="tab">PAGOS - ENTREGAR&nbsp;</a></li>
+                              <li role="presentation"><a href="#entregando" aria-controls="entregando" role="tab" data-toggle="tab">ENTREGANDO&nbsp;</a></li>
+                              <li role="presentation"><a href="#entregues" aria-controls="entregues" role="tab" data-toggle="tab">ENTREGUES&nbsp;</a></li>
+                              <li role="presentation"><a href="#finalizados" aria-controls="finalizados" role="tab" data-toggle="tab">FINALIZADOS&nbsp;</a></li>
+                              <li role="presentation"><a href="#cancelados" aria-controls="cancelados" role="tab" data-toggle="tab">CANCELADOS&nbsp;</a></li>
+                            </ul>
+                            <div class="tab-content">
+                            
+                              <?php 
+                              if(array_key_exists("message",$data)){
+                                echo $data["message"];
+                              } 
+                              ?>
+                              
+                              <div class="tab-pane active" id="abertos" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_abertos" class="datalist__table table datatable display table-hover" width="100%" data-users="abertos">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="entregar" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_entregar" class="datalist__table table datatable display table-hover" width="100%" data-users="entregar">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="entregando" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_entregando" class="datalist__table table datatable display table-hover" width="100%" data-users="entregando">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="entregues" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_entregues" class="datalist__table table datatable display table-hover" width="100%" data-users="entregues">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="finalizados" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_finalizados" class="datalist__table table datatable display table-hover" width="100%" data-users="finalizados">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane" id="cancelados" role="tabpanel">
+                                <div class="scrollable scrollbar-macosx">
+                                  <div class="container-fluid">
+                                    <table id="tb_cancelados" class="datalist__table table datatable display table-hover" width="100%" data-users="cancelados">
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <?php
+
+                } //fim else
+
+            ?>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    
+    
+    
+    <script src="libs/jquery/jquery.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="libs/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="libs/bootstrap-validator/validator.min.js"></script>
+    <script src="libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js"></script>
+    <script src="libs/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="libs/jquery.mask/jquery.mask.min.js"></script>
+    <script src="libs/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+    <script src="libs/inputNumber/js/inputNumber.js"></script>
+    <script src="libs/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <script src="libs/datatables/js/jquery.dataTables.js"></script>
+    <script src="libs/datatables/js/dataTables.select.js"></script>
+    <script src="libs/datatables/js/dataTables.bootstrap.js"></script>
+    <script src="libs/selectize/js/standalone/selectize.min.js"></script>
+    <script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="libs/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="js/template/pedidos.js"></script>
+    <script src="js/main.js"></script>
+
+
+
+  </body>
+</html>

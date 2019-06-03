@@ -41,13 +41,6 @@ for($i=0;$i<$total_produtos;$i++) {
     $peso_pedido+= $_POST["produto_peso_total"][$i];
 }
 
-$estados = "";
-$uf = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
-foreach($uf as $estado){
-    $sel = (strtoupper($U->estado)==$estado)?" selected":null;
-    $estados.= "<option value='".$estado."'".$sel.">".$estado."</option>";
-}
-
 // SEO : SEARCH ENGINE OPTIMIZATE ----
 $title = "Chokoart :: Entrega! ";
 $description = "Ou entregamos, ou você retira! ;-)";
@@ -89,6 +82,7 @@ require_once("../templates/public/topo.php");
                     <input type="hidden" name="valor_total_pedido_sem_frete" id="valor_total_pedido_sem_frete" value="<?php echo $valor_total_pedido_sem_frete; ?>">
                     <input type="hidden" name="prazo_entrega" id="prazo_entrega" value="">
                     <input type="hidden" name="tipo_entrega" id="tipo_entrega" value="">
+                    
                     <h2 class="roboto-condensed text-center">Dados para Entrega</h2>
                     <h6 class="text-muted mb-4 text-center">Insira seus dados para entrega!</h6>
                     <hr>
@@ -110,28 +104,26 @@ require_once("../templates/public/topo.php");
                         
                         <div class="form-group col-12  col-sm-2">
                             <label for="estado">Estado</label>
-                            <select class="form-control custom-select" name="estado" id="estado" required>
-                                <option value="">Escolha</option>
-                                <?php echo $estados; ?>
-                            </select>
+                            <input type="text" class="form-control" id="estado" name="estado" value="<?php echo strtoupper($U->estado); ?>" required>
+
                         </div>
                         <div class="form-group col-12 col-sm-6">
                             <label for="cidade">Cidade</label>
-                            <input type="text" class="form-control" id="cidade" name="cidade" value="<?php echo $U->cidade; ?>">
+                            <input type="text" class="form-control" id="cidade" name="cidade" value="<?php echo $U->cidade; ?>" required>
                         </div>
                     
                         <div class="form-group col-12 col-sm-4">
                             <label for="bairro">Bairro</label>
-                            <input type="text" class="form-control" id="bairro" name="bairro" value="<?php echo $U->bairro; ?>">
+                            <input type="text" class="form-control" id="bairro" name="bairro" value="<?php echo $U->bairro; ?>" required>
                         </div>
                         
                         <div class="form-group col-12 col-sm-6">
                             <label for="endereco">Endereço</label>
-                            <input type="text" class="form-control" id="endereco" name="endereco" value="<?php echo $U->endereco; ?>">
+                            <input type="text" class="form-control" id="endereco" name="endereco" value="<?php echo $U->endereco; ?>" required>
                         </div>
                         <div class="form-group col-12 col-sm-2">
                             <label for="numero">Nº</label>
-                            <input type="text" class="form-control" id="numero" name="numero" value="<?php echo $U->numero; ?>">
+                            <input type="text" class="form-control" id="numero" name="numero" value="<?php echo $U->numero; ?>" required>
                         </div>
                         <div class="form-group col-12 col-sm-4">
                             <label for="complemento">Complemento</label>

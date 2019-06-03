@@ -2,10 +2,25 @@
 
 use Ajrc\Helper\Sessions;
 use Ajrc\Model\Carrinho;
+use Ajrc\Model\Pedido;
 
 $id_carrinho = trim($_POST["cid"]);
 $rs = Ajrc\Config\ConfigBoletoFacil::getPaymentBoleto();
 
+$pedido = Pedido::getAccountListOrdersDetailsPublic( $id_carrinho );
+$codigo_pedido = $pedido[0]->codigo_pedido;
+$forma_pagto = ($pedido[0]->forma_pagto=="boleto")?"Boleto Bancário":"Cartão de Crédito:<br>".$pedido[0]->total_parcelas." parcelas x R\$ ".number_format($pedido[0]->valor_parcela,2,',','.');
+
+$modalidade_frete = $pedido[0]->modalidade_frete;
+$valor_frete = $pedido[0]->valor_frete;
+$valor_total = $pedido[0]->valor_total;
+$valor_subtotal = $valor_total-$valor_frete;
+$estagio_atual = $pedido[0]->estagio_atual;
+$de = explode("-",$pedido[0]->endereco_frete);
+$endereco_frete = $de[0];
+$complemento_frete = ($de[1]!=" ")?$de[1]."<br>":null;
+$bairro_frete = $de[2];
+$cidadeUf_frete = $de[3];
 
 // SEO : SEARCH ENGINE OPTIMIZATE ----
 $title = "Chokoart :: Formas de Pagamento!";
@@ -34,60 +49,93 @@ require_once("../templates/public/topo.php");
                 </ul>
             </div>
             
-           <div class="card">
+            <div class="card">
                 <div class="card-body">
-                <div class="text-center py-3">
+                    <div class="text-center py-3 mb-0">
                     <i data-feather="check-circle" class="text-success" width="48" height="48"></i>
                     <h1>Obrigado por comprar na Chokoart!</h1>
-                    <p>Seu pedido foi realizado com sucesso e está em processo de análise.<br>E o mais breve possível o enviaremos.</p>
-                    <p>Enviamos um e-mail de confirmação para <u><?php echo trim($_POST['email']); ?></u></p>
+                    <p>Estamos PROCESSANDO seu pedido.<br>Em breve, se tudo correr bem, você sentirá em seu paladar a sensação do melhor do chocolate que com todo carinho e amor nossos produtos oferecem!<br>Ah!!! Inclusive, enviamos um e-mail de confirmação para <u><?php echo trim($_POST['email']); ?></u>, ok? ^_^</p>
                     <hr>
-                    
-                    <p class="mb-0">
-                        <span class="text-muted">CÓDIGO DO PEDIDO: </span>
-                        <span class="text-info"><?php echo $rs["codigopedido"]; ?></span>
-                        <br>
-                        <span class="text-muted">Frete e Prazo de Entrega*: </span>
-                        <span class="text-info"><?php echo $_POST['modalidade_frete']; ?> - <?php echo $_POST['prazo_entrega']." Dia(s)"; ?></span>
-                        <br>
-                        <span class="text-muted">Endereço de Entrega: </span>
-                        <span class="text-info"><?php echo trim($_POST['endereco']).", ".trim($_POST['numero'])." - ".trim($_POST['complemento'])." - ".trim($_POST['bairro'])." - ".trim($_POST['cidade'])." - ".trim($_POST['estado']); ?></span>
-                    </p>
-                    <hr>
-                    <p class="mb-0">
-                        <span class="text-muted">Itens: </span>
-                        <span class="text-info">
-                        <table class="table table-borderless table-cart" data-addclass-on-smdown="table-sm">
-                        <tbody id="tbody_cart_itens_list">
-                        <?php Carrinho::GetPublicListFinishOrder($id_carrinho); ?>
-                        </tbody>
-                        </table>
-                        </span>
-                    </p>
-                    <p class="mb-0">
-                        <span class="text-muted">Valor dos Itens:** </span>
-                        <span class="text-info">R$ <?php echo number_format(trim($_POST['amount']-$_POST['valor_frete']),2,",","."); ?></span>
-                        <span class="text-muted ml-md-4">Valor Frete: </span>
-                        <span class="text-info">R$ <?php echo number_format($_POST['valor_frete'],2,",","."); ?></span>
-                        <span class="text-muted ml-md-4">Valor Total: </span>
-                        <span class="text-info">R$ <?php echo number_format($_POST['amount'],2,",","."); ?></span>
-                    </p>
-                    
-                    <p class="mb-0">
-                        <span class="text-muted">Forma de Pagamento: </span>
-                        <span class="text-info">
-                        <?php 
-                            if(trim($_POST["forma_pagto"])=="boleto"){ echo "Boleto Bancário"; } 
-                            else{ echo "Cartão de Crédito em ".trim($_POST['installments'])." x R\$ ".number_format(trim($_POST['totalAmount']),2,",",".")." = R\$ ".number_format($_POST['amount'],2,",","."); }
-                        ?>
-                        </span>
-                    </p>
-                    
-                    <a href="#" class="btn btn-default rounded-pill btn-lg mt-4">Ver meus Pedidos</a>
-                    <a href="./zs" class="btn btn-primary rounded-pill btn-lg mt-4">VOLTAR A PÁGINA PRINCIPAL</a>
                     </div>
+                    <h3 class="text-center my-0"><small class="mb-0">Código do Pedido:</small><br><?php echo $pedido[0]->codigo_pedido; ?></h3>
+                    <?php Pedido::getPrintStatusHtmlClient( 'ABERTO' ); ?>
+
+                    <table class="table table-borderless table-sm table-cart">
+                        <tbody>
+                        <?php 
+                                $valor_total_sem_juros = 0.00;
+                                foreach($pedido as $item) { 
+                        ?>
+                        <tr>
+                            <td class="cart-img nostretch">
+                            <a href="#"><img src="./img/produtos/<?php echo $item->produto_id; ?>_0.jpg" alt="<?php echo $item->produto_titulo; ?>"></a>
+                            </td>
+                            <td class="cart-title">
+                            <a href="./produto-<?php echo $item->produto_id; ?>" class="h6 bold d-inline-block" title="<?php echo $item->produto_titulo; ?>"><?php echo $item->produto_titulo; ?></a>
+                            <div class="small"><b>Preço Unitário</b>: R$ <?php echo number_format(($item->preco_item),2,',','.'); ?></div>
+                            </td>
+                            <td class="cart-qty nostretch">Qtde: <?php echo $item->qtde_item; ?></td>
+                            <td class="cart-price text-right"><span class="roboto-condensed bold">R$ <?php echo number_format(($item->qtde_item*$item->preco_item),2,',','.'); ?> <sup>*</sup></span></td>
+                        </tr>
+                        <?php 
+                                $valor_total_sem_juros+=($item->qtde_item*$item->preco_item);
+                                } 
+                                $porcentagem_juros = ($pedido[0]->forma_pagto!="boleto")?round((100-($valor_total_sem_juros*100)/$valor_total),2):null;
+                        ?>
+                        </tbody>
+                    </table>
+
+                  <div class="text-right">
+                    <table class="table table-borderless table-sm">
+                        <tbody>
+                          <tr>
+                            <td>Subtotal</td>
+                            <td style="width:150px" class="roboto-condensed bold">R$ <?php echo number_format($valor_subtotal,2,',','.'); ?></td>
+                          </tr>
+                          <tr>
+                            <td>Frete / Entrega</td>
+                            <td><?php echo $modalidade_frete; ?> <span class="roboto-condensed bold">(R$  <?php echo number_format($valor_frete,2,',','.'); ?>)</span></td>
+                          </tr>
+                          <tr>
+                            <td class="bold h4">TOTAL</td>
+                            <td class="roboto-condensed bold text-success h4">R$ <?php echo number_format($valor_total,2,',','.'); ?></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <hr>
+                  </div>
+
+                  <div class="row mb-2">
+                    <div class="col-lg-6">
+                      <h5 class="bold"><u>Endereço de Entrega:</u></h5>
+                      <strong><?php echo Sessions::UserName(); ?></strong><br/>
+                      <?php echo Sessions::UserEmail(); ?><br/>
+                      <?php echo $endereco_frete; ?>
+                      <?php echo $complemento_frete; ?>
+                      <?php echo $bairro_frete; ?><br/>
+                      <?php echo $cidadeUf_frete; ?><br/>
+                    </div>
+                    <div class="col-lg-6 mt-4 mt-lg-0">
+                      <h5 class="bold"><u>Forma de Pagamento:</u></h5>
+                      <strong><?php echo $forma_pagto; ?></strong><?php echo ($pedido[0]->forma_pagto!="boleto")?" <sup><small>* $porcentagem_juros% de juros</small></sup>":null; ?><br>
+                      <h5 class="bold mt-4"><u>Sobre o Frete:</u></h5>
+                      Modalidade: <strong><?php echo ($pedido[0]->modalidade_frete=="LOCAL")?"Retirar na Loja":$pedido[0]->modalidade_frete; ?></strong><br/>
+                      Prazo de Entrega: <strong><?php echo ($pedido[0]->prazo_frete=="0")?"Já disponível para retirada":$pedido[0]->prazo_frete."dia(s)<sup>**</sup></strong>"; ?> <br/>
+                      
+                    </div>
+                  </div>
+
+                  <strong><i><small><sup>*</sup>O preço poderá sofrer acréscimos no pagamento com cartão de crédito.</small></i></strong><br/>
+                  <strong><i><small><sup>**</sup> O prazo referente depende inteiramente dos Correios e sua logística.</small></i></strong><br/>
+                  
+                  <div class="d-flex justify-content-end mt-3">
+                    <a href="./account-orders" class="btn btn-outline-primary btn-sm rounded-pill">Ver meus Pedidos</a>
+                    <a href="./account-orderprint-details-<?php echo $id_carrinho; ?>" target="_blank" class="btn btn-primary btn-sm rounded-pill ml-sm-2"><i data-feather="printer"></i> Imprimir</a>
+                    <a href="./" class="btn btn-primary btn-sm rounded-pill ml-sm-2">VOLTAR A PÁGINA PRINCIPAL</a>
+                  </div>
+
                 </div>
-            </div>
+              </div>
 
         </div>
 
@@ -113,10 +161,8 @@ require_once("../templates/public/footer.php");
     $(function () {
         App.atwDemo() // Add to Wishlist Demo
         <?php
-            if(Sessions::UserID()!="") { 
-                //echo "WishList.Persistence('./add-whislist');"; 
-            }
             echo "Armazenamento.Del('cart_list'); ClientCart.SetItens();";
+            session_regenerate_id();
         ?>
 
     })

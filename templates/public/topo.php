@@ -30,7 +30,7 @@
 
         <!-- User dropdown -->
         <ul id="containerFrmLoginTopo" class="nav nav-lang ml-auto">
-          <?php FrmLoginTopo::Get(); ?>
+          <?php FrmLoginTopo::Get(  $add_subpath ); ?>
         </ul>
         <!-- /User dropdown -->
 

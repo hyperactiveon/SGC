@@ -23,7 +23,7 @@
             <h6 class="bold">Em breve!</h6>
             <a href="javascript:void(0)" class="download-app">
               <div class="media">
-                <img src="./img/app/google-play.svg" alt="Google Play Logo" height="30">
+                <img src="./<?php echo $add_subpath; ?>img/app/google-play.svg" alt="Google Play Logo" height="30">
                 <div class="media-body">
                   <small>Baixe no</small>
                   <h5>Google Play</h5>
@@ -32,7 +32,7 @@
             </a>
             <a href="javascript:void(0)" class="download-app">
               <div class="media">
-                <img src="./img/app/apple.svg" alt="Apple Logo" height="30">
+                <img src="./<?php echo $add_subpath; ?>img/app/apple.svg" alt="Apple Logo" height="30">
                 <div class="media-body">
                   <small>Baixe na</small>
                   <h5>App Store</h5>
@@ -51,7 +51,7 @@
         <div class="modal-content">
           <div class="modal-header shadow">
             <a class="h5 mb-0 d-flex align-items-center" href="./">
-              <img src="./img/logo.svg" alt="Mimity" class="mr-3">
+              <img src="./<?php echo $add_subpath; ?>img/logo.svg" alt="Mimity" class="mr-3">
               <strong>CHOKOART</strong>
             </a>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -83,3 +83,6 @@
       </div>
     </div>
     <!-- /Menu Modal -->
+
+    <!-- PWA: Service Worker 
+    <script src='CHOKOART-sw-cache.js'></script>-->

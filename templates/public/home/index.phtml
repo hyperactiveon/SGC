@@ -35,7 +35,7 @@
       <h4 class="bold text-center mt-gutter">Nossos Produtos</h4>
 
       <!-- Produtos -->
-      <div class="grid grid-gap-3 grid-col-md-4 my-3">
+      <div class="grid grid-gap-3 grid-col-2 grid-col-md-4 my-3">
 
         <?php Produto::GetPublicAll(); ?>
       
@@ -63,9 +63,9 @@
     <!-- /Footer -->
 
     <!-- REQUIRED JS  -->
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="plugins/feather-icons/feather.min.js"></script>
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./plugins/feather-icons/feather.min.js"></script>
     <script src="./plugins/metismenu/metisMenu.min.js"></script>
     <script src="./plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="./plugins/swiper/swiper.min.js"></script>
@@ -80,17 +80,7 @@
       App.atwDemo() // Add to Wishlist Demo
       App.homeSlider('#home-slider')
       App.colorOption() //Change Product Colors
-      <?php
-        if(Sessions::UserID()!="") { 
-          echo "WishList.Persistence('./add-whislist');"; 
-        }
-
-        if(array_key_exists("zerar_sessao",$data)){
-            if($data["zerar_sessao"]){
-              echo "Armazenamento.Del('cart_list'); ClientCart.SetItens();";
-            }
-        }
-      ?>
+      
       
     })
 

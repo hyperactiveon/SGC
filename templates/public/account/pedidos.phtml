@@ -3,38 +3,11 @@
 
     use Ajrc\Helper\Sessions;
     use Ajrc\Helper\AlertBootstrap4 as Alert;
-    use Ajrc\Model\Usuario;
+    use Ajrc\Model\Pedido;
     
-    $u = Usuario::List(Sessions::UserID());
-    
-    if(empty($u)){
-      echo "Usuário inexistente!";
-      exit();
-    }
-    
-    $check_excluir_foto = null;
-    $foto_usuario = null;
-    $pasta_imagens = "img/usuarios/";
-    foreach (glob($pasta_imagens . $u->id."_1.*") as $foto) {
-        $foto_usuario = "<img src='".$foto."'>";
-        $check_excluir_foto =  '<br><div class="checkbox checkbox-success checkbox-inline">
-                                    <input tabindex="18" name="excluir_foto" id="excluir_foto" value="'.$foto.'" type="checkbox">
-                                    <label for="excluir_foto">Excluir a foto atual?</label>
-                                </div>';
-    }
-
-    $sexo = null;
-    $sexos = [""=>"Selecione", "M"=>"Masculino", "F"=>"Feminino"];
-    foreach($sexos as $key=>$value){
-        $sel = ($u->sexo==$key)?" selected='selected'":null;
-        $sexo.= "<option value='".$key."'".$sel.">".$value."</option>";
-    }
-    
-
-    $required = " required ";
-    
-    
-    // SEO : SEARCH ENGINE OPTIMIZATE ----
+    $pedidos = Pedido::getAccountListOrdersPublic( Sessions::UserID() );
+        
+    //----| SEO : SEARCH ENGINE OPTIMIZATE ----
     $title = "Chokoart :: Meus Pedidos!";
     $description = $title;
     $url_redirect = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -76,43 +49,45 @@
                 <table class="table table-hover" data-addclass-on-xs="table-sm">
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">Order ID</th>
-                      <th scope="col">Date</th>
+                      <th scope="col">Código Pedido</th>
+                      <th scope="col">Data Pedido</th>
                       <th scope="col" class="text-right">Total</th>
                       <th scope="col" class="text-center">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row"><a href="account-order-detail.html">ORD556789</a></th>
-                      <td>Dec 19, 2017</td>
-                      <td class="text-right">$74.00</td>
-                      <td class="text-center"><span class="badge badge-warning rounded">In Progress</span></td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><a href="account-order-detail.html">ORD456789</a></th>
-                      <td>Dec 10, 2017</td>
-                      <td class="text-right">$100.00</td>
-                      <td class="text-center"><span class="badge badge-danger rounded">Canceled</span></td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><a href="account-order-detail.html">ORD356789</a></th>
-                      <td>Dec 01, 2017</td>
-                      <td class="text-right">$20.00</td>
-                      <td class="text-center"><span class="badge badge-success rounded">Finished</span></td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><a href="account-order-detail.html">ORD256789</a></th>
-                      <td>Nov 19, 2017</td>
-                      <td class="text-right">$74.00</td>
-                      <td class="text-center"><span class="badge badge-success rounded">Finished</span></td>
-                    </tr>
-                    <tr>
-                      <th scope="row"><a href="account-order-detail.html">ORD156789</a></th>
-                      <td>Nov 10, 2017</td>
-                      <td class="text-right">$100.00</td>
-                      <td class="text-center"><span class="badge badge-success rounded">Finished</span></td>
-                    </tr>
+                    <?php
+                        foreach($pedidos as $p) {
+                          $estagio_atual = '<a class="nav-link text-success" href="javascript:void(0)"><i data-feather="refresh-cw"></i><br>PROCESSANDO</a>';
+                          switch($p->estagio_atual){
+                            case "CONFIRMED":
+                              $estagio_atual = '<a class="nav-link text-success" href="javascript:void(0)"><i data-feather="truck"></i><br>ENVIANDO</a>';
+                              break;
+                            case "FINALIZADO":
+                              $estagio_atual = '<a class="nav-link text-success" href="javascript:void(0)"><i data-feather="check-circle"></i><br>FINALIZADO</a>';
+                              break;
+                            case "DECLINED":        //Pagamento rejeitado pela análise de risco.
+                              $estagio_atual = '<a class="nav-link text-danger" href="javascript:void(0)"><i data-feather="x"></i><br>CANCELADO</a>';
+                              break;
+                            case "FAILED":          //Pagamento não realizado
+                            $estagio_atual = '<a class="nav-link text-danger" href="javascript:void(0)"><i data-feather="x"></i><br>CANCELADO</a>';
+                              break;
+                            case "NOT_AUTHORIZED":  //Pagamento não autorizado pela instituição responsável pelo cartão de crédito
+                            $estagio_atual = '<a class="nav-link text-danger" href="javascript:void(0)"><i data-feather="x"></i><br>CANCELADO</a>';
+                              break;
+                          }
+
+                          
+                          echo '<tr>
+                                  <th class="align-middle" scope="row"><a href="./account-order-details-'.$p->carrinho_id.'">'.$p->codigo_pedido.'</a></th>
+                                  <td class="align-middle">'.$p->data_cadastro.'</td>
+                                  <td class="text-right align-middle">R$ '.number_format($p->valor_total,2,',','.').'</td>
+                                  <td class="text-center align-middle">'.$estagio_atual.'</td>
+                                </tr>';
+
+                        }
+                    ?>
+                    
                   </tbody>
                 </table>
               </div>

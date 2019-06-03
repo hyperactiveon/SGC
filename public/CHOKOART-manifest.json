@@ -1,0 +1,19 @@
+{
+  "gcm_sender_id": "103953800507",
+  "short_name": "CHOKOART",
+  "name": "CHOKOART",
+  "start_url": "https://www.ajrc.com.br/chokoart/public",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#3949ab",
+  "background_color": "#3949ab",
+  "icons": [
+    {
+      "src": "img/logo-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+    
+  ]
+   
+}

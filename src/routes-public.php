@@ -11,24 +11,13 @@ use Ajrc\Model\Carrinho;
 
 
 // Routes
-//========================| PÁGINA PRINCIPAL |=========================================================
+//----| PÁGINA PRINCIPAL |----
 $app->get('/', function (Request $request, Response $response, array $args) {
     
     return $this->renderer->render($response, 'public/home/index.phtml', $args);
     
 })->setName('home-page');
-//========================| FIM : PÁGINA PRINCIPAL |=========================================================
-
-//====| APÓS FINALIZAR O PEDIDO ESCOLHENDO A FORMA DE PAGAMENTO, REDIRECIONA PARA PÁGINA PRINCIPAL, INICIANDO NOVA SESSÃO |====
-$app->get('/zs', function (Request $request, Response $response, array $args) {
-    //
-    session_regenerate_id();
-    $args["zerar_sessao"] = true;
-    return $this->renderer->render($response, 'public/home/index.phtml', $args);
-    
-})->setName('home-zerasessao');
-//========================| FIM : PÁGINA PRINCIPAL |=========================================================
-
+//----
 
 //========================| LOGIN / LOGOUT |=========================================================
 //FORMULÁRIO DE LOGIN
@@ -81,7 +70,7 @@ $app->get('/account-logout', function (Request $request, Response $response, arr
     return $response->withRedirect($this->router->pathFor('home-page', [], []));
 
 })->setName('account-logout');
-
+//----
 //========================| FIM: LOGIN / LOGOUT |=========================================================
 
 //========================| REGISTRE-SE |=========================================================
@@ -114,7 +103,6 @@ $app->post('/account-register', function (Request $request, Response $response, 
 });
 //----
 
-
 //RECEBE OS DADOS ENVIADOS DO FORMULÁRIO RECUPERAR SENHA (ESQUECI MINHA SENHA)
 $app->post('/account-recpass', function (Request $request, Response $response, array $args) {
     
@@ -146,11 +134,11 @@ $app->get('/account-profile', function (Request $request, Response $response, ar
 
 })->setName('account-profile');
 
-//EXIBE OS PEDIDOS DO USUÁRIO
+//----| LISTA DE PEDIDOS: EXIBE UMA LISTA COM TODOS OS PEDIDOS DO USUÁRIO |----
 $app->get('/account-orders', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
-    //if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
     //----
     
     return $this->renderer->render($response, 'public/account/pedidos.phtml', $args);
@@ -158,7 +146,31 @@ $app->get('/account-orders', function (Request $request, Response $response, arr
 })->setName('account-orders');
 //----
 
-//----| LISTA DE DESEJOS DO USUÁRIO - DENTRO DO PERFIL DELE |----
+//----| DETALHES PEDIDOS: EXIBE TODA INFORMAÇÃO PERTINENTE AO PEDIDO SELECIONADO |----
+$app->get('/account-order-details[-{id}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    //----
+    
+    return $this->renderer->render($response, 'public/account/pedido-detalhes-cliente.phtml', $args);
+
+})->setName('account-orders');
+//----
+
+//----| IMPRIMIR DETALHES PEDIDOS: |----
+$app->get('/account-orderprint-details[-{id}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    //----
+    
+    return $this->renderer->render($response, 'public/account/pedido-detalhes-cliente-imprimir.phtml', $args);
+
+})->setName('account-orders');
+//----
+
+//----| LISTA DE DESEJOS: EXIBE A LISTA DE DESEJOS DENTRO DO PERFIL DO USUÁRIO |---- NÃO CONCLUÍDO
 $app->get('/account-whishlist', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
@@ -172,7 +184,7 @@ $app->get('/account-whishlist', function (Request $request, Response $response, 
 });
 //----
 
-//RECEBE OS DADOS ENVIADOS DO FORMULÁRIO DE REGISTRA-SE NA ÁREA PÚBLICA E EXIBE O FORM DE INSERÇÃO
+//----| LISTA DE DESEJOS: EXIBE A LISTA DE DESEJOS DENTRO DO PERFIL DO USUÁRIO |---- NÃO CONCLUÍDO
 $app->post('/add-whislist', function (Request $request, Response $response, array $args) {
     
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
@@ -182,20 +194,18 @@ $app->post('/add-whislist', function (Request $request, Response $response, arra
     ListaDesejo::Insert();
 
 });
+//----
 
+//----| PRODUTO: EXIBE OS DADOS DO PRODUTO SELECIONADO |----
 $app->get('/produto[-{id}]', function (Request $request, Response $response, array $args) {
 
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
-    //if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
-    //----
-
-    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
     $args["uri"] = $request->getUri()->getPath();
     return $this->renderer->render($response, 'public/produtos/produto.phtml', $args);
-    
 
 });
+//----
 
+//----| CARRINHO: TUDO QUE ENVOLVA A AÇÃO DO CLIENTE (INSERIR, ALTERAR E EXCLUIR) |----
 $app->any('/cart[-{id:[0-9]+}[-{titulo}]]',function(Request $request, Response $response, array $args){
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
@@ -219,6 +229,10 @@ $app->any('/cart[-{id:[0-9]+}[-{titulo}]]',function(Request $request, Response $
                 case 4: //ENVIA OS DADOS DO PAGAMENTO PARA O PAGSEGURO - CARTÃO DE CRÉDITO
                     return $this->renderer->render($response, 'public/checkout/finalizacao-cartaocredito.phtml', $args);
                     break;
+                case 5: //REMOVER ITEM DO CARRINHO
+                    echo Carrinho::Delete ( (int) trim($_POST['carrinho_id']), (int) $_POST['produto_id'] );
+                    exit();
+                    break;
                 default:
                     return $this->renderer->render($response, 'public/checkout/carrinho.phtml', $args);
             }
@@ -233,6 +247,7 @@ $app->any('/cart[-{id:[0-9]+}[-{titulo}]]',function(Request $request, Response $
    
 
 })->setName("cart");
+//----
 
 $app->post('/getFrete',function(Request $request, Response $response, array $args) {
 
@@ -242,11 +257,13 @@ $app->post('/getFrete',function(Request $request, Response $response, array $arg
     return Ajrc\Helper\Correios::GetFreteGuzzle($_POST['cep'],$_POST['dados']);
 })->setName("getfrete");
 
+//----| CATEGORIA: EXIBE TODOS OS PRODUTOS DA CATEGORIA SELECIONADA |----
 $app->get('/categoria[-{id:[0-9]+}[-{order}[-{titulo}]]]',function(Request $request, Response $response, array $args){
 
     return $this->renderer->render($response, 'public/categorias/index.phtml', $args);
 
 })->setName("categoria");
+//----
 
 //----| CONTATO : FALE CONOSCO |----
 $app->any('/contate-nos',function(Request $request, Response $response, array $args){

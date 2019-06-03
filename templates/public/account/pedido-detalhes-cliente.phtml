@@ -1,0 +1,199 @@
+
+    <?php
+
+    use Ajrc\Helper\Sessions;
+    use Ajrc\Helper\AlertBootstrap4 as Alert;
+    use Ajrc\Model\Pedido;
+
+    if(array_key_exists("id",$data)) {
+      $carrinho_id = (int) $data["id"];
+      if(!$pedido = Pedido::getAccountListOrdersDetailsPublic( $carrinho_id )){
+        header("location: ./notfound?msg=desse Pedido");
+        exit();
+      }
+    } else {
+      header("location: ./notfound?msg=desse Pedido");
+      exit();
+    }
+
+    $codigo_pedido = $pedido[0]->codigo_pedido;
+    $forma_pagto = ($pedido[0]->forma_pagto=="boleto")?"Boleto Bancário":"Cartão de Crédito:<br>".$pedido[0]->total_parcelas." parcelas x R\$ ".number_format($pedido[0]->valor_parcela,2,',','.');
+    
+    $modalidade_frete = $pedido[0]->modalidade_frete;
+    $valor_frete = $pedido[0]->valor_frete;
+    $valor_total = $pedido[0]->valor_total;
+    $valor_subtotal = $valor_total-$valor_frete;
+    $estagio_atual = $pedido[0]->estagio_atual;
+    $de = explode("-",$pedido[0]->endereco_frete);
+    $endereco_frete = $de[0];
+    $complemento_frete = ($de[1]!=" ")?$de[1]."<br>":null;
+    $bairro_frete = $de[2];
+    $cidadeUf_frete = $de[3];
+
+    $endereco_entrega = $endereco_frete . $complemento_frete.$bairro_frete."<br>".$cidadeUf_frete."<br>";
+    if($modalidade_frete=="LOCAL"){ $endereco_entrega = "Ocorrerá a retirada na Loja!"; }
+        
+    //----| SEO : SEARCH ENGINE OPTIMIZATE ----
+    $title = "Chokoart :: Meus Pedidos!";
+    $description = $title;
+    $url_redirect = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    //----
+      
+    require_once("../templates/public/header.php");
+    require_once("../templates/public/topo.php");
+
+    ?>
+
+        <!-- Main Content -->
+        <div class="container my-3">
+          <div class="row">
+
+            <div class="col-md-4 col-lg-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <img src="<?php echo Sessions::UserPhoto(); ?>" width="80" height="80" alt="Foto de Adair" class="rounded-circle mb-3">
+                  <h5 class="bold mb-0"><?php echo Sessions::UserName(); ?></h5>
+                  <small class="counter">Cliente desde <?php echo Sessions::UserSince(); ?></small>
+                  <hr>
+                  <div class="roboto-condensed bold" data-toggle="tooltip" title="You currently have 1,113 Points to spend.">
+                    <i data-feather="award" class="text-warning"></i> Pontos: 1113</div>
+                </div>
+                <div class="list-group list-group-flush">
+                  <a href="./account-profile" class="list-group-item list-group-item-action"><i data-feather="user" class="mr-3"></i> Seus Dados</a>
+                  <a href="#account-orders" class="list-group-item list-group-item-action active"><i data-feather="shopping-bag" class="mr-3"></i> Pedidos :: Detalhes</a>
+                  <a href="./account-wishlist" class="list-group-item has-badge list-group-item-action"><i data-feather="heart" class="mr-3"></i> Lista de Desejos <span class="badge rounded badge-primary">2</span></a>
+                  <a href="./account-logout" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Logout</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col mt-3 mt-md-0">
+              <div class="card">
+                <div class="card-body">
+                  <h3>Código: <?php echo $pedido[0]->codigo_pedido; ?></h3>
+                  <?php Pedido::getPrintStatusHtmlClient( $estagio_atual ); ?>
+
+                  <table class="table table-borderless table-sm table-cart">
+                    <tbody>
+                      <?php 
+                            $valor_total_sem_juros = 0.00;
+                            foreach($pedido as $item) { 
+                      ?>
+                      <tr>
+                        <td class="cart-img nostretch">
+                          <a href="#"><img src="./img/produtos/<?php echo $item->produto_id; ?>_0.jpg" alt="<?php echo $item->produto_titulo; ?>"></a>
+                        </td>
+                        <td class="cart-title">
+                          <a href="./produto-<?php echo $item->produto_id; ?>" class="h6 bold d-inline-block" title="<?php echo $item->produto_titulo; ?>"><?php echo $item->produto_titulo; ?></a>
+                          <div class="small"><b>Preço Unitário</b>: R$ <?php echo number_format(($item->preco_item),2,',','.'); ?></div>
+                        </td>
+                        <td class="cart-qty nostretch">Qtde: <?php echo $item->qtde_item; ?></td>
+                        <td class="cart-price text-right"><span class="roboto-condensed bold">R$ <?php echo number_format(($item->qtde_item*$item->preco_item),2,',','.'); ?> <sup>*</sup></span></td>
+                      </tr>
+                      <?php 
+                              $valor_total_sem_juros+=($item->qtde_item*$item->preco_item);
+                            } 
+                            $porcentagem_juros = ($pedido[0]->forma_pagto!="boleto")?round((100-($valor_total_sem_juros*100)/$valor_total),2):null;
+                      ?>
+                    </tbody>
+                  </table>
+
+                  <div class="text-right">
+                    <table class="table table-borderless table-sm">
+                        <tbody>
+                          <tr>
+                            <td>Subtotal</td>
+                            <td style="width:150px" class="roboto-condensed bold">R$ <?php echo number_format($valor_subtotal,2,',','.'); ?></td>
+                          </tr>
+                          <tr>
+                            <td>Frete / Entrega</td>
+                            <td><?php echo $modalidade_frete; ?> <span class="roboto-condensed bold">(R$  <?php echo number_format($valor_frete,2,',','.'); ?>)</span></td>
+                          </tr>
+                          <tr>
+                            <td class="bold h4">TOTAL</td>
+                            <td class="roboto-condensed bold text-success h4">R$ <?php echo number_format($valor_total,2,',','.'); ?></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <hr>
+                  </div>
+
+                  <div class="row mb-2">
+                    <div class="col-lg-6">
+                      <h5 class="bold"><u>Endereço de Entrega:</u></h5>
+                      <?php echo $endereco_entrega; ?>
+                    </div>
+                    <div class="col-lg-6 mt-4 mt-lg-0">
+                      <h5 class="bold"><u>Forma de Pagamento:</u></h5>
+                      <strong><?php echo $forma_pagto; ?></strong><?php echo ($pedido[0]->forma_pagto!="boleto")?" <sup><small>* $porcentagem_juros% de juros</small></sup>":null; ?><br>
+                      <h5 class="bold mt-4"><u>Sobre o Frete:</u></h5>
+                      Modalidade: <strong><?php echo ($pedido[0]->modalidade_frete=="LOCAL")?"Retirar na Loja":$pedido[0]->modalidade_frete; ?></strong><br/>
+                      Prazo de Entrega: <strong><?php echo ($pedido[0]->prazo_frete=="0")?"Já disponível para retirada":$pedido[0]->prazo_frete."dia(s)<sup>**</sup></strong>"; ?> <br/>
+                      
+                    </div>
+                  </div>
+
+                  <strong><i><small><sup>*</sup>O preço poderá sofrer acréscimos no pagamento com cartão de crédito.</small></i></strong><br/>
+                  <strong><i><small><sup>**</sup> O prazo referente depende inteiramente dos Correios e sua logística.</small></i></strong><br/>
+                  
+                  <div class="d-flex justify-content-between mt-3">
+                    <a href="./account-orders" class="btn btn-outline-primary btn-sm rounded-pill"><i data-feather="arrow-left"></i> Voltar</a>
+                    <a href="./account-orderprint-details-<?php echo $carrinho_id; ?>" target="_blank" class="btn btn-primary btn-sm rounded-pill"><i data-feather="printer"></i> Imprimir</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /Main Content -->
+
+
+
+    <!-- Footer -->
+    <?php 
+    require_once("../templates/public/footer.php"); 
+    ?>
+    <!-- /Footer -->
+    
+
+
+    <!-- REQUIRED JS  -->
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./plugins/feather-icons/feather.min.js"></script>
+    <script src="./plugins/metismenu/metisMenu.min.js"></script>
+    <script src="./plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+    <!-- Mimity JS  -->
+    <script src="./dist/js/script.min.js"></script>
+
+    <script>
+    $(function () {
+
+      // Show reset password form
+      $('.reset').click(function (event) {
+        $('#row-login').attr('hidden', true)
+        $('#row-reset').attr('hidden', false)
+        event.preventDefault()
+      })
+
+      // Show login form
+      $('.login').click(function (event) {
+        $('#row-login').attr('hidden', false)
+        $('#row-reset').attr('hidden', true)
+        $('#row-reset-done').attr('hidden', true)
+      })
+
+      // Show reset password done message (demo purpose only)
+      $('.reset-done').click(function (event) {
+        $('#row-reset-done').attr('hidden', false)
+        $('#row-reset').attr('hidden', true)
+      })
+
+    })
+    </script>
+
+  </body>
+</html>

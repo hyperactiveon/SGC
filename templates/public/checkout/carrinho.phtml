@@ -2,7 +2,6 @@
 
 use Ajrc\Helper\Sessions;
 use Ajrc\Helper\AlertBootstrap4 as Alert;
-use Ajrc\Config\ConfigPagSeguro as PagSeguro;
 use Ajrc\Model\Usuario;
 use Ajrc\Model\Produto;
 use Ajrc\Model\Carrinho;
@@ -68,9 +67,7 @@ if( array_key_exists("produto_id",$_POST) &&
                         <input type="hidden" name="id_carrinho" value="<?php echo $id_carrinho; ?>">
                         <input type="hidden" id="valor_total_pedido" name="valor_total_pedido" value="0">
                         <tbody id="tbody_cart_itens_list">
-
                             <?php Carrinho::GetPublicList(); ?>
-
                         </tbody>
                     </table>
                 </form>   
@@ -80,7 +77,7 @@ if( array_key_exists("produto_id",$_POST) &&
                     <h3 class="roboto-condensed bold" id="h3TotalPedido">R$ 0.00</h3>
                     <hr>
                     <a href="./" class="btn btn-default rounded-pill">Continuar Comprando</a>
-                    <a href="#" id="btnSubmit" class="btn btn-primary rounded-pill btn-lg" >Entrega <i data-feather="arrow-right"></i></a>
+                    <a href="#" id="btnSubmit" class="btn btn-primary rounded-pill btn-lg disabled" >Entrega <i data-feather="arrow-right"></i></a>
                 </div>
             </div>
 

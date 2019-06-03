@@ -124,7 +124,7 @@ require_once("../templates/public/topo.php");
                     </div>
                     <div class="form-row">
                         <div class="form-group col-sm-12">
-                            <select class="form-control custom-select" id="numParcelas" name="numParcelas" required disabled>
+                            <select class="form-control custom-select" id="numParcelas" name="numParcelas" required>
                                 <?php echo $optsParcelas; ?>
                             </select>
                         </div>
@@ -221,7 +221,7 @@ require_once("../templates/public/footer.php");
                         $('input#txtCardCvv').blur(function(){
                             AjrcBoletoFacil.securityCode = $("input#txtCardCvv").val().trim();
                             if(!checkout.isValidSecurityCode(AjrcBoletoFacil.cardNumber, AjrcBoletoFacil.securityCode)){ naok++; }
-                            checkout.getCardHash(AjrcBoletoFacil, function(cardHash) { AjrcBoletoFacil.cardHash = cardHash; $('select#numParcelas').removeAttr("disabled"); console.log("naook: ", naok, " | cardHash: ", AjrcBoletoFacil.cardHash, AjrcBoletoFacil.cardNumber, AjrcBoletoFacil.bandeira, AjrcBoletoFacil.expirationMonth, AjrcBoletoFacil.expirationYear, AjrcBoletoFacil.securityCode); }, function(error) { console.log(error); naok++; });
+                            checkout.getCardHash(AjrcBoletoFacil, function(cardHash) { AjrcBoletoFacil.cardHash = cardHash; /*$('select#numParcelas').removeAttr("disabled");*/ console.log("naook: ", naok, " | cardHash: ", AjrcBoletoFacil.cardHash, AjrcBoletoFacil.cardNumber, AjrcBoletoFacil.bandeira, AjrcBoletoFacil.expirationMonth, AjrcBoletoFacil.expirationYear, AjrcBoletoFacil.securityCode); }, function(error) { console.log(error); naok++; });
                         })
                     })
                 })
@@ -241,45 +241,19 @@ require_once("../templates/public/footer.php");
                     console.log("naook: ", naok, " | cardHash: ", AjrcBoletoFacil.cardHash, AjrcBoletoFacil.cardNumber, AjrcBoletoFacil.bandeira, AjrcBoletoFacil.expirationMonth, AjrcBoletoFacil.expirationYear, AjrcBoletoFacil.securityCode);
                 }
             })
-            /*
-            $("button#btnFinalizarPedido").click(function(ev){
-                    ev.preventDefault();
-                    
-                    $.ajax({
-                        type: "POST", url: './cart', data: 
-                        { 
-                            passo : 4
-                            , id_sessao : id_sessao
-                            , amount : AjrcBoletoFacilAux.amount
-                            , installments : AjrcBoletoFacilAux.installments
-                            , totalAmount : AjrcBoletoFacilAux.totalAmount
-                            , valor_total_pedido_sem_frete : valor_total_pedido_sem_frete
-                            , tipo_frete : tipo_frete
-                            , valor_frete : valor_frete
-                            , cpfcnpj : cpfcnpj
-                            , nome : nome
-                            , email : email
-                            , cep : cep
-                            , estado : estado
-                            , cidade : cidade
-                            , bairro : bairro
-                            , endereco : endereco
-                            , numero : numero
-                            , complemento : complemento
-                            , creditCardHash : AjrcBoletoFacil.cardHash
-                        },
-                        success: function(rs) { 
-                            $("div#resultado").html(rs)
-                            console.log('Sucesso CreditCard --> ', rs.success)
-                            document.getElementById("form-payment").reset(); 
-                        },
-                        error: function(rs) { 
-                            $("div#resultado").html(rs.responseText)
-                            console.log('Erro CreditCard --> ',rs.responseText) 
-                        }
-                    });
+            
+            $("form#form-payment").submit(function(ev){
+                $("button#btnFinalizarPedido").html("Enviando ... ")
+                $("button#btnFinalizarPedido").attr("disabled",true)
+                $("button#btnFinalizarPedidoBoleto").attr("disabled",true)
             })
-            */
+            
+            $("form#form-payment-boleto").submit(function(ev){
+                $("button#btnFinalizarPedido").html("Enviando ... ")
+                $("button#btnFinalizarPedido").attr("disabled",true)
+                $("button#btnFinalizarPedidoBoleto").attr("disabled",true)
+            })
+            
 
         <?php 
         }

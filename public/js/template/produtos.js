@@ -34,6 +34,7 @@ $(document).ready(function() {
 
 	var tb_produtos = $('#tb_produtos').DataTable( {
 		ordering: true,
+		order: [[ 5, "asc" ]],
 		lengthChange: false,
 		pagingType: 'numbers',
 		ajax: "./data/users/produtos.php",

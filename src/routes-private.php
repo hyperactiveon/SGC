@@ -9,6 +9,7 @@ use Ajrc\Model\Fornecedor;
 use Ajrc\Model\Categoria;
 use Ajrc\Model\Destaque;
 use Ajrc\Model\Produto;
+use Ajrc\Model\Pedido;
 
 
 // Routes
@@ -41,6 +42,11 @@ $app->get('/login', function (Request $request, Response $response, array $args)
 //RECEBE OS DADOS ENVIADOS DO FORMULÁRIO DE LOGIN DA ÁREA ADMINISTRATIVA
 $app->post('/login', function (Request $request, Response $response, array $args) {
     
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    //----
+
     if( Login::validar() ) {
         return $response->withRedirect($this->router->pathFor('dashboard', [], []));
     } else {
@@ -65,9 +71,10 @@ $app->get('/logout', function (Request $request, Response $response, array $args
 //========================| DASHBOARD |=========================================================
 //DASHBOARD
 $app->get('/dashboard', function (Request $request, Response $response, array $args) {
-
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
     if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
     //----
 
     if( !in_array(base64_decode('admin') ,Sessions::Permissions()) ) {
@@ -85,8 +92,9 @@ $app->get('/dashboard', function (Request $request, Response $response, array $a
 
 $app->any('/usuarios[-{form}]', function (Request $request, Response $response, array $args) {
 
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
     if(!Sessions::Validator() || $validate==1) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
     //----
 
     if($request->getMethod()=="POST") 
@@ -123,8 +131,9 @@ $app->any('/usuarios[-{form}]', function (Request $request, Response $response, 
 
 $app->any('/fornecedores[-{form}]', function (Request $request, Response $response, array $args) {
 
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
     if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
     //----
 
     if($request->getMethod()=="POST") 
@@ -156,8 +165,9 @@ $app->any('/fornecedores[-{form}]', function (Request $request, Response $respon
 
 $app->any('/categorias[-{form}]', function (Request $request, Response $response, array $args) {
     
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
     if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
     //----
 
     if($request->getMethod()=="POST") 
@@ -189,8 +199,9 @@ $app->any('/categorias[-{form}]', function (Request $request, Response $response
 
 $app->any('/destaques[-{form}]', function (Request $request, Response $response, array $args) {
 
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
     if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
     //----
 
     if($request->getMethod()=="POST") 
@@ -222,8 +233,9 @@ $app->any('/destaques[-{form}]', function (Request $request, Response $response,
 
 $app->any('/produtos[-{form}]', function (Request $request, Response $response, array $args) {
 
-    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
     if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
     //----
 
     if($request->getMethod()=="POST") 
@@ -250,3 +262,36 @@ $app->any('/produtos[-{form}]', function (Request $request, Response $response, 
 });
 
 //========================| FIM : PRODUTO |=========================================================
+
+//----| PEDIDOS |----
+$app->any('/pedidos[-{form}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    //----
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "insert":
+                    //$args = Produto::Insert();
+                    break;
+                case "update":
+                    $args = Pedido::Update();
+                    //exit();
+                    break;
+            }
+
+        }
+        
+    }
+
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/pedidos/index.phtml', $args);
+
+})->setName('pedidos');;
+//----
