@@ -11,16 +11,25 @@ use Ajrc\Model\Destaque;
 use Ajrc\Model\Produto;
 
 
-
 // Routes
 //========================| LOGIN / LOGOUT |=========================================================
 //FORMULÁRIO DE LOGIN
 $app->get('/login', function (Request $request, Response $response, array $args) {
     
-    //USUÁRIO JÁ LOGADO VAI DIRETO PARA O DASHBOARD
+    //USUÁRIO JÁ LOGADO VAI DIRETO PARA O DASHBOARD OU ACCOUNT-PROFILE
     if(strlen( trim( json_encode( Sessions::getData() ) ) ) > 15){
-        return $response->withRedirect($this->router->pathFor('dashboard', [], []));
+        
+        if(Sessions::isAdmin() || Sessions::isFuncionario()) //se admin ou funcionario, dashboard
+        {
+            return $response->withRedirect($this->router->pathFor('dashboard', [], []));
+        }
+        else //cliente é direcionado para a página HOME PAGE / PÁGINA PRINCIPAL
+        {
+            return $response->withRedirect($this->router->pathFor('account-profile', [], []));
+        }
+    
     }
+    //----
 
     //DESTROI A SESSAO EXISTENTE FORÇANDO NOVO LOGIN
     Sessions::unregister( "USER_DATA_ID" );
@@ -35,7 +44,7 @@ $app->post('/login', function (Request $request, Response $response, array $args
     if( Login::validar() ) {
         return $response->withRedirect($this->router->pathFor('dashboard', [], []));
     } else {
-        return $response->withRedirect($this->router->pathFor('login', [], ['msg'=>'Usuário Inexistente']));
+        return $response->withRedirect($this->router->pathFor('login', [], ['msg'=>base64_encode('Usuário Inexistente')]));
     }
 
 });
@@ -77,7 +86,7 @@ $app->get('/dashboard', function (Request $request, Response $response, array $a
 $app->any('/usuarios[-{form}]', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
-    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::Validator() || $validate==1) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
     //----
 
     if($request->getMethod()=="POST") 
@@ -86,11 +95,15 @@ $app->any('/usuarios[-{form}]', function (Request $request, Response $response, 
         if( array_key_exists("operacao",$_POST) ) { 
             
             switch($_POST["operacao"]) {
-                case "insert":
+                case "insert": //ADMIN / FUNCIONÁRIO CADASTRANDO USUÁRIO
                     $args = Usuario::Insert();
                     break;
-                case "update":
+                case "update": //ADMIN / FUNCIONÁRIO EDITANDO USUÁRIO
                     $args = Usuario::Update();
+                    break;
+                case "public": //USUÁRIO NA ÁREA PÚBLICA EDITANDO SEU PERFIL
+                    $args = Usuario::Update();
+                    return $response->withRedirect($this->router->pathFor('account-profile', [], ["status"=>$args["status"]]));
                     break;
             }
 

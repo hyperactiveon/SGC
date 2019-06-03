@@ -64,12 +64,20 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="peso">Peso</label>
+                                        <div class="input-group">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="peso" id="peso" placeholder="*Apenas número inteiro" <?php echo $required; ?>>
+                                        </div>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="unidade_medida">Unidade de Medida</label>
                                         <div class="input-group">
                                         <select class="selectpicker" name="unidade_medida" id="unidade_medida" data-error="Campo de preenchimento obrigatório!" <?php echo $required; ?>>
                                             <option value="">Selecione</option>
-                                            <option value="UNIDADE">UNIDADE</option>
-                                            <option value="GRAMAS">GRAMAS</option>
+                                            <option value="Kg">KILOGRAMAS</option>
+                                            <option value="g">GRAMAS</option>
                                         </select>
                                         </div>
                                         <div class="help-block with-errors"></div>

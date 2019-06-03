@@ -40,11 +40,11 @@
     $selStatus.=    '<option value="I" '.$sel2.'>INATIVO</option>';
     $selStatus.= '</select>';
     
-    if($P->unidade_medida=="UNIDADE"){ $sel1 = 'selected="selected"'; $sel2 = null; }else{  $sel2 = 'selected="selected"'; $sel1 = null;  }
+    if($P->unidade_medida=="Kg"){ $sel1 = 'selected="selected"'; $sel2 = null; }else{  $sel2 = 'selected="selected"'; $sel1 = null;  }
     $selUnidM = '<select class="selectpicker" name="unidade_medida" id="unidade_medida" data-error="Campo de preenchimento obrigatório!" '.$required.'>';
     $selUnidM.=    '<option value="">Selecione</option>';
-    $selUnidM.=    '<option value="UNIDADE" '.$sel1.'>UNIDADE</option>';
-    $selUnidM.=    '<option value="GRAMAS" '.$sel2.'>GRAMAS</option>';
+    $selUnidM.=    '<option value="Kg" '.$sel1.'>KILOGRAMA</option>';
+    $selUnidM.=    '<option value="g" '.$sel2.'>GRAMA</option>';
     $selUnidM.= '</select>';
 
     $check_excluir_foto = null;
@@ -98,6 +98,14 @@
                                         <label for="qtde_ideal">Quantidade Ideal</label>
                                         <div class="input-group">
                                         <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="qtde_ideal" id="qtde_ideal" placeholder="*Apenas número inteiro" value="<?php echo $P->qtde_ideal; ?>" <?php echo $required; ?>>
+                                        </div>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="peso">Peso</label>
+                                        <div class="input-group">
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="peso" id="peso" placeholder="*Apenas número inteiro" value="<?php echo $P->peso; ?>" <?php echo $required; ?>>
                                         </div>
                                         <div class="help-block with-errors"></div>
                                     </div>

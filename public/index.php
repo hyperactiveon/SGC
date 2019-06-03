@@ -24,12 +24,9 @@ require __DIR__ . '/../src/dependencies.php';
 require __DIR__ . '/../src/middleware.php';
 
 // Register routes
-//Rotas da área pública
-require __DIR__ . '/../src/routes-public.php';
-//Rotas do sistema administrativo
-require __DIR__ . '/../src/routes-private.php';
+require __DIR__ . '/../src/routes-private.php'; //Rotas do sistema administrativo (Privado)
 
-
+require __DIR__ . '/../src/routes-public.php'; //Rotas da área pública
 
 // Run app
 $app->run();

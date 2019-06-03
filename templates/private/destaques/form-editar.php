@@ -70,10 +70,18 @@
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="texto_superior">Texto Superior</label>
+                                        <label for="texto_superior">Texto Superior - PRINCIPAL</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="texto_superior" id="texto_superior" placeholder="Texto Superior do Destaque" value="<?php echo $f->texto_superior; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="texto_superior" id="texto_superior" placeholder="Texto Superior do Destaque" maxlength="15" value="<?php echo $f->texto_superior; ?>">
+                                        </div>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="texto_superior_secundario">Texto Superior - SECUNDÁRIO</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="texto_superior_secundario" id="texto_superior_secundario" placeholder="Texto Superior do Destaque Secundario" maxlength="15" value="<?php echo $f->texto_superior_secundario; ?>">
                                         </div>
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -99,10 +107,18 @@
                                         <div class="help-block with-errors"></div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="texto_inferior">Texto Inferior</label>
+                                        <label for="texto_inferior">Texto Inferior - SECUNDÁRIO</label>
                                         <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="texto_inferior" id="texto_inferior" placeholder="Texto Inferior do Destaque" value="<?php echo $f->texto_inferior; ?>" <?php echo $required; ?>>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="texto_inferior" id="texto_inferior" placeholder="Texto Inferior do Destaque" maxlength="25" value="<?php echo $f->texto_inferior; ?>">
+                                        </div>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="texto_inferior_secundario">Texto Inferior - SECUNDÁRIO</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <input data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="texto_inferior_secundario" id="texto_inferior_secundario" placeholder="Texto Inferior do Destaque Secundário" maxlength="165" value="<?php echo $f->texto_inferior_secundario; ?>">
                                         </div>
                                         <div class="help-block with-errors"></div>
                                     </div>
