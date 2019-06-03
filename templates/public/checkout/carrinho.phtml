@@ -9,11 +9,12 @@ use Ajrc\Model\Carrinho;
 
 $sessao_id = session_id();
 $passo = null;
+
 if(Sessions::UserID() != "") { 
     $U = Usuario::List( Sessions::UserID() );
 } else { 
     $passo =    '<li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
-                 <li class="nav-item"><a class="nav-link" href="#">LOGIN</a></li>';
+                 <li class="nav-item"><a class="nav-link" href="#">Login</a></li>';
 }
 
 // SEO : SEARCH ENGINE OPTIMIZATE ----
@@ -26,6 +27,7 @@ require_once("../templates/public/header.php");
 require_once("../templates/public/topo.php");
 
 $id_carrinho = null;
+
 if( array_key_exists("produto_id",$_POST) && 
     array_key_exists("preco_unit_item",$_POST) &&
     array_key_exists("preco_total_item",$_POST) && 
@@ -33,7 +35,8 @@ if( array_key_exists("produto_id",$_POST) &&
     array_key_exists("qtde",$_POST) ) {
 
     $id_carrinho = Carrinho::Insert( Produto::List( (integer) $_POST["produto_id"] ) );
-}
+
+} 
 
 ?>
 
@@ -46,9 +49,11 @@ if( array_key_exists("produto_id",$_POST) &&
                     <li class="nav-item"><a class="nav-link active" href="#">CARRINHO</a></li>
                     <?php echo $passo; ?>
                     <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">ENTREGA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Entrega</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">PAGAMENTO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Formas Pagamento</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Finalização</a></li>
                 </ul>
             </div>
 
@@ -74,7 +79,7 @@ if( array_key_exists("produto_id",$_POST) &&
                     <h3 class="roboto-condensed bold" id="h3TotalPedido">R$ 0.00</h3>
                     <hr>
                     <a href="./" class="btn btn-default rounded-pill">Continuar Comprando</a>
-                    <a href="#" id="btnSubmit" class="btn btn-primary rounded-pill btn-lg">Entrega <i data-feather="arrow-right"></i></a>
+                    <a href="#" id="btnSubmit" class="btn btn-primary rounded-pill btn-lg" >Entrega <i data-feather="arrow-right"></i></a>
                 </div>
             </div>
 

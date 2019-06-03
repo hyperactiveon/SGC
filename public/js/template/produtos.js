@@ -36,7 +36,7 @@ $(document).ready(function() {
 		ordering: true,
 		lengthChange: false,
 		pagingType: 'numbers',
-		ajax: "/data/users/produtos.php",
+		ajax: "./data/users/produtos.php",
 		stateSave: false,
 		columns: [
             { title: "Id" },

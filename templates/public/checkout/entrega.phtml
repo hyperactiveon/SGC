@@ -5,6 +5,7 @@ use Ajrc\Helper\AlertBootstrap4 as Alert;
 use Ajrc\Helper\Correios;
 use Ajrc\Config\ConfigPagSeguro as PagSeguro;
 use Ajrc\Model\Usuario;
+use Ajrc\Model\Carrinho;
 
 if(Sessions::UserID() != "") { 
     $U = Usuario::List( Sessions::UserID() );
@@ -13,74 +14,33 @@ if(Sessions::UserID() != "") {
     exit();
 }
 
+
+//----| ATUALIZA A QTDE DE ITENS E VALORES NO CARRINHO |----
+Carrinho::UpdateQtdeItens();
+//----
+
 $id_carrinho = trim($_POST["id_carrinho"]);
 $usuario_id = $U->id;
+$cpfcnpj = $U->cpf;
 $valor_total_pedido = trim($_POST["valor_total_pedido"]);
-$total_produtos = COUNT($_POST["produto_id"]);
+$botao_entrega_desativar = "disabled";
+$total_produtos = 0;
+if(array_key_exists("produto_id",$_POST)){
+    $total_produtos = COUNT($_POST["produto_id"]);
+    $botao_entrega_desativar = null;
+} 
+
 $peso_pedido = 0.00;
 $valor_total_pedido_sem_frete = $valor_total_pedido;
-for($i=0;$i<$total_produtos;$i++){
+
+$inputs_hidden_produtos_id = null;
+$inputs_hidden_qtde_produtos = null;
+for($i=0;$i<$total_produtos;$i++) {
+    $inputs_hidden_produtos_id.= "<input type='hidden' name='produtos_id[]' value='".trim($_POST["produto_id"][$i])."'>";
+    $inputs_hidden_qtde_produtos.= "<input type='hidden' name='qtde[]' value='".trim($_POST["qtde"][$i])."'>";
     $peso_pedido+= $_POST["produto_peso_total"][$i];
 }
-/*
-["produto_peso_total"]=>
-  array(2) {
-    [0]=>
-    string(5) "0.027"
-    [1]=>
-    string(4) "0.75"
-  }
-["produto_id"]=>
-  array(2) {
-    [0]=>
-    string(1) "2"
-    [1]=>
-    string(1) "4"
-  }
-["produto_unidade_medida"]=>
-  array(2) {
-    [0]=>
-    string(1) "g"
-    [1]=>
-    string(1) "g"
-  }
-["produto_peso"]=>
-  array(2) {
-    [0]=>
-    string(5) "13.50"
-    [1]=>
-    string(6) "250.00"
-  }
 
-  ["qtde"]=>
-  array(2) {
-    [0]=>
-    string(1) "2"
-    [1]=>
-    string(1) "3"
-  }
-  ["qtde_estoque"]=>
-  array(2) {
-    [0]=>
-    string(3) "197"
-    [1]=>
-    string(2) "10"
-  }
-  ["preco_unit_item"]=>
-  array(2) {
-    [0]=>
-    string(5) "10.00"
-    [1]=>
-    string(5) "35.00"
-  }
-  ["preco_total_item"]=>
-  array(2) {
-    [0]=>
-    string(2) "20"
-    [1]=>
-    string(3) "105"
-  }
-*/
 $estados = "";
 $uf = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
 foreach($uf as $estado){
@@ -106,18 +66,23 @@ require_once("../templates/public/topo.php");
         <div class="card">
             <div class="card-header bg-white border-bottom flex-center p-0">
                 <ul class="nav nav-pills card-header-pills main-nav-pills" role="tablist">
-                    <li class="nav-item"><a class="nav-link" href="./cart">CARRINHO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./cart"><small>Carrinho</small></a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
                     <li class="nav-item"><a class="nav-link active" href="#">ENTREGA</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">PAGAMENTO</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Formas Pagamento</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Finalização</a></li>
                 </ul>
             </div>
 
             <div class="card-body pt-1 flex-center flex-column">
 
                 <form id="form_frete" class="form-style-1" method="POST" data-toggle="validator" data-disable="false" role="form">
+                    <input type="hidden" name="uid" value="<?php echo $usuario_id; ?>">
+                    <?php echo $inputs_hidden_produtos_id . $inputs_hidden_qtde_produtos; ?> 
                     <input type="hidden" name="passo" value="2">
+                    <input type="hidden" name="cpfcnpj" value="<?php echo $cpfcnpj; ?>">
                     <input type="hidden" name="id_carrinho" value="<?php echo $id_carrinho; ?>">
                     <input type="hidden" name="idsessao" value="<?php echo session_id(); ?>">
                     <input type="hidden" name="valor_total_pedido" id="valor_total_pedido" value="0.00">

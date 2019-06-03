@@ -84,6 +84,12 @@
         if(Sessions::UserID()!="") { 
           echo "WishList.Persistence('./add-whislist');"; 
         }
+
+        if(array_key_exists("zerar_sessao",$data)){
+            if($data["zerar_sessao"]){
+              echo "Armazenamento.Del('cart_list'); ClientCart.SetItens();";
+            }
+        }
       ?>
       
     })

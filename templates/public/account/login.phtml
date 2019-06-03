@@ -82,13 +82,13 @@
                     <div class="form-group">
                       <span class="input-icon">
                         <i data-feather="lock"></i>
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Senha" required>
+                        <input type="password" name="password" id="senha1" class="form-control" placeholder="Senha" required>
                       </span>
                     </div>
                     <div class="form-group">
                       <span class="input-icon">
                         <i data-feather="lock"></i>
-                        <input type="password" name="passwordc" id="passwordc" class="form-control" placeholder="Confirme a Senha" required>
+                        <input type="password" name="passwordc" id="senha2" class="form-control" placeholder="Confirme a Senha" required>
                       </span>
                     </div>
                     <button type="submit" id="btnRegistrarse" class="btn btn-outline-primary btn-block">REGISTRAR-SE</button>
@@ -109,17 +109,19 @@
           <div class="card">
             <div class="card-body">
               <form class="form-style-1">
-                <div class="form-group text-center">
+              <div class="form-group text-center">
                   <h2 class="bold">Esqueceu sua senha?</h2>
-                  <em>digite oe-mail registrado e receba mais intruções</em>
+                  <em>digite o e-mail registrado e receba mais intruções</em>
+                </div>
+                <div class="form-group text-center" id="rsRecPass">
                 </div>
                 <div class="form-group">
                   <span class="input-icon">
                     <i data-feather="mail"></i>
-                    <input type="email" class="form-control" placeholder="Seu E-MAIL registrado">
+                    <input type="email" id="emailrec" name="emailrec" class="form-control" placeholder="Seu E-MAIL registrado" required>
                   </span>
                 </div>
-                <button type="button" class="btn btn-danger btn-block reset-done">SOLICITAR NOVA SENHA</button>
+                <button type="submit" id="btnRecSenha" class="btn btn-danger btn-block reset-done">SOLICITAR NOVA SENHA</button>
               </form>
               <hr>
               <button class="btn btn-light btn-sm login"><i data-feather="arrow-left"></i> Voltar</button>
@@ -153,9 +155,9 @@
 
       // Validates if passwords are identical
       $('button#btnRegistrarse').click(function(event) {
-          if($('#passwordc').val() != $('#password').val()){
+          if($('input#senha2').val() != $('input#senha1').val()){
               event.preventDefault()
-              alert('Senhas diferentes');
+              alert('Senhas diferentes! -> pc: '+$('#passwordc').val()+" P: "+$('#password').val());
               return false;
           }
       })
@@ -174,10 +176,28 @@
         $('#row-reset-done').attr('hidden', true)
       })
 
-      // Show reset password done message (demo purpose only)
-      $('.reset-done').click(function (event) {
-        $('#row-reset-done').attr('hidden', false)
-        $('#row-reset').attr('hidden', true)
+      $('button#btnRecSenha').click(function(ev){
+        ev.preventDefault();
+        var email = $("input#emailrec").val().trim()
+        if(email.length > 5){
+          $.ajax({
+              type: "POST", url: './account-recpass', data: { email : email },
+              beforeSend: function(){ $("div#rsRecPass").html('Enviando ...<br><img id="preloadingGif" src="img/preloading.gif" style="margin-top:-20px;max-width:80px">') },
+              success: function(rs) { 
+                  $("div#rsRecPass").html(rs)
+                  $("input#emailrec").val('')
+              },
+              error: function(rs) { 
+                  $("div#rsRecPass").html(rs.responseText+'<img id="preloadingGifProblem" src="img/preloading-problem.gif" style="margin-top:-20px;max-width:100px;display:none">')
+                  $("input#emailrec").val('')
+              }
+          });
+        } else { 
+          $("input#emailrec").val('')
+          $("div#rsRecPass").html('<div class="alert alert-warning" role="alert">O campo E-mail não pode ser vazio! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>') 
+          setTimeout(function(){ $(".alert").alert("close"); },3000);
+        }
+        
       })
 
       App.atwDemo() // Add to Wishlist Demo

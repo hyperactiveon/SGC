@@ -1,0 +1,79 @@
+<?php
+
+use Ajrc\Helper\Sessions;
+
+$rs = Ajrc\Config\ConfigBoletoFacil::getPaymentBoleto();
+
+
+// SEO : SEARCH ENGINE OPTIMIZATE ----
+$title = "Chokoart :: Formas de Pagamento!";
+$description = $title." - BoletoFacil!";
+$url_redirect = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+//----
+
+require_once("../templates/public/header.php");
+require_once("../templates/public/topo.php");
+
+?>
+
+    <!-- Main Content -->
+    <div class="container my-3">
+
+        <div class="card">
+            <div class="card-header bg-white border-bottom flex-center p-0">
+                <ul class="nav nav-pills card-header-pills main-nav-pills" role="tablist">
+                    <li class="nav-item"><a class="nav-link" href="#"><small>Carrinho</small></a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><small>Entrega</small></a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
+                    <li class="nav-item"><a class="nav-link " href="#"><small>Formas Pagamento</small></a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="javascript:void(0)"><i data-feather="arrow-right"></i></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">FINALIZAÇÃO</a></li>
+                </ul>
+            </div>
+            
+            <div class="card-body pt-5 flex-center flex-column">
+
+                <div class="text-center">
+                    <small class="counter">CÓDIGO DO PEDIDO</small>
+                    <h3 class="roboto-condensed bold"><?php echo $rs["codigopedido"]; ?></h3>
+                    <small class="counter mt-4">LINHA DIGITÁVEL</small>
+                    <h3 class="roboto-condensed bold mb-4"><?php echo $rs["linhadigitavel"]; ?></h3>
+                    <?php echo $rs["linkboleto"]; ?>
+                    <a href="./zs" class="btn btn-primary rounded-pill btn-lg mt-4">VOLTAR A PÁGINA PRINCIPAL</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /Main Content -->
+
+<!-- Footer -->
+<?php 
+require_once("../templates/public/footer.php"); 
+?>
+<!-- /Footer -->
+
+<script src="./plugins/jquery/jquery.min.js"></script>
+<script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="./plugins/feather-icons/feather.min.js"></script>
+<script src="./plugins/metismenu/metisMenu.min.js"></script>
+<script src="./plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="./dist/js/script.min.js"></script>
+
+
+<script>
+
+    $(function () {
+        App.atwDemo() // Add to Wishlist Demo
+        <?php
+            if(Sessions::UserID()!="") { 
+                //echo "WishList.Persistence('./add-whislist');"; 
+            }
+            echo "Armazenamento.Del('cart_list'); ClientCart.SetItens();";
+        ?>
+
+    })
+</script>

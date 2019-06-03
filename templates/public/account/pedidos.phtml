@@ -33,6 +33,12 @@
 
     $required = " required ";
     
+    
+    // SEO : SEARCH ENGINE OPTIMIZATE ----
+    $title = "Chokoart :: Meus Pedidos!";
+    $description = $title;
+    $url_redirect = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    //----
       
     require_once("../templates/public/header.php");
     require_once("../templates/public/topo.php");

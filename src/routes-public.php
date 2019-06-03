@@ -19,6 +19,16 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 })->setName('home-page');
 //========================| FIM : PÁGINA PRINCIPAL |=========================================================
 
+//====| APÓS FINALIZAR O PEDIDO ESCOLHENDO A FORMA DE PAGAMENTO, REDIRECIONA PARA PÁGINA PRINCIPAL, INICIANDO NOVA SESSÃO |====
+$app->get('/zs', function (Request $request, Response $response, array $args) {
+    //
+    session_regenerate_id();
+    $args["zerar_sessao"] = true;
+    return $this->renderer->render($response, 'public/home/index.phtml', $args);
+    
+})->setName('home-zerasessao');
+//========================| FIM : PÁGINA PRINCIPAL |=========================================================
+
 
 //========================| LOGIN / LOGOUT |=========================================================
 //FORMULÁRIO DE LOGIN
@@ -35,7 +45,6 @@ $app->get('/account-login', function (Request $request, Response $response, arra
     return $this->renderer->render($response, 'public/account/login.phtml', $args);
 
 })->setName('account-login');
-
 
 //RECEBE OS DADOS ENVIADOS DO FORMULÁRIO DE LOGIN DA ÁREA ADMINISTRATIVA
 $app->post('/account-login', function (Request $request, Response $response, array $args) {
@@ -105,6 +114,28 @@ $app->post('/account-register', function (Request $request, Response $response, 
 });
 //----
 
+
+//RECEBE OS DADOS ENVIADOS DO FORMULÁRIO RECUPERAR SENHA (ESQUECI MINHA SENHA)
+$app->post('/account-recpass', function (Request $request, Response $response, array $args) {
+    
+    //VERIFICA SE JÁ EXISTE REGISTRO DO E-MAIL NO BANCO DE DADOS
+    $ja_cadastrado = Usuario::CheckExistsEmail( trim($_POST["email"]) );
+    //----
+
+    if(is_object($ja_cadastrado) && $ja_cadastrado->total>0) { //SE JÁ EXISTIR
+        $enviarEmailRecuperacao = \Ajrc\Helper\Email::sendEmailRecuperacaoSenha($ja_cadastrado->nome, trim($_POST["email"]));
+        if($enviarEmailRecuperacao["status"]==200) {
+            echo \Ajrc\Helper\AlertBootStrap4::get("success",$enviarEmailRecuperacao["message"],6000);
+        } else {
+            echo \Ajrc\Helper\AlertBootStrap4::get("danger","Tivemos um problema!<br>Tente novamente mais tarde",6000);
+        } 
+    } else {
+        echo \Ajrc\Helper\AlertBootStrap4::get("danger",trim($_POST["email"]) . " NÃO cadastrado!",6000);
+    }
+
+});
+//----
+
 $app->get('/account-profile', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
@@ -127,6 +158,7 @@ $app->get('/account-orders', function (Request $request, Response $response, arr
 })->setName('account-orders');
 //----
 
+//----| LISTA DE DESEJOS DO USUÁRIO - DENTRO DO PERFIL DELE |----
 $app->get('/account-whishlist', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN
@@ -138,6 +170,7 @@ $app->get('/account-whishlist', function (Request $request, Response $response, 
     return $this->renderer->render($response, 'public/account/listadesejos.phtml', $args);
 
 });
+//----
 
 //RECEBE OS DADOS ENVIADOS DO FORMULÁRIO DE REGISTRA-SE NA ÁREA PÚBLICA E EXIBE O FORM DE INSERÇÃO
 $app->post('/add-whislist', function (Request $request, Response $response, array $args) {
@@ -174,24 +207,22 @@ $app->any('/cart[-{id:[0-9]+}[-{titulo}]]',function(Request $request, Response $
         if( array_key_exists("passo",$_POST) ) { 
             
             switch($_POST["passo"]) {
-                case 0: //ADICIONA PRODUTO NO CARRINHO
-                    return $this->renderer->render($response, 'public/checkout/carrinho.phtml', $args);
-                    break;
                 case 1: //EXIBE OS DADOS DO CLIENTE PARA ENTREGA
                     return $this->renderer->render($response, 'public/checkout/entrega.phtml', $args);
                     break;
                 case 2: //EXIBE AS FORMAS DE PAGAMENTO PARA ESCOLHA DO CLIENTE
-                    return $this->renderer->render($response, 'public/checkout/pagseguro.phtml', $args);
+                    return $this->renderer->render($response, 'public/checkout/formaspagto.phtml', $args);
                     break;
-                case 3: //ENVIA OS DADOS DO PAGAMENTO PARA O PAGSEGURO - CARTÃO DE CRÉDITO
-                    Ajrc\Config\ConfigPagSeguro::getCreditCardTransaction();
-                    exit();
+                case 3: //ENVIA OS DADOS DO PAGAMENTO PARA O PAGSEGURO - BOLETO
+                    return $this->renderer->render($response, 'public/checkout/finalizacao-boleto.phtml', $args);
+                    //exit();
                     break;
-                case 4: //ENVIA OS DADOS DO PAGAMENTO PARA O PAGSEGURO - BOLETO
-                    Ajrc\Config\ConfigPagSeguro::getBoletoTransaction();
+                case 4: //ENVIA OS DADOS DO PAGAMENTO PARA O PAGSEGURO - CARTÃO DE CRÉDITO
+                    Ajrc\Config\ConfigBoletoFacil::getPaymentCreditCard();
                     exit();
                     break;
                 default:
+                    return $this->renderer->render($response, 'public/checkout/carrinho.phtml', $args);
             }
 
         }
@@ -219,29 +250,35 @@ $app->get('/categoria[-{id:[0-9]+}[-{order}[-{titulo}]]]',function(Request $requ
 
 })->setName("categoria");
 
+//----| CONTATO : FALE CONOSCO |----
 $app->any('/contate-nos',function(Request $request, Response $response, array $args){
 
     if($request->getMethod()=="POST") 
     {
-        $rs = \Ajrc\Helper\Email::sendFaleConosco();
-        if($rs["status"] == 200) {
-            echo  $rs["message"];
-        } else {
-            echo "<div class=\"alert alert-danger\" role=\"alert\">".$rs["message"]."<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>";
-        }
-        exit(); //descomentar se utilizar AJAX no Formulário Frontend
+        $rs = \Ajrc\Model\Contato::sendFaleConosco();
+        echo $rs["message"];
+        exit();
     }
 
     return $this->renderer->render($response, 'public/contato/index.phtml', $args);
 
 })->setName("contato");
+//----
 
+//----| BUSCADOR : RECEBE O TERMO PROCURADO |----
 $app->post('/buscador',function(Request $request, Response $response, array $args){
  
     return $this->renderer->render($response, 'public/buscador/index.phtml', $args);
 
 })->setName("buscador");
+//----
 
+//----| BOLETO FÁCIL ::: EMISSÃO DE BOLETO |----
+$app->get('/boleto',function(Request $request, Response $response, array $args){
+
+    \Ajrc\Config\ConfigBoletoFacil::getPaymentBoleto();
+
+})->setName("categoria");
 
 //----| 404: PAGE NOT FOUND |----
 $app->get('/{params:.*}', function ($request, $response, $args) {

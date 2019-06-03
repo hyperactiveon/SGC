@@ -4,7 +4,7 @@
     $url = [];
 
     if(strrpos($_SERVER['REQUEST_URI'], "dashboard")>0) {
-        $url = ["active","","","",""];
+        $url = ["active","","","","",""];
     }
     else if(strrpos($_SERVER['REQUEST_URI'], "destaques")>0) {
         $url = ["","active","","","",""];

@@ -98,8 +98,6 @@
     </div>
     <!-- /Main Content -->
 
-
-
     <!-- Footer -->
     <?php 
     require_once("../templates/public/footer.php"); 
@@ -119,17 +117,16 @@
       $('input#nome').focus()
       $('button#btnEnviarContato').click(function(event) {
         event.preventDefault()
+        $("div#rsmsg").html("<div class=\"alert alert-warning\" role=\"alert\">Enviando...<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>")
         $('button#btnEnviarContato').attr("disabled", true);
         $.ajax({
             type: "POST", url: './contate-nos', data: $("form#frmContato").serialize(),
             success: function(rs){ 
               $('input#nome').val('')
               $('input#email').val('')
-              $('input#mensagem').val('')
+              $('textarea#mensagem').val('')
               $('button#btnEnviarContato').removeAttr("disabled");
-              var rsmsg = "<div class=\"alert alert-success\" role=\"alert\">"+rs+" <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>"
-              
-              $("div#rsmsg").html(rsmsg)
+              $("div#rsmsg").html(rs)
             },
             error: function(rs, status, err){ console.log('Erro --> ',rs , err) }
         });
