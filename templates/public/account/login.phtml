@@ -7,7 +7,7 @@
 
       $msg = null;
       if(array_key_exists("msg",$_GET)){
-        $msg = "<h2 style='text-align:center'>" . trim($_GET["msg"]) . "</h2>";
+        $msg = "<h4 style='text-align:center'>" . trim($_GET["msg"]) . "</4>";
       }
 
     ?>
@@ -24,21 +24,22 @@
 
                 <!-- Login Form -->
                 <div class="col-md-6 col-login">
-                  <form class="form-style-1">
+                  <form class="form-style-1" method="POST">
                     <div class="form-group text-center mb-2">
                       <h2 class="bold mb-0">Login</h2>
                       <em>em sua conta</em>
+                      <?php echo $msg; ?>
                     </div>
                     <div class="form-group">
                       <span class="input-icon">
                         <i data-feather="mail"></i>
-                        <input type="email" class="form-control" placeholder="Digite seu E-MAIL">
+                        <input type="email" name="email" class="form-control" placeholder="Digite seu E-MAIL" required>
                       </span>
                     </div>
                     <div class="form-group">
                       <span class="input-icon">
                         <i data-feather="lock"></i>
-                        <input type="password" class="form-control" placeholder="Digite sua SENHA">
+                        <input type="password" name="password" class="form-control" placeholder="Digite sua SENHA" required>
                       </span>
                     </div>
                     <div class="form-group d-flex justify-content-between">
@@ -48,7 +49,7 @@
                       </div>
                       <u><a href="#" class="text-primary small reset">Esqueceu sua senha ?</a></u>
                     </div>
-                    <button type="button" class="btn btn-primary btn-block">LOGIN</button>
+                    <button type="submit" class="btn btn-primary btn-block">LOGIN</button>
                   </form>
                 </div>
                 <!-- /Login Form -->
@@ -98,39 +99,25 @@
             <div class="card-body">
               <form class="form-style-1">
                 <div class="form-group text-center">
-                  <h2 class="bold">Reset Password</h2>
-                  <em>enter your email and to receive instructions</em>
+                  <h2 class="bold">Esqueceu sua senha?</h2>
+                  <em>entre com o e-mail registrado para receber mais intruções</em>
                 </div>
                 <div class="form-group">
                   <span class="input-icon">
                     <i data-feather="mail"></i>
-                    <input type="email" class="form-control" placeholder="Email address">
+                    <input type="email" class="form-control" placeholder="Seu E-MAIL ">
                   </span>
                 </div>
-                <button type="button" class="btn btn-danger btn-block reset-done">RESET</button>
+                <button type="button" class="btn btn-danger btn-block reset-done">SOLICITAR NOVA SENHA</button>
               </form>
               <hr>
-              <button class="btn btn-light btn-sm login"><i data-feather="arrow-left"></i> Back to login</button>
+              <button class="btn btn-light btn-sm login"><i data-feather="arrow-left"></i> Voltar</button>
             </div>
           </div>
         </div>
       </div>
       <!-- /Reset Password -->
 
-      <!-- Reset Password Done Message -->
-      <div class="row justify-content-center" id="row-reset-done" hidden>
-        <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4">
-          <div class="card">
-            <div class="card-body text-center">
-              <i data-feather="mail" class="text-primary mb-2" width="50" height="50"></i>
-              <h3 class="bold">CHECK YOUR EMAIL</h3>
-              <p class="text-secondary">We just sent you a letter with instructions to reset your password</p>
-              <button class="btn btn-primary btn-block rounded login">LOGIN</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /Reset Password Done Message -->
 
     </div>
     <!-- /Main Content -->

@@ -92,6 +92,10 @@ $app->any('/usuarios[-{form}]', function (Request $request, Response $response, 
                 case "update":
                     $args = Usuario::Update();
                     break;
+                case "public": //USUÁRIO NA ÁREA PÚBLICA EDITANDO SEU PERFIL
+                    $args = Usuario::Update();
+                    return $response->withRedirect($this->router->pathFor('account-profile', [], ["status"=>$args["status"]]));
+                    break;
             }
 
         }

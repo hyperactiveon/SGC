@@ -1,282 +1,42 @@
 
     <?php
-      
-      require_once("../templates/public/header.php");
-      require_once("../templates/public/topo.php");
 
-      $msg = null;
-      if(array_key_exists("msg",$_GET)){
-        $msg = "<h2 style='text-align:center'>" . trim($_GET["msg"]) . "</h2>";
-      }
+    use Ajrc\Helper\Sessions;
+    use Ajrc\Model\Usuario;
+  
+    $u = Usuario::List(Sessions::UserID());
+    
+    if(empty($u)){
+      echo "Usuário inexistente!";
+      exit();
+    }
+    
+    $check_excluir_foto = null;
+    $foto_usuario = null;
+    $pasta_imagens = "img/usuarios/";
+    foreach (glob($pasta_imagens . $u->id."_1.*") as $foto) {
+        $foto_usuario = "<img src='".$foto."'>";
+        $check_excluir_foto =  '<br><div class="checkbox checkbox-success checkbox-inline">
+                                    <input tabindex="18" name="excluir_foto" id="excluir_foto" value="'.$foto.'" type="checkbox">
+                                    <label for="excluir_foto">Excluir a foto atual?</label>
+                                </div>';
+    }
+
+    $sexo = null;
+    $sexos = [""=>"Selecione", "M"=>"Masculino", "F"=>"Feminino"];
+    foreach($sexos as $key=>$value){
+        $sel = ($u->sexo==$key)?" selected='selected'":null;
+        $sexo.= "<option value='".$key."'".$sel.">".$value."</option>";
+    }
+    
+
+    $required = " required ";
+    
+      
+    require_once("../templates/public/header.php");
+    require_once("../templates/public/topo.php");
 
     ?>
-
-    <!-- Top bar -->
-    <div class="topbar">
-      <div class="container d-flex">
-
-        <!-- service contact -->
-        <nav class="nav d-none d-md-flex"> <!-- hidden on xs -->
-          <a class="nav-link pl-0" href="javascript:void(0)"><i data-feather="phone"></i> (12) 3131-3131</a>
-          <a class="nav-link" href="javascript:void(0)"><i data-feather="mail"></i> contato@chokoart.com.br</a>
-        </nav>
-
-        <!-- social media -->
-        <nav class="nav">
-          <a class="nav-link pr-2 pl-0" href="javascript:void(0)"><i data-feather="facebook"></i></a>
-          <a class="nav-link px-2" href="javascript:void(0)"><i data-feather="twitter"></i></a>
-          <a class="nav-link px-2" href="javascript:void(0)"><i data-feather="instagram"></i></a>
-        </nav>
-
-        <!-- language 
-        <nav class="nav nav-lang ml-auto">
-          <a class="nav-link active" href="javascript:void(0)">EN</a>
-          <a class="nav-link pipe">|</a>
-          <a class="nav-link" href="javascript:void(0)">RU</a>
-        </nav>
-        -->
-
-        <!-- User dropdown -->
-        <ul class="nav nav-lang ml-auto">
-          <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle pr-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              <i data-feather="user"></i> Olá, Adair! <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <div class="media p-2 align-items-center mb-2">
-                <div class="mr-2 size50x50"><img src="/img/usuarios/2_1.jpg" alt="user" class="img-thumbnail rounded-circle mr-2 size50x50"></div>
-                <div class="media-body">
-                  <strong>Adair José Rossatto Commodo</strong>
-                  <div class="small">faleconosco@ajrc.com.br</div>
-                  <div class="small counter">1113 points</div>
-                </div>
-              </div>
-              <a href="account-orders.html" class="dropdown-item has-icon"><i data-feather="shopping-cart"></i>Carrinho</a>
-              <a href="account-wishlist.html" class="dropdown-item has-icon has-badge"><i data-feather="heart"></i>Lista de Desejos <span class="badge rounded badge-primary">2</span></a>
-              <a href="./account-1" class="dropdown-item has-icon"><i data-feather="settings"></i>Configurações</a>
-              <div class="dropdown-divider"></div>
-              <a href="./account-logout" class="dropdown-item has-icon text-danger"><i data-feather="log-out"></i>Logout</a>
-            </div>
-          </li>
-        </ul>
-        <!-- /User dropdown -->
-
-      </div><!-- /.container -->
-    </div>
-    <!-- /Top bar -->
-
-
-    <!--Header -->
-    <header>
-      <div class="container">
-
-        <!-- Sidebar toggler -->
-        <a class="nav-link nav-icon ml-ni nav-toggler mr-3 d-flex d-lg-none" href="#" data-toggle="modal" data-target="#menuModal"><i data-feather="menu"></i></a>
-
-        <!-- Logo -->
-        <a class="nav-link nav-logo" href="index.html"><img src="/img/logo.svg" alt="Mimity"> <strong>Mimity</strong></a>
-
-        <!-- Main navigation -->
-        <ul class="nav nav-main ml-auto d-none d-lg-flex"> <!-- hidden on md -->
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle forwardable" data-toggle="dropdown" href="shop-categories.html" role="button" aria-haspopup="true" aria-expanded="false">
-              Shop <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="shop-categories.html">Shop Categories</a>
-              <a class="dropdown-item" href="shop-grid.html">Shop Grid</a>
-              <a class="dropdown-item" href="shop-list.html">Shop List</a>
-              <a class="dropdown-item" href="shop-single.html">Single Product</a>
-              <a class="dropdown-item" href="shop-single2.html">Single Product v2</a>
-              <a class="dropdown-item" href="cart.html">Cart</a>
-              <a class="dropdown-item" href="shipping.html">Checkout</a>
-              <div class="dropdown-submenu">
-                <a class="dropdown-item" href="#">Submenu</a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0)">item #1</a>
-                  <a class="dropdown-item" href="javascript:void(0)">item #2</a>
-                  <a class="dropdown-item" href="javascript:void(0)">item #3</a>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item dropdown dropdown-hover dropdown-mega">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Mega Menu <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <div class="row">
-                <div class="col-lg-3">
-                  <div class="list-group list-group-flush list-group-no-border list-group-sm">
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action"><strong>CLOTHING</strong></a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Polos &amp; Tees</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Casual Shirts</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Jeans</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Casual Trousers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Formal Shirts</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Formal Trousers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Suits &amp; Blazers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Shorts &amp; 3/4ths</a>
-                  </div>
-                </div>
-                <div class="col-lg-3 border-left">
-                  <div class="list-group list-group-flush list-group-no-border list-group-sm">
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action"><strong>FOOTWEAR</strong></a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Sports Shoes</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Sneakers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Casual Shoes</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Loafers</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Formal Shoes</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Boots</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Outdoor &amp; Hiking</a>
-                    <a href="shop-grid.html" class="list-group-item list-group-item-action">Floaters</a>
-                  </div>
-                </div>
-                <div class="col-lg-3 border-left roboto-condensed">
-                  <div class="card text-white zoom-hover">
-                    <div data-cover="/img/categories/1.jpeg" data-height="260px"></div>
-                    <div class="card-img-overlay card-img-overlay-transparent d-flex justify-content-center align-items-center flex-column">
-                      <h2 class="card-title text-center">New Men's Fashion</h2>
-                      <h5>See what's new</h5>
-                      <a href="shop-grid.html" class="btn btn-primary rounded-pill">Shop Now</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 border-left roboto-condensed">
-                  <div class="card text-white zoom-hover">
-                    <div data-cover="/img/categories/6.jpeg" data-height="260px"></div>
-                    <div class="card-img-overlay card-img-overlay-transparent d-flex justify-content-center align-items-center flex-column">
-                      <h2 class="card-title text-center">New Women's Fashion</h2>
-                      <h5>See what's new</h5>
-                      <a href="shop-grid.html" class="btn btn-danger rounded-pill">Shop Now</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle forwardable active" data-toggle="dropdown" href="account-profile.html" role="button" aria-haspopup="true" aria-expanded="false">
-              Account <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item active" href="account-login.html">Login / Register</a>
-              <a class="dropdown-item" href="account-profile.html">Profile Page</a>
-              <a class="dropdown-item" href="account-orders.html">Orders List</a>
-              <a class="dropdown-item" href="account-order-detail.html">Order Detail</a>
-              <a class="dropdown-item" href="account-wishlist.html">Wishlist</a>
-              <a class="dropdown-item" href="account-address.html">Address</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle forwardable" data-toggle="dropdown" href="blog-grid.html" role="button" aria-haspopup="true" aria-expanded="false">
-              Blog <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="blog-grid.html">Post Grid</a>
-              <a class="dropdown-item" href="blog-list.html">Post List</a>
-              <a class="dropdown-item" href="blog-single.html">Single Post</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown dropdown-hover">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Pages <i data-feather="chevron-down"></i>
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="about.html">About Us</a>
-              <a class="dropdown-item" href="contact.html">Contact Us</a>
-              <a class="dropdown-item" href="compare.html">Compare</a>
-              <a class="dropdown-item" href="faq.html">Help / FAQ</a>
-              <a class="dropdown-item" href="404.html">404 Not Found</a>
-            </div>
-          </li>
-        </ul>
-        <!-- /Main navigation -->
-
-        <!-- Search form -->
-        <form class="form-inline form-search ml-auto mr-0 mr-sm-1 d-none d-sm-flex">
-          <div class="input-group input-group-search">
-            <div class="input-group-prepend">
-              <button class="btn btn-light d-flex d-sm-none search-toggle" type="button"><i data-feather="chevron-left"></i></button>
-            </div>
-            <input type="text" class="form-control border-0 bg-light input-search" placeholder="Search...">
-            <div class="input-group-append">
-              <button class="btn btn-light" type="submit"><i data-feather="search"></i></button>
-            </div>
-          </div>
-        </form>
-        <!-- /Search form -->
-
-        <ul class="nav ml-auto ml-sm-0">
-          <!-- Search form toggler -->
-          <li class="nav-item d-block d-sm-none ml-2 ml-lg-0"><a class="nav-link nav-icon search-toggle" href="#"><i data-feather="search"></i></a></li>
-
-          <!-- Cart dropdown -->
-          <li class="nav-item dropdown dropdown-hover dropdown-cart">
-            <a class="nav-link nav-icon mr-nis dropdown-toggle forwardable ml-2" data-toggle="dropdown" href="cart.html" role="button" aria-haspopup="true" aria-expanded="false">
-              <i data-feather="shopping-cart"></i>
-              <span class="badge badge-primary">4</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="/img/products/1_small.jpg" width="50" height="50" alt="Hanes Hooded Sweatshirt"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="Hanes Hooded Sweatshirt">Hanes Hooded Sweatshirt</a>
-                  <span class="qty">1</span> x <span class="price">$18.56</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="/img/products/2_small.jpg" width="50" height="50" alt="The Flash Logo T-Shirt"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="The Flash Logo T-Shirt">The Flash Logo T-Shirt</a>
-                  <span class="qty">1</span> x <span class="price">$16.64</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="/img/products/3_small.jpg" width="50" height="50" alt="Open Front Cropped Cardigans"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="Open Front Cropped Cardigans">Open Front Cropped Cardigans</a>
-                  <span class="qty">1</span> x <span class="price">$15.20</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="media">
-                <a href="shop-single.html"><img src="/img/products/4_small.jpg" width="50" height="50" alt="Cotton Fleece Long Hoodie"></a>
-                <div class="media-body">
-                  <a href="shop-single.html" title="Cotton Fleece Long Hoodie">Cotton Fleece Long Hoodie</a>
-                  <span class="qty">1</span> x <span class="price">$85.00</span>
-                  <button type="button" class="close" aria-label="Close"><i data-feather="x-circle"></i></button>
-                </div>
-              </div>
-              
-              <div class="d-flex justify-content-between pb-3 pt-2">
-                <span>Total</span>
-                <strong>$135.40</strong>
-              </div>
-              <div class="d-flex justify-content-between pb-2">
-                <div class="w-100 mr-1">
-                  <a href="cart.html" class="btn btn-block rounded-pill btn-secondary">View Cart</a>
-                </div>
-                <div class="w-100 ml-1">
-                  <a href="shipping.html" class="btn btn-block rounded-pill btn-primary">Checkout</a>
-                </div>
-              </div>
-            </div>
-          </li>
-          <!-- /Cart dropdown -->
-        </ul>
-
-      </div><!-- /.container -->
-    </header>
-    <!-- /Header -->
-
 
     <!-- Main Content -->
     <div class="container my-3">
@@ -285,19 +45,18 @@
         <div class="col-md-4 col-lg-3">
           <div class="card">
             <div class="card-body text-center">
-              <img src="/img/usuarios/2_1.jpg" width="80" height="80" alt="Foto de Adair" class="rounded-circle mb-3">
-              <h5 class="bold mb-0">Adair José Rossatto Commodo</h5>
-              <small class="counter">Cliente desde 31/12/2019</small>
+              <img src="<?php echo Sessions::UserPhoto(); ?>" width="80" height="80" alt="Foto de Adair" class="rounded-circle mb-3">
+              <h5 class="bold mb-0"><?php echo Sessions::UserName(); ?></h5>
+              <small class="counter">Cliente desde <?php echo Sessions::UserSince(); ?></small>
               <hr>
               <div class="roboto-condensed bold" data-toggle="tooltip" title="You currently have 1,113 Points to spend.">
                 <i data-feather="award" class="text-warning"></i> Pontos: 1113</div>
             </div>
             <div class="list-group list-group-flush">
-              <a href="account-profile.html" class="list-group-item list-group-item-action active"><i data-feather="user" class="mr-3"></i> Profile</a>
-              <a href="account-orders.html" class="list-group-item list-group-item-action"><i data-feather="shopping-bag" class="mr-3"></i> Pedidos</a>
-              <a href="account-wishlist.html" class="list-group-item has-badge list-group-item-action"><i data-feather="heart" class="mr-3"></i> Lista de Desejos <span class="badge rounded badge-primary">2</span></a>
-              <a href="account-address.html" class="list-group-item list-group-item-action"><i data-feather="map" class="mr-3"></i> Endereço?</a>
-              <a href="account-login.html" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Logout</a>
+              <a href="#" class="list-group-item list-group-item-action active"><i data-feather="user" class="mr-3"></i> Seus Dados</a>
+              <a href="#account-orders" class="list-group-item list-group-item-action"><i data-feather="shopping-bag" class="mr-3"></i> Pedidos</a>
+              <a href="#account-wishlist" class="list-group-item has-badge list-group-item-action"><i data-feather="heart" class="mr-3"></i> Lista de Desejos <span class="badge rounded badge-primary">2</span></a>
+              <a href="./account-logout" class="list-group-item list-group-item-action text-danger"><i data-feather="log-out" class="mr-3"></i> Logout</a>
             </div>
           </div>
         </div>
@@ -305,7 +64,181 @@
         <div class="col mt-3 mt-md-0">
           <div class="card">
             <div class="card-body">
-              <h3>My Profile</h3><hr>
+              <h3>Seus dados</h3><hr>
+              <?php 
+              if(array_key_exists("status",$_GET))
+              {
+                $tipomsg = "danger";
+                $txtmsg = "<strong>Ops ... Ocorreu algum problema!</strong> Por favor, tente mais tarde novamente";
+                if($_GET["status"]=="1")
+                {
+                  $tipomsg = "success";
+                  $txtmsg = "<strong>Seus dados foram ATUALIZADOS</strong> com sucesso! ";
+                }
+
+                echo "<div class=\"alert alert-".$tipomsg."\" role=\"alert\">
+                        ".$txtmsg." <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                        <span aria-hidden=\"true\">&times;</span>
+                        </button>
+                    </div><script>setTimeout(function(){ $(\".alert\").alert(\"close\"); },5000);</script>";
+              } 
+              ?>
+              <form class="form form-style-1" data-toggle="validator" data-disable="false" role="form" method="POST" action="./usuarios" enctype="multipart/form-data">
+                <input type="hidden" name="operacao" value="public">
+                <input type="hidden" name="id" id="id" value="<?php echo $u->id; ?>">
+                <input type="hidden" name="cliente" id="cliente" value="1">
+                <input type="hidden" name="status" id="status" value="A">
+                <div class="container-fluid float-left">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="nome">Nome</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <input tabindex="1" data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="nome" id="nome" value="<?php echo $u->nome; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="login">Login</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                                        <input tabindex="3"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="login" id="login" value="<?php echo $u->login; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sexo">Sexo</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-intersex"></i></div>
+                                        <select tabindex="5"  data-error="Campo de preenchimento obrigatório!" class="form-control selectpicker" name="sexo" id="sexo" <?php echo $required; ?>>
+                                            <?php echo $sexo;?>
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cep">CEP</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                                        <input tabindex="7"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="cep" id="cep" value="<?php echo $u->cep; ?>" onkeypress="$(this).mask('00.000-000')" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cidade">Cidade</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                                        <input tabindex="9"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="cidade" id="cidade" value="<?php echo $u->cidade; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endereco">Endereço</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                                        <input tabindex="11"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="endereco" id="endereco" value="<?php echo $u->endereco; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="numero">Número</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                                        <input tabindex="13"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="numero" id="numero" value="<?php echo $u->numero; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="telefone">Telefone</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                        <input tabindex="15"  class="form-control" type="text" name="telefone" id="telefone" value="<?php echo $u->telefone; ?>" onkeypress="$(this).mask('(00) 0000-0000')">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="margin-top:20px;text-align:center">
+                                        <label>
+                                            <label for="foto"><div class="fa fa-image"></div> Escolha a foto do seu perfil:</label>
+                                            <input tabindex="17"  type="file" class="form-control-file" name="foto" id="foto">
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="email">E-mail</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
+                                        <input tabindex="2"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="email" name="email" id="email" value="<?php echo $u->email; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="senha">Senha</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                                        <input tabindex="4"  class="form-control" name="senha" id="senha" type="password" placeholder="Senha">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="data_nascto">Data de Nascimento</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                        <input tabindex="6"  data-error="Campo de preenchimento obrigatório!" class="form-control" name="data_nascto" id="data_nascto" type="date" value="<?php echo $u->data_nascto; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cpf">CPF</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <input tabindex="8"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="cpf" id="cpf" value="<?php echo $u->cpf; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="estado">Estado/UF</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                                        <input tabindex="10"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="estado" id="estado" value="<?php echo $u->estado; ?>" maxlength="2" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="bairro">Bairro</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                                        <input tabindex="12"  data-error="Campo de preenchimento obrigatório!" class="form-control" type="text" name="bairro" id="bairro" value="<?php echo $u->bairro; ?>" <?php echo $required; ?>>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="complemento">Complemento</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                                        <input tabindex="14"  class="form-control" type="text" name="complemento" id="complemento" value="<?php echo $u->complemento; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="celular">Celular</label>
+                                        <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-mobile"></i></div>
+                                        <input tabindex="16"  class="form-control" type="text" name="celular" id="celular" onkeypress="$(this).mask('(00) 00000-0000')" value="<?php echo $u->celular; ?>">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-xs-12  foto_usuario" style="text-align:center">
+                                        <?php echo $foto_usuario . $check_excluir_foto; ?>
+                                    </div>
+
+                                </div>
+                                
+                                <div class="col-md-12" style="padding:10px">
+                                    <button class="btn btn-success btn-block">SALVAR</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+
+
+              <!--
               <form class="form-style-1">
                 <div class="form-row">
                   <div class="form-group col-sm-6">
@@ -337,6 +270,8 @@
                   </div>
                 </div>
               </form>
+              -->
+
             </div>
           </div>
         </div>
