@@ -10,6 +10,9 @@ use Ajrc\Model\Categoria;
 use Ajrc\Model\Destaque;
 use Ajrc\Model\Produto;
 use Ajrc\Model\Pedido;
+use Ajrc\Model\Banco;
+use Ajrc\Model\Conta;
+use Ajrc\Model\Caixa;
 
 
 // Routes
@@ -89,7 +92,6 @@ $app->get('/dashboard', function (Request $request, Response $response, array $a
 
 
 //========================| USUÁRIO |=========================================================
-
 $app->any('/usuarios[-{form}]', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
@@ -123,12 +125,10 @@ $app->any('/usuarios[-{form}]', function (Request $request, Response $response, 
     return $this->renderer->render($response, 'private/usuarios/index.phtml', $args);
 
 });
-
 //========================| FIM : USUÁRIO |=========================================================
 
 
 //========================| FORNECEDOR |=========================================================
-
 $app->any('/fornecedores[-{form}]', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
@@ -158,11 +158,9 @@ $app->any('/fornecedores[-{form}]', function (Request $request, Response $respon
     return $this->renderer->render($response, 'private/fornecedores/index.phtml', $args);
 
 });
-
 //========================| FIM : FORNECEDOR |=========================================================
 
 //========================| CATEGORIA |=========================================================
-
 $app->any('/categorias[-{form}]', function (Request $request, Response $response, array $args) {
     
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
@@ -192,11 +190,9 @@ $app->any('/categorias[-{form}]', function (Request $request, Response $response
     return $this->renderer->render($response, 'private/categorias/index.phtml', $args);
 
 });
-
 //========================| FIM : CATEGORIA |=========================================================
 
 //========================| DESTAQUE PRINCIPAL |=========================================================
-
 $app->any('/destaques[-{form}]', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
@@ -226,11 +222,9 @@ $app->any('/destaques[-{form}]', function (Request $request, Response $response,
     return $this->renderer->render($response, 'private/destaques/index.phtml', $args);
 
 });
-
 //========================| FIM : DESTAQUE PRINCIPAL |=========================================================
 
 //========================| PRODUTO |=========================================================
-
 $app->any('/produtos[-{form}]', function (Request $request, Response $response, array $args) {
 
     //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
@@ -260,7 +254,6 @@ $app->any('/produtos[-{form}]', function (Request $request, Response $response, 
     return $this->renderer->render($response, 'private/produtos/index.phtml', $args);
 
 });
-
 //========================| FIM : PRODUTO |=========================================================
 
 //----| PEDIDOS |----
@@ -295,3 +288,104 @@ $app->any('/pedidos[-{form}]', function (Request $request, Response $response, a
 
 })->setName('pedidos');;
 //----
+
+//----| BANCOS: INSTITUIÇÕES FINANCEIRAS |----
+$app->any('/bancos[-{form}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    //----
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "insert":
+                    $args = Banco::Insert();
+                    break;
+                case "update":
+                    $args = Banco::Update();
+                    break;
+            }
+
+        }
+        
+    }
+
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/bancos/index.phtml', $args);
+
+})->setName('bancos');;
+//----
+
+//----| CONTAS BANCÁRIAS |----
+$app->any('/contas[-{form}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    //----
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "insert":
+                    $args = Conta::Insert();
+                    break;
+                case "update":
+                    $args = Conta::Update();
+                    break;
+            }
+
+        }
+        
+    }
+
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/contas/index.phtml', $args);
+
+})->setName('contas');;
+//----
+
+
+//----| CONTAS BANCÁRIAS |----
+$app->any('/caixa[-{form}]', function (Request $request, Response $response, array $args) {
+
+    //DIRECIONA USUÁRIO NÃO LOGADO AO FORM DE LOGIN E VERIFICA SE É ADMIN OU FUNCIONÁRIO
+    if(!Sessions::Validator()) { return $response->withRedirect($this->router->pathFor('login', [], [])); }
+    if(!Sessions::UserPermissionsValidateCms()){ return $response->withRedirect($this->router->pathFor('account-login', [], [])); }
+    //----
+
+    if($request->getMethod()=="POST") 
+    {
+        //RECEBE O DADOS ENVIADOS DOS FORMULÁRIO DE CADASTRO E ATUALIZAÇÃO
+        if( array_key_exists("operacao",$_POST) ) { 
+            
+            switch($_POST["operacao"]) {
+                case "open":
+                    $args = Caixa::Open();
+                    break;
+                case "close":
+                    //$args = Caixa::Close();
+                    break;
+                case "report":
+                    //$args = Caixa::Report();
+                    break;
+            }
+
+        }
+        
+    }
+
+    //RENDERIZA AS TELAS DE LISTAGEM, CADASTRO E ALTERAÇÃO
+    return $this->renderer->render($response, 'private/caixa/index.phtml', $args);
+
+})->setName('caixa');
+//----
+

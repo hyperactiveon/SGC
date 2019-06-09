@@ -1,0 +1,69 @@
+    <?php
+
+      use Ajrc\Helper\Sessions;
+      
+      //----| PERSONALIZA A MENSAGEM DE EXIBÇÃO |----
+      $msg = null;
+      if(array_key_exists("msg",$_GET)){ $msg = trim($_GET["msg"]); }
+      //----
+
+      //----| SEO : SEARCH ENGINE OPTIMIZATE |----
+      $title = "Chokoart :: Muito mais segurança para suas compras!";
+      $description = $title." - Certificado SSL!";
+      $url_redirect = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+      //----
+      
+      require_once("../templates/public/header.php");
+      require_once("../templates/public/topo.php");
+
+    ?>
+
+    
+    <!-- Main Content -->
+    <div class="container my-4 text-center">
+
+        <div class="card text-center">
+            <div class="card-body text-center px-5">
+
+
+                <h1 class="text-center"><span class="text-danger">Site Seguro</span> - Certificado SSL</h1>
+                <hr>
+                <p class="text-center">O <strong>Certificado SSL (Secure Sockets Layer)</strong> é um protocolo que garante que os usuários que visitam nosso site naveguem em um ambiente seguro.<br>
+                Esta segurança pode ser notada pelo usuário através do cadeado fechado exibido em todos os navegadores, o termo "HTTPS" e "CADEADO VERDE" no endereço etc.<br>
+                A comunicação entre o site e servidor fica protegida com um certificado criptografado, impedindo que os dados sejam interceptados através de phishing e sites fraudulentos. Assim, dados como login, formulários, e-mails e transações com cartão de crédito são transmitidos de forma segura.<br>
+                Navegue à votade no nosso site e sinta-se seguro.<br>
+                Para conferir, clique no <strong>Selo de Segurança do Site Seguro do Google</strong> logo abaixo.</p>
+                <p class="text-center py-3">
+                    <a href="https://transparencyreport.google.com/safe-browsing/search?url=https://www.ajrc.com.br/PROJETOS/2019/chokoart/public/" target="_blank">
+                        <img src="img/site_seguro_google2.png" class="img-fluid" style="max-width:200px">
+                    </a>
+                </p>
+                <hr>
+                <p class="text-center"><a href="javascript:history.back()" class="btn btn-danger rounded-pill"><i data-feather="arrow-left"></i>Voltar</a></p>
+
+
+            </div>
+        </div>
+        
+    </div>
+
+
+    <!-- Footer -->
+    <?php 
+    require_once("../templates/public/footer.php"); 
+    ?>
+    <!-- /Footer -->
+
+    <!-- REQUIRED JS  -->
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./plugins/feather-icons/feather.min.js"></script>
+    <script src="./plugins/metismenu/metisMenu.min.js"></script>
+    <script src="./plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="./plugins/swiper/swiper.min.js"></script>
+    <script src="./dist/js/script.min.js"></script>
+
+   
+
+  </body>
+</html>

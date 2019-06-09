@@ -1,11 +1,29 @@
 
-var staticCacheName = 'CHOKOART-29052019-09h06';
+var staticCacheName = 'CHOKOART-05062019-07h00';
+
+
 
 var filesToCache = [
     'dist/css/vendor.min.css',
     'plugins/swiper/swiper.min.css',
     'plugins/noty/noty.min.css',
     'dist/css/style.min.css',
+    "libs/jquery/jquery.min.js",
+    "libs/bootstrap/js/bootstrap.min.js",
+    "libs/jquery.scrollbar/jquery.scrollbar.min.js",
+    "libs/bootstrap-validator/validator.min.js",
+    "libs/bootstrap-tabdrop/bootstrap-tabdrop.min.js",
+    "libs/jquery-sparkline/jquery.sparkline.min.js",
+    "libs/jquery.mask/jquery.mask.min.js",
+    "libs/ionrangeslider/js/ion.rangeSlider.min.js",
+    "libs/inputNumber/js/inputNumber.js",
+    "libs/bootstrap-switch/js/bootstrap-switch.min.js",
+    "libs/datatables/js/jquery.dataTables.js",
+    "libs/datatables/js/dataTables.select.js",
+    "libs/datatables/js/dataTables.bootstrap.js",
+    "libs/selectize/js/standalone/selectize.min.js",
+    "libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+    "libs/bootstrap-select/js/bootstrap-select.min.js",
     'plugins/jquery/jquery.min.js',
     'plugins/bootstrap/js/bootstrap.bundle.min.js',
     'plugins/feather-icons/feather.min.js',
@@ -14,7 +32,7 @@ var filesToCache = [
     'plugins/swiper/swiper.min.js',
     'plugins/noty/noty.min.js',
     'plugins/jquery-countdown/jquery.countdown.min.js',
-    'dist/js/script.min.js',
+    /*'dist/js/script.min.js',*/
     'https://fonts.googleapis.com/css?family=Nunito:400,700',
     'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700',
     'img/destaques/categorias/principal-1.jpg',

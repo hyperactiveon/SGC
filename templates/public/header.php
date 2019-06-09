@@ -13,7 +13,7 @@ if( strrpos($_SERVER['REQUEST_URI'], "account-order-details/")>0 ){
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--link rel="manifest" href="CHOKOART-manifest.json"-->
+    <link rel="manifest" href="CHOKOART-manifest.json">
     <title><?php echo $title; ?></title>
     <!-- Primary Meta Tags -->
     <meta name="title" content="<?php echo $title; ?>">

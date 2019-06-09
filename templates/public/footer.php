@@ -1,25 +1,8 @@
 <div class="footer">
       <div class="container">
         <div class="row  justify-content-center no-gutters">
-          
-          <div class="col-sm-12 col-md-3">
-            <h6 class="bold">Serviços ao Cliente</h6>
-            <div class="list-group list-group-flush list-group-no-border list-group-sm">
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Centro de Ajuda</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Modalidades de Entrega</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Formas de Pagamento</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Devoluções</a>
-            </div>
-          </div>
-          <div class="col-sm-12 col-md-3">
-            <h6 class="bold">Chokoart</h6>
-            <div class="list-group list-group-flush list-group-no-border list-group-sm">
-              <a href="about.html" class="list-group-item list-group-item-action">Sobre</a>
-              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Política de Privacidade</a>
-              <a href="faq.html" class="list-group-item list-group-item-action">FAQs</a>
-            </div>
-          </div>
-          <div class="col-sm-12 col-md-3">
+
+          <div class="col-sm-6 col-lg-3 text-center px-3">
             <h6 class="bold">Em breve!</h6>
             <a href="javascript:void(0)" class="download-app">
               <div class="media">
@@ -38,6 +21,29 @@
                   <h5>App Store</h5>
                 </div>
               </div>
+            </a>
+          </div>
+          
+          <div class="col-6 col-lg-3 text-md-left">
+            <h6 class="bold">Serviços ao Cliente</h6>
+            <div class="list-group list-group-flush list-group-no-border list-group-sm text-md-left">
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Centro de Ajuda</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Modalidades de Entrega</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Formas de Pagamento</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Devoluções</a>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <h6 class="bold">Chokoart</h6>
+            <div class="list-group list-group-flush list-group-no-border list-group-sm">
+              <a href="about.html" class="list-group-item list-group-item-action">Sobre</a>
+              <a href="javascript:void(0)" class="list-group-item list-group-item-action">Política de Privacidade</a>
+              <a href="faq.html" class="list-group-item list-group-item-action">FAQs</a>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <a href="./ssl">
+            <img src="img/site_seguro_google2.png" class="img-fluid">
             </a>
           </div>
         </div>
@@ -84,5 +90,5 @@
     </div>
     <!-- /Menu Modal -->
 
-    <!-- PWA: Service Worker 
-    <script src='CHOKOART-sw-cache.js'></script>-->
+    <!-- PWA: Service Worker -->
+    <script src='CHOKOART-sw-cache.js'></script>

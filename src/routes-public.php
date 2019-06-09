@@ -289,9 +289,15 @@ $app->post('/buscador',function(Request $request, Response $response, array $arg
 //----
 
 //----| 404: PAGE NOT FOUND |----
-$app->get('/{params:.*}', function ($request, $response, $args) {
-   echo "Not found?";
-   return $this->renderer->render($response, 'public/404.phtml', $args);
+$app->get('/ssl', function ($request, $response, $args) {
+    return $this->renderer->render($response, 'public/ssl/index.phtml', $args);
 })->setName("notfound");
 //----
+
+//----| 404: PAGE NOT FOUND |----
+$app->get('/{params:.*}', function ($request, $response, $args) {
+    echo "Not found?";
+    return $this->renderer->render($response, 'public/404.phtml', $args);
+ })->setName("notfound");
+ //----
 

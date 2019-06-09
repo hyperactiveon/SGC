@@ -3,28 +3,34 @@
     //UTILIZADO PARA SELECIONAR O MENU NO HOME PAGE
     $url = [];
     if(strrpos($_SERVER['REQUEST_URI'], "dashboard")>0) {
-        $url = ["active","","","","","","",""];
+        $url = ["active","","","","","","","",""];
     }
     else if(strrpos($_SERVER['REQUEST_URI'], "destaques")>0) {
-        $url = ["","active","","","","","",""];
+        $url = ["","active","","","","","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "produtos")>0) {
-        $url = ["","","active","","","","",""];
+        $url = ["","","active","","","","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "pedido")>0) {
-        $url = ["","","","active","","","",""];
+        $url = ["","","","active","","","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "fornecedores")>0) {
-        $url = ["","","","","active","","",""];
+        $url = ["","","","","active","","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "usuarios")>0) {
-        $url = ["","","","","","active","",""];
+        $url = ["","","","","","active","","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "categorias")>0) {
-        $url = ["","","","","","","active",""];
+        $url = ["","","","","","","active","",""];
     } 
     else if(strrpos($_SERVER['REQUEST_URI'], "contas")>0) {
-        $url = ["","","","","","","","active"];
+        $url = ["","","","","","","","active",""];
+    } 
+    else if(strrpos($_SERVER['REQUEST_URI'], "bancos")>0) {
+        $url = ["","","","","","","","active",""];
+    } 
+    else if(strrpos($_SERVER['REQUEST_URI'], "caixa")>0) {
+        $url = ["","","","","","","","active",""];
     }
     
 ?>
@@ -87,12 +93,15 @@
                             <li><a href="./usuarios">Listar</a></li>
                         </ul>
                     </li>
-                    <li class="<?php echo $url[6]; ?>"><a href="#">
+                    <li class="<?php echo $url[6]. $url[7]; ?>"><a href="#">
                         <div class="nav-menu__ico"><i class="fa fa-fw fa-money"></i></div>
                         <div class="nav-menu__text"><span>Financeiro</span></div>
                         <div class="nav-menu__right"><i class="fa fa-fw fa-angle-right arrow"></i></div></a>
                         <ul class="nav nav-menu__second collapse" aria-expanded="false" style="height: 0px;">
+                            <li><a href="./caixa">Caixa</a></li>
+                            <li><a href="./bancos-insert">Cadastrar Banco</a></li>
                             <li><a href="./contas-insert">Cadastrar Conta</a></li>
+                            <li><a href="./bancos">Listar Bancos</a></li>
                             <li><a href="./contas">Listar Conta</a></li>
                         </ul>
                     </li>

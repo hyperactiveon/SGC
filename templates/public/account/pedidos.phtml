@@ -63,7 +63,7 @@
                             case "CONFIRMED":
                               $estagio_atual = '<a class="nav-link text-success" href="javascript:void(0)"><i data-feather="truck"></i><br>ENVIANDO</a>';
                               break;
-                            case "FINALIZADO":
+                            case "FINISHED":
                               $estagio_atual = '<a class="nav-link text-success" href="javascript:void(0)"><i data-feather="check-circle"></i><br>FINALIZADO</a>';
                               break;
                             case "DECLINED":        //Pagamento rejeitado pela análise de risco.
@@ -76,7 +76,6 @@
                             $estagio_atual = '<a class="nav-link text-danger" href="javascript:void(0)"><i data-feather="x"></i><br>CANCELADO</a>';
                               break;
                           }
-
                           
                           echo '<tr>
                                   <th class="align-middle" scope="row"><a href="./account-order-details-'.$p->carrinho_id.'">'.$p->codigo_pedido.'</a></th>
